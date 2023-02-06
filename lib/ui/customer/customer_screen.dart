@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:customer_management/ui/customer/customer_add_screen.dart';
 
 class CustomerScreen extends HookConsumerWidget {
   const CustomerScreen({Key? key}) : super(key: key);
@@ -12,6 +13,17 @@ class CustomerScreen extends HookConsumerWidget {
       ),
       body: const Center(
         child: Text('顧客一覧画面'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const CustomerAddScreen();
+            } ),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -19,7 +19,7 @@ class BaseScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageType = ref.watch(baseStateProvider);
-    final viewModel = ref.watch(baseStateProvider.notifier);
+    final notifier = ref.watch(baseStateProvider.notifier);
 
     return Scaffold(
       body: screens[pageType.index],
@@ -30,7 +30,7 @@ class BaseScreen extends HookConsumerWidget {
         ],
         currentIndex: pageType.index,
         onTap: (index) {
-          viewModel.update((state) => PageType.values[index]);
+          notifier.state = PageType.values[index];
         },
         type: BottomNavigationBarType.fixed,
       ),
