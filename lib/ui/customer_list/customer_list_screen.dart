@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/ui/customer_add/customer_add_screen.dart';
+import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
 
 class CustomerListScreen extends HookConsumerWidget {
   const CustomerListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(customerListProvider); // List<Customer>
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('顧客一覧'),

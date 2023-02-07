@@ -8,7 +8,7 @@ class CustomerAddScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final globalKey = ref.watch(formKeyProvider);
-    final notifier = ref.watch(customerInfoStateProvider.notifier);
+    final viewModel = ref.watch(customerEditProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +51,7 @@ class CustomerAddScreen extends HookConsumerWidget {
                   ElevatedButton(
                       onPressed: () {
                         if (globalKey.currentState!.validate()) {
-                          notifier.addCustomer();
+                          viewModel.addCustomer();
                         }
                       },
                       child: const Text('保存')
