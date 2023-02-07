@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:customer_management/ui/customer/customer_add_viewmodel.dart';
+import 'package:customer_management/ui/customer_add/customer_add_viewmodel.dart';
 
 class CustomerAddScreen extends HookConsumerWidget {
   const CustomerAddScreen({Key? key}) : super(key: key);

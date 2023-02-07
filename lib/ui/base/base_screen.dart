@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:customer_management/ui/customer/customer_screen.dart';
+import 'package:customer_management/ui/customer_list//customer_list_screen.dart';
 import 'package:customer_management/ui/order/order_screen.dart';
 
 final baseStateProvider = StateProvider<PageType>((ref) => PageType.customer);
@@ -12,7 +12,7 @@ class BaseScreen extends HookConsumerWidget {
   BaseScreen({Key? key}) : super(key: key);
 
   final screens = [
-    const CustomerScreen(),
+    const CustomerListScreen(),
     const OrderScreen(),
   ];
 

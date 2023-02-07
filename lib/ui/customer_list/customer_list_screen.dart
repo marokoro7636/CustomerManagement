@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:customer_management/ui/customer/customer_add_screen.dart';
+import 'package:customer_management/ui/customer_add/customer_add_screen.dart';
 
-class CustomerScreen extends HookConsumerWidget {
-  const CustomerScreen({Key? key}) : super(key: key);
+class CustomerListScreen extends HookConsumerWidget {
+  const CustomerListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
