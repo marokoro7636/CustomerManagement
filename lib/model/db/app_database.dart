@@ -9,13 +9,11 @@ class AppDatabase {
   final String _columnName = 'name';
   final String _columnAddress = 'address';
 
-  late Database _database;
+  Database? _database;
 
   // データベースのgetter
   Future<Database> get database async {
-    if (_database != null) return _database;
-    _database = await _initDatabase();
-    return _database;
+    return _database ??= await _initDatabase();
   }
 
   // データベース初期化
@@ -31,9 +29,10 @@ class AppDatabase {
 
   // データベースがnullの場合テーブル作成
   Future<void> _createTable(Database db, int version) async {
+    // idは自動採番(sqliteではINTEGER PRIMARY KEY)
     String sql = '''
       CREATE TABLE $_customerTableName(
-        $_columnId TEXT PRIMARY KEY,
+        $_columnId INTEGER PRIMARY KEY,
         $_columnName TEXT,
         $_columnAddress TEXT
       )
@@ -46,7 +45,7 @@ class AppDatabase {
     final db = await database;
     var maps = await db.query(
       _customerTableName,
-      orderBy: '$_columnName DESC',
+      orderBy: '$_columnName ASC',
     );
 
     if (maps.isEmpty) return [];
@@ -70,7 +69,14 @@ class AppDatabase {
 
   Future insert(Customer customer) async {
     final db = await database;
-    return await db.insert(_customerTableName, toMap(customer));
+    final row = toMap(customer);
+    row.remove(_columnId);
+
+    // idは自動採番のため除く
+    return await db.insert(
+        _customerTableName,
+        row
+    );
   }
 
   Future update(Customer customer) async {
