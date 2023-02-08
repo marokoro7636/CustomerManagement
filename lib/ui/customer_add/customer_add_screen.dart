@@ -51,9 +51,10 @@ class CustomerAddScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                      onPressed: () async {
+                      onPressed: () {
                         if (globalKey.currentState!.validate()) {
-                          await viewModel.save();
+                          viewModel.save();
+                          Navigator.of(context).pop();
                         }
                       },
                       child: const Text('保存')

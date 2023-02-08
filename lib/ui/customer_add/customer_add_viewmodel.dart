@@ -27,8 +27,8 @@ class CustomerEditViewModel extends StateNotifier<Customer> {
     state = state.copyWith(address: address);
   }
 
-  Future save() async {
-    return await _repository.insert(state);
+  void save() async {
+    await _repository.insert(state);
   }
 
 }
