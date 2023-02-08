@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/entity/customer.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
-import 'package:uuid/uuid.dart';
 
 final formKeyProvider = Provider((ref) => GlobalKey<FormState>());
 final customerEditProvider =
@@ -13,17 +12,23 @@ final customerEditProvider =
 class CustomerEditViewModel extends StateNotifier<Customer> {
   CustomerEditViewModel() :
         super(const Customer(
-          id: 'Uuid().v4()',
+          id: 0,
           name: '',
           address: ''
       ));
 
   final _repository = CustomerRepository(AppDatabase());
 
+  void setName(String name) {
+    state = state.copyWith(name: name);
+  }
 
+  void setAddress(String address) {
+    state = state.copyWith(address: address);
+  }
 
-  void addCustomer() {
-    print('OK');
+  Future save() async {
+    return await _repository.insert(state);
   }
 
 }

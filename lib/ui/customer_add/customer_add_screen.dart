@@ -29,10 +29,11 @@ class CustomerAddScreen extends HookConsumerWidget {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return '氏名を入力してください';
                       }
                       return null;
                     },
+                    onChanged: (value) => viewModel.setName(value),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -42,16 +43,17 @@ class CustomerAddScreen extends HookConsumerWidget {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return '住所を入力してください';
                       }
                       return null;
                     },
+                    onChanged: (value) => viewModel.setAddress(value),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (globalKey.currentState!.validate()) {
-                          viewModel.addCustomer();
+                          await viewModel.save();
                         }
                       },
                       child: const Text('保存')
