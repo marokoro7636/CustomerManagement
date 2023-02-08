@@ -25,7 +25,7 @@ class CustomerListScreen extends HookConsumerWidget {
               return const CustomerAddScreen();
             } ),
           );
-          viewModel.loadAllCustomer();
+          viewModel.loadAllCustomer(); // 戻ってくる度にDBから読み込み
         },
         child: const Icon(Icons.add),
       ),
@@ -62,9 +62,9 @@ class _CustomerListPage extends HookConsumerWidget {
 
   void _goToCustomerInfoScreen(BuildContext context, Customer customer) async {
     var route = MaterialPageRoute(builder: (context) {
-      return const CustomerInfoScreen();
+      return CustomerInfoScreen(customer: customer);
     });
     await Navigator.push(context, route);
-    viewModel.loadAllCustomer();
+    viewModel.loadAllCustomer(); // 戻ってくる度にDBから読み込み
   }
 }

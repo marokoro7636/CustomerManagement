@@ -54,7 +54,7 @@ class CustomerAddScreen extends HookConsumerWidget {
                       onPressed: () {
                         if (globalKey.currentState!.validate()) {
                           viewModel.save();
-                          Navigator.of(context).pop();
+                          // TODO 保存ダイアログを出す
                         }
                       },
                       child: const Text('保存')

@@ -2,6 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
 import 'package:customer_management/ui/customer_list/customer_list_state.dart';
+import 'package:customer_management/model/entity/customer.dart';
 
 final customerListProvider =
 StateNotifierProvider<CustomerListViewModel, CustomerListState>(
@@ -21,5 +22,10 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     state = state.copyWith(
       customers: customers,
     );
+    print('loaded');
+  }
+
+  void delete(Customer customer) async {
+    await _repository.delete(customer);
   }
 }
