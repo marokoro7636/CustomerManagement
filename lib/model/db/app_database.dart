@@ -9,6 +9,12 @@ class AppDatabase {
   final String _columnName = 'name';
   final String _columnAddress = 'address';
 
+  // 注文テーブル
+  final String _orderTableName = 'order';
+  final String _columnCustomerId = 'customerId';
+  final String _columnGoodsName = 'goodsName';
+  final String _columnGoodsPrice = 'goodsPrice';
+
   Database? _database;
 
   // データベースのgetter
@@ -30,15 +36,24 @@ class AppDatabase {
   // データベースがnullの場合テーブル作成
   Future<void> _createTable(Database db, int version) async {
     // idは自動採番(sqliteではINTEGER PRIMARY KEY)
-    String sql = '''
+    final String sqlCustomer = '''
       CREATE TABLE $_customerTableName(
         $_columnId INTEGER PRIMARY KEY,
         $_columnName TEXT,
         $_columnAddress TEXT
       )
     ''';
+    final String sqlOrder = '''
+      CREATE TABLE $_orderTableName(
+        $_columnId INTEGER PRIMARY KEY,
+        $_columnCustomerId INTEGER,
+        $_columnGoodsName TEXT,
+        $_columnGoodsPrice INTEGER
+      )
+     ''';
 
-    return await db.execute(sql);
+    await db.execute(sqlCustomer);
+    await db.execute(sqlOrder);
   }
 
   Future<List<Customer>> loadAllCustomer() async {
@@ -50,7 +65,7 @@ class AppDatabase {
 
     if (maps.isEmpty) return [];
 
-    return maps.map((map) => fromMap(map)).toList();
+    return maps.map((map) => Customer.fromJson(map)).toList();
   }
 
   Future<List<Customer>> search(String keyword) async {
@@ -64,12 +79,12 @@ class AppDatabase {
 
     if (maps.isEmpty) return [];
 
-    return maps.map((map) => fromMap(map)).toList();
+    return maps.map((map) => Customer.fromJson(map)).toList();
   }
 
   Future insert(Customer customer) async {
     final db = await database;
-    final row = toMap(customer);
+    final row = customer.toJson();
     row.remove(_columnId);
 
     // idは自動採番のため除く
@@ -83,7 +98,7 @@ class AppDatabase {
     final db = await database;
     return await db.update(
       _customerTableName,
-      toMap(customer),
+      customer.toJson(),
       where: '$_columnId = ?',
       whereArgs: [customer.id],
     );
@@ -95,22 +110,6 @@ class AppDatabase {
       _customerTableName,
       where: '$_columnId = ?',
       whereArgs: [customer.id],
-    );
-  }
-
-  Map<String, dynamic> toMap(Customer customer) {
-    return {
-      _columnId: customer.id,
-      _columnName: customer.name,
-      _columnAddress: customer.address,
-    };
-  }
-
-  Customer fromMap(Map<String, dynamic> json) {
-    return Customer(
-      id: json[_columnId],
-      name: json[_columnName],
-      address: json[_columnAddress],
     );
   }
 }
