@@ -1,3 +1,4 @@
+import 'package:customer_management/model/entity/order.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:customer_management/model/entity/customer.dart';
@@ -68,7 +69,47 @@ class AppDatabase {
     return maps.map((map) => Customer.fromJson(map)).toList();
   }
 
-  Future<List<Customer>> search(String keyword) async {
+  Future<List<Customer>> loadCustomer(Customer customer) async {
+    final db = await database;
+    var maps = await db.query(
+      _customerTableName,
+      orderBy: '$_columnName ASC',
+      where: '$_columnId = ?',
+      whereArgs: [customer.id]
+    );
+
+    if (maps.isEmpty) return [];
+
+    return maps.map((map) => Customer.fromJson(map)).toList();
+  }
+
+  Future<List<Order>> loadAllOrder() async {
+    final db = await database;
+    var maps = await db.query(
+      _orderTableName,
+      orderBy: '$_columnGoodsName ASC',
+    );
+
+    if (maps.isEmpty) return [];
+
+    return maps.map((map) => Order.fromJson(map)).toList();
+  }
+
+  Future<List<Order>> loadOrder(Customer customer) async {
+    final db = await database;
+    var maps = await db.query(
+      _orderTableName,
+      orderBy: '$_columnGoodsName ASC',
+      where: '$_columnCustomerId = ?',
+      whereArgs: [customer.id]
+    );
+
+    if (maps.isEmpty) return [];
+
+    return maps.map((map) => Order.fromJson(map)).toList();
+  }
+
+  Future<List<Customer>> searchCustomer(String keyword) async {
     final db = await database;
     var maps = await db.query(
       _customerTableName,
@@ -82,7 +123,7 @@ class AppDatabase {
     return maps.map((map) => Customer.fromJson(map)).toList();
   }
 
-  Future insert(Customer customer) async {
+  Future insertCustomer(Customer customer) async {
     final db = await database;
     final row = customer.toJson();
     row.remove(_columnId);
@@ -94,7 +135,19 @@ class AppDatabase {
     );
   }
 
-  Future update(Customer customer) async {
+  Future insertOrder(Order order) async {
+    final db = await database;
+    final row = order.toJson();
+    row.remove(_columnId);
+
+    // idは自動採番のため除く
+    return await db.insert(
+        _orderTableName,
+        row
+    );
+  }
+
+  Future updateCustomer(Customer customer) async {
     final db = await database;
     return await db.update(
       _customerTableName,
@@ -104,12 +157,31 @@ class AppDatabase {
     );
   }
 
-  Future delete(Customer customer) async {
+  Future updateOrder(Order order) async {
+    final db = await database;
+    return await db.update(
+      _orderTableName,
+      order.toJson(),
+      where: '$_columnId = ?',
+      whereArgs: [order.id],
+    );
+  }
+
+  Future deleteCustomer(Customer customer) async {
     final db = await database;
     return await db.delete(
       _customerTableName,
       where: '$_columnId = ?',
       whereArgs: [customer.id],
+    );
+  }
+
+  Future deleteOrder(Order order) async {
+    final db = await database;
+    return await db.delete(
+      _orderTableName,
+      where: '$_columnId = ?',
+      whereArgs: [order.id],
     );
   }
 }

@@ -8,11 +8,14 @@ class CustomerRepository {
 
   Future<List<Customer>> loadAllCustomer() => _appDatabase.loadAllCustomer();
 
-  Future<List<Customer>> search(String keyword) => _appDatabase.search(keyword);
+  Future<List<Customer>> loadCustomer(Customer customer)
+    => _appDatabase.loadCustomer(customer);
 
-  Future insert(Customer customer) => _appDatabase.insert(customer);
+  Future<List<Customer>> search(String keyword) => _appDatabase.searchCustomer(keyword);
 
-  Future update(Customer customer) => _appDatabase.update(customer);
+  Future insert(Customer customer) => _appDatabase.insertCustomer(customer);
 
-  Future delete(Customer customer) => _appDatabase.delete(customer);
+  Future update(Customer customer) => _appDatabase.updateCustomer(customer);
+
+  Future delete(Customer customer) => _appDatabase.deleteCustomer(customer);
 }
