@@ -1,18 +1,28 @@
+import 'package:customer_management/model/entity/customer.dart';
+import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:customer_management/ui/customer_add/customer_add_viewmodel.dart';
+import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
 
-class CustomerAddScreen extends HookConsumerWidget {
-  const CustomerAddScreen({Key? key}) : super(key: key);
+class CustomerEditScreen extends HookConsumerWidget {
+  const CustomerEditScreen({Key? key, this.customer}) : super(key: key);
+
+  final Customer? customer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final globalKey = ref.watch(formKeyProvider);
-    final viewModel = ref.watch(customerEditProvider.notifier);
+    final globalKey = GlobalKey<FormState>();
+    final viewModel = ref.watch(customerEditProvider(CustomerEditState(
+            customer: customer ?? const Customer(),
+            addMode: customer == null ? true : false))
+        .notifier);
+    final state = ref.watch(customerEditProvider(CustomerEditState(
+        customer: customer ?? const Customer(),
+        addMode: customer == null ? true : false)));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('顧客の追加'),
+        title: Text(customer == null ? '顧客の追加' : '顧客の編集'),
       ),
       body: Center(
         child: Container(
@@ -23,6 +33,7 @@ class CustomerAddScreen extends HookConsumerWidget {
                 children: [
                   const SizedBox(height: 20),
                   TextFormField(
+                    initialValue: state.customer.name,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '氏名',
@@ -37,6 +48,7 @@ class CustomerAddScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    initialValue: state.customer.address,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '住所',
@@ -57,8 +69,7 @@ class CustomerAddScreen extends HookConsumerWidget {
                           // TODO 保存ダイアログを出す
                         }
                       },
-                      child: const Text('保存')
-                  )
+                      child: const Text('保存'))
                 ],
               )),
         ),

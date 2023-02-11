@@ -18,9 +18,8 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   final CustomerRepository _repository;
 
   void loadAllCustomer() async {
-    var customers = await _repository.loadAllCustomer();
     state = state.copyWith(
-      customers: customers,
+      customers: await _repository.loadAllCustomer(),
     );
     print('loaded');
   }

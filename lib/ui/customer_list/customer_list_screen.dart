@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:customer_management/ui/customer_add/customer_add_screen.dart';
+import 'package:customer_management/ui/customer_edit/customer_edit_screen.dart';
 import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
 import 'package:customer_management/model/entity/customer.dart';
 import 'package:customer_management/ui/customer_info/customer_info_screen.dart';
@@ -22,7 +22,7 @@ class CustomerListScreen extends HookConsumerWidget {
           await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
-              return const CustomerAddScreen();
+              return const CustomerEditScreen();
             } ),
           );
           viewModel.loadAllCustomer(); // 戻ってくる度にDBから読み込み

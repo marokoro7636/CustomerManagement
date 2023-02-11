@@ -6,9 +6,9 @@ part 'customer.g.dart';
 @freezed
 class Customer with _$Customer{
   const factory Customer({
-    required int id,
-    required String name,
-    required String address,
+    @Default(0) int id,
+    @Default('') String name,
+    @Default('') String address,
   }) = _Customer;
 
   factory Customer.fromJson(Map<String, dynamic> json)
