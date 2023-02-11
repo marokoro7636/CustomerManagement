@@ -11,7 +11,7 @@ class AppDatabase {
   final String _columnAddress = 'address';
 
   // 注文テーブル
-  final String _orderTableName = 'order';
+  final String _orderTableName = 'ordering';
   final String _columnCustomerId = 'customerId';
   final String _columnGoodsName = 'goodsName';
   final String _columnGoodsPrice = 'goodsPrice';

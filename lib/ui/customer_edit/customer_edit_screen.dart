@@ -32,6 +32,7 @@ class CustomerEditScreen extends HookConsumerWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
+                  // TODO キーボードがすぐ閉じる
                   TextFormField(
                     initialValue: state.customer.name,
                     decoration: const InputDecoration(

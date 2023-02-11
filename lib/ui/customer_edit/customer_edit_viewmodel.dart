@@ -6,6 +6,7 @@ import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
 import 'package:tuple/tuple.dart';
 
+// TODO Addの時に前の入力が残る
 final customerEditProvider =
     StateNotifierProvider.family<CustomerEditViewModel, CustomerEditState, CustomerEditState>(
             (ref, customer) => CustomerEditViewModel(customer));
