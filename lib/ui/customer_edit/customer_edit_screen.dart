@@ -1,28 +1,19 @@
-import 'package:customer_management/model/entity/customer.dart';
-import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
 
 class CustomerEditScreen extends HookConsumerWidget {
-  const CustomerEditScreen({Key? key, this.customer}) : super(key: key);
-
-  final Customer? customer;
+  const CustomerEditScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final globalKey = GlobalKey<FormState>();
-    final viewModel = ref.watch(customerEditProvider(CustomerEditState(
-            customer: customer ?? const Customer(),
-            addMode: customer == null ? true : false))
-        .notifier);
-    final state = ref.watch(customerEditProvider(CustomerEditState(
-        customer: customer ?? const Customer(),
-        addMode: customer == null ? true : false)));
+    final viewModel = ref.watch(customerEditProvider.notifier);
+    final state = ref.watch(customerEditProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(customer == null ? '顧客の追加' : '顧客の編集'),
+        title: Text(state.addMode ? '顧客の追加' : '顧客の編集'),
       ),
       body: Center(
         child: Container(

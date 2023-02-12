@@ -1,19 +1,20 @@
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:customer_management/model/entity/customer.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
-import 'package:tuple/tuple.dart';
 
 // TODO Addの時に前の入力が残る
+final customerEditProviderFamily = StateNotifierProvider.family<
+    CustomerEditViewModel,
+    CustomerEditState,
+    CustomerEditState>((ref, customer) => CustomerEditViewModel(customer));
+
 final customerEditProvider =
-    StateNotifierProvider.family<CustomerEditViewModel, CustomerEditState, CustomerEditState>(
-            (ref, customer) => CustomerEditViewModel(customer));
+    StateNotifierProvider<CustomerEditViewModel, CustomerEditState>(
+        (ref) => throw UnimplementedError());
 
 class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
-  CustomerEditViewModel(CustomerEditState customer) :
-        super(customer);
+  CustomerEditViewModel(CustomerEditState customer) : super(customer);
 
   final _repository = CustomerRepository(AppDatabase());
 
@@ -26,7 +27,7 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
   }
 
   void save() async {
-    if(state.addMode) {
+    if (state.addMode) {
       await _repository.insert(state.customer);
     } else {
       await _repository.update(state.customer);

@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'base/base_screen.dart';
 
+final routeObserver = RouteObserver();
 
 class CustomerManagementApp extends HookConsumerWidget {
   const CustomerManagementApp({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class CustomerManagementApp extends HookConsumerWidget {
         primarySwatch: Colors.blue,
       ),
       home: BaseScreen(),
+      navigatorObservers: [routeObserver],
     );
   }
 }
