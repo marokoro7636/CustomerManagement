@@ -1,5 +1,6 @@
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:customer_management/ui/customer_info/customer_info_viewmodel.dart';
+import 'package:customer_management/ui/order_user/order_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -25,7 +26,17 @@ class CustomerInfoScreen extends HookConsumerWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                viewModel.navigateCustomerEditScreen(context, CustomerEditState(customer: state, addMode: false));
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const OrderUserScreen();
+                }));
+              },
+              child: const Text('注文一覧'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                viewModel.navigateCustomerEditScreen(context,
+                    CustomerEditState(customer: state, addMode: false));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               child: const Text('顧客の編集'),
