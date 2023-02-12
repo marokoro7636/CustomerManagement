@@ -30,7 +30,7 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
       return ProviderScope(overrides: [
         customerEditProvider
             .overrideWithProvider(customerEditProviderFamily(customer)),
-      ], child: const CustomerEditScreen());
+      ], child: CustomerEditScreen());
     });
   }
 }

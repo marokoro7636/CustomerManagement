@@ -42,7 +42,7 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> with RouteA
       return ProviderScope(overrides: [
         customerEditProvider
             .overrideWithProvider(customerEditProviderFamily(customer)),
-      ], child: const CustomerEditScreen());
+      ], child: CustomerEditScreen());
     });
   }
 

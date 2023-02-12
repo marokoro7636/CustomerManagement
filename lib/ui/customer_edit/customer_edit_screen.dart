@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
 
+
 class CustomerEditScreen extends HookConsumerWidget {
-  const CustomerEditScreen({Key? key}) : super(key: key);
+  CustomerEditScreen({Key? key}) : super(key: key);
+
+  final globalKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final globalKey = GlobalKey<FormState>();
     final viewModel = ref.watch(customerEditProvider.notifier);
     final state = ref.watch(customerEditProvider);
 
@@ -23,7 +25,6 @@ class CustomerEditScreen extends HookConsumerWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  // TODO キーボードがすぐ閉じる
                   TextFormField(
                     initialValue: state.customer.name,
                     decoration: const InputDecoration(
