@@ -25,12 +25,23 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
     await _repository.delete(state);
   }
 
-  MaterialPageRoute<CustomerEditScreen> navigateCustomerEditScreen(CustomerEditState customer) {
-    return MaterialPageRoute(builder: (BuildContext context) {
-      return ProviderScope(overrides: [
-        customerEditProvider
-            .overrideWithProvider(customerEditProviderFamily(customer)),
-      ], child: CustomerEditScreen());
-    });
+  void navigateCustomerEditScreen(
+    BuildContext context,
+    CustomerEditState customer,
+  ) async {
+    state = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return ProviderScope(
+            overrides: [
+              customerEditProvider
+                  .overrideWithProvider(customerEditProviderFamily(customer)),
+            ],
+            child: CustomerEditScreen(),
+          );
+        },
+      ),
+    );
   }
 }

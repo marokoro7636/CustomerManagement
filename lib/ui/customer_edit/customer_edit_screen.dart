@@ -58,7 +58,7 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ElevatedButton(
                       onPressed: () {
                         if (globalKey.currentState!.validate()) {
-                          viewModel.save();
+                          viewModel.save(context);
                           // TODO 保存ダイアログを出す
                         }
                       },

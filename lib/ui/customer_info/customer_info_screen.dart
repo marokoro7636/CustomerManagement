@@ -25,10 +25,7 @@ class CustomerInfoScreen extends HookConsumerWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    viewModel.navigateCustomerEditScreen(
-                        CustomerEditState(customer: state, addMode: false)));
+                viewModel.navigateCustomerEditScreen(context, CustomerEditState(customer: state, addMode: false));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               child: const Text('顧客の編集'),

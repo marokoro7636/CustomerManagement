@@ -1,9 +1,9 @@
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
 
-// TODO Addの時に前の入力が残る
 final customerEditProviderFamily = StateNotifierProvider.family<
     CustomerEditViewModel,
     CustomerEditState,
@@ -26,13 +26,13 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
     state = state.copyWith(customer: state.customer.copyWith(address: address));
   }
 
-  void save() async {
+  void save(BuildContext context) async {
     if (state.addMode) {
       await _repository.insert(state.customer);
     } else {
-      await _repository.update(state.customer);
-      // TODO 顧客詳細画面に戻る
+      await _repository
+          .update(state.customer)
+          .then((_) => Navigator.pop(context, state.customer));
     }
   }
-
 }
