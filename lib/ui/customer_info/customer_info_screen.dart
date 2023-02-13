@@ -1,6 +1,5 @@
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:customer_management/ui/customer_info/customer_info_viewmodel.dart';
-import 'package:customer_management/ui/order_user/order_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -25,11 +24,7 @@ class CustomerInfoScreen extends HookConsumerWidget {
             Text('住所 : ${state.address}'),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const OrderUserScreen();
-                }));
-              },
+              onPressed: () => viewModel.navigateOrderListUserScreen(context, state),
               child: const Text('注文一覧'),
             ),
             const SizedBox(height: 20),
@@ -46,7 +41,7 @@ class CustomerInfoScreen extends HookConsumerWidget {
               onPressed: () async {
                 await viewModel
                     .delete()
-                    .then((value) => Navigator.pop(context));
+                    .then((_) => Navigator.pop(context));
                 // TODO 削除ダイアログを出す
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
