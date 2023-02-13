@@ -25,7 +25,6 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     state = state.copyWith(
       customers: await _repository.loadAllCustomer(),
     );
-    print('loaded');
   }
 
   MaterialPageRoute<CustomerInfoScreen> navigateCustomerInfoScreen(Customer customer) {

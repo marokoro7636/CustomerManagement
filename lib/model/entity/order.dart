@@ -6,10 +6,10 @@ part 'order.g.dart';
 @freezed
 class Order with _$Order{
   const factory Order({
-    required int id,
-    required int customerId,
-    required String goodsName,
-    required int goodsPrice,
+    @Default(0) int id,
+    @Default(0) int customerId,
+    @Default('') String goodsName,
+    @Default(0) int goodsPrice,
   }) = _Order;
 
   factory Order.fromJson(Map<String, dynamic> json)

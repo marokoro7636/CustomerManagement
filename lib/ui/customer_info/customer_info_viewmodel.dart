@@ -1,7 +1,7 @@
 import 'package:customer_management/ui/customer_edit/customer_edit_screen.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
-import 'package:customer_management/ui/order_list_user/order_list_state.dart';
+import 'package:customer_management/ui/order_list_user/order_list_user_state.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_screen.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +19,7 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
   final CustomerRepository _repository;
 
   Future delete() async {
+    // TODO 顧客を消すときはその顧客の注文も全部消す
     await _repository.delete(state);
   }
 

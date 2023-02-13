@@ -125,21 +125,25 @@ class __$$_OrderCopyWithImpl<$Res> extends _$OrderCopyWithImpl<$Res, _$_Order>
 @JsonSerializable()
 class _$_Order implements _Order {
   const _$_Order(
-      {required this.id,
-      required this.customerId,
-      required this.goodsName,
-      required this.goodsPrice});
+      {this.id = 0,
+      this.customerId = 0,
+      this.goodsName = '',
+      this.goodsPrice = 0});
 
   factory _$_Order.fromJson(Map<String, dynamic> json) =>
       _$$_OrderFromJson(json);
 
   @override
+  @JsonKey()
   final int id;
   @override
+  @JsonKey()
   final int customerId;
   @override
+  @JsonKey()
   final String goodsName;
   @override
+  @JsonKey()
   final int goodsPrice;
 
   @override
@@ -182,10 +186,10 @@ class _$_Order implements _Order {
 
 abstract class _Order implements Order {
   const factory _Order(
-      {required final int id,
-      required final int customerId,
-      required final String goodsName,
-      required final int goodsPrice}) = _$_Order;
+      {final int id,
+      final int customerId,
+      final String goodsName,
+      final int goodsPrice}) = _$_Order;
 
   factory _Order.fromJson(Map<String, dynamic> json) = _$_Order.fromJson;
 
