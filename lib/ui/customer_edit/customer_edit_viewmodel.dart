@@ -4,11 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
 
-final customerEditProviderFamily = StateNotifierProvider.family<
-    CustomerEditViewModel,
-    CustomerEditState,
-    CustomerEditState>((ref, customer) => CustomerEditViewModel(customer));
-
 final customerEditProvider =
     StateNotifierProvider<CustomerEditViewModel, CustomerEditState>(
         (ref) => throw UnimplementedError());

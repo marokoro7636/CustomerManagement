@@ -19,12 +19,15 @@ class CustomerListScreen extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
-              context,
-              viewModel.navigateCustomerEditScreen(const CustomerEditState(
+            context,
+            viewModel.navigateCustomerEditScreen(
+              const CustomerEditState(
                 customer: Customer(),
                 addMode: true,
-              )));
-          viewModel.loadAllCustomer(); // 戻ってくる度にDBから読み込み
+              ),
+            ),
+          );
+          await viewModel.loadAllCustomer(); // 戻ってくる度にDBから読み込み
         },
         child: const Icon(Icons.add),
       ),

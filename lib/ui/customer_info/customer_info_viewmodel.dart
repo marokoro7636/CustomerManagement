@@ -4,13 +4,7 @@ import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dar
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
-import 'package:customer_management/model/db/app_database.dart';
 import 'package:customer_management/model/entity/customer.dart';
-
-final customerInfoProviderFamily =
-    StateNotifierProvider.family<CustomerInfoViewModel, Customer, Customer>(
-        (ref, customer) =>
-            CustomerInfoViewModel(CustomerRepository(AppDatabase()), customer));
 
 final customerInfoProvider =
     StateNotifierProvider<CustomerInfoViewModel, Customer>(
@@ -29,19 +23,20 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
     BuildContext context,
     CustomerEditState customer,
   ) async {
-    state = await Navigator.push(
+    final editResult = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
           return ProviderScope(
             overrides: [
               customerEditProvider
-                  .overrideWithProvider(customerEditProviderFamily(customer)),
+                  .overrideWith((ref) => CustomerEditViewModel(customer)),
             ],
             child: CustomerEditScreen(),
           );
         },
       ),
     );
+    state = editResult ?? state;
   }
 }
