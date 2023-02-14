@@ -69,18 +69,18 @@ class AppDatabase {
     return maps.map((map) => Customer.fromJson(map)).toList();
   }
 
-  Future<List<Customer>> loadCustomer(Customer customer) async {
+  Future<Customer> loadCustomerById(int customerId) async {
     final db = await database;
     var maps = await db.query(
       _customerTableName,
       orderBy: '$_columnName ASC',
       where: '$_columnId = ?',
-      whereArgs: [customer.id]
+      whereArgs: [customerId]
     );
 
-    if (maps.isEmpty) return [];
+    if (maps.isEmpty) return const Customer();
 
-    return maps.map((map) => Customer.fromJson(map)).toList();
+    return Customer.fromJson(maps[0]);
   }
 
   Future<List<Order>> loadAllOrder() async {

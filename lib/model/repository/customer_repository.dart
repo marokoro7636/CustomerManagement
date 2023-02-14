@@ -8,8 +8,8 @@ class CustomerRepository {
 
   Future<List<Customer>> loadAllCustomer() => _appDatabase.loadAllCustomer();
 
-  Future<List<Customer>> loadCustomer(Customer customer)
-    => _appDatabase.loadCustomer(customer);
+  Future<Customer> loadCustomerById(int customerId)
+    => _appDatabase.loadCustomerById(customerId);
 
   Future<List<Customer>> search(String keyword) => _appDatabase.searchCustomer(keyword);
 

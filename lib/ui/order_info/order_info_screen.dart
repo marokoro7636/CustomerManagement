@@ -19,6 +19,8 @@ class OrderInfoScreen extends HookConsumerWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
+            Text('注文者 : ${state.customer.name}'),
+            const SizedBox(height: 20),
             Text('商品名 : ${state.order.goodsName}'),
             const SizedBox(height: 20),
             Text('単価 : ${state.order.goodsPrice}'),
