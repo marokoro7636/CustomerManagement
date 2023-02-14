@@ -1,3 +1,5 @@
+import 'package:customer_management/model/db/app_database.dart';
+import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_screen.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
@@ -17,10 +19,18 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
   CustomerInfoViewModel(this._repository, Customer customer) : super(customer);
 
   final CustomerRepository _repository;
+  final orderRepository = OrderRepository(AppDatabase());
 
-  Future delete() async {
-    // TODO 顧客を消すときはその顧客の注文も全部消す
-    await _repository.delete(state);
+  Future<bool> delete() async {
+    // 顧客の注文履歴がある場合削除しない
+    // 削除できた場合trueを返す
+    final order = await orderRepository.loadOrder(state);
+    if(order.isEmpty) {
+      await _repository.delete(state);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void navigateCustomerEditScreen(

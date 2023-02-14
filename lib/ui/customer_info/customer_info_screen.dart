@@ -24,7 +24,8 @@ class CustomerInfoScreen extends HookConsumerWidget {
             Text('住所 : ${state.address}'),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => viewModel.navigateOrderListUserScreen(context, state),
+              onPressed: () =>
+                  viewModel.navigateOrderListUserScreen(context, state),
               child: const Text('注文一覧'),
             ),
             const SizedBox(height: 20),
@@ -39,9 +40,14 @@ class CustomerInfoScreen extends HookConsumerWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                await viewModel
-                    .delete()
-                    .then((_) => Navigator.pop(context));
+                await viewModel.delete().then((isDeleted) {
+                  if (isDeleted) {
+                    Navigator.pop(context);
+                  } else {
+                    // TODO 顧客が削除できなかったときの処理を書く
+                    print('cant delete');
+                  }
+                });
                 // TODO 削除ダイアログを出す
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
