@@ -27,21 +27,29 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     );
   }
 
-  MaterialPageRoute<CustomerInfoScreen> navigateCustomerInfoScreen(Customer customer) {
-    return MaterialPageRoute(builder: (BuildContext context) {
-      return ProviderScope(overrides: [
-        customerInfoProvider
-            .overrideWith((ref) => CustomerInfoViewModel(_repository, customer)),
-      ], child: const CustomerInfoScreen());
-    });
+  void navigateCustomerInfoScreen(BuildContext context, Customer customer) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) {
+          return ProviderScope(overrides: [
+            customerInfoProvider
+                .overrideWith((ref) => CustomerInfoViewModel(_repository, customer)),
+          ], child: const CustomerInfoScreen());
+        })
+    );
+    await loadAllCustomer();
   }
 
-  MaterialPageRoute<CustomerEditScreen> navigateCustomerEditScreen(CustomerEditState customer) {
-    return MaterialPageRoute(builder: (BuildContext context) {
-      return ProviderScope(overrides: [
-        customerEditProvider
-            .overrideWith((ref) => CustomerEditViewModel(customer)),
-      ], child: CustomerEditScreen());
-    });
+  void navigateCustomerEditScreen(BuildContext context, CustomerEditState customer) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) {
+          return ProviderScope(overrides: [
+            customerEditProvider
+                .overrideWith((ref) => CustomerEditViewModel(customer)),
+          ], child: CustomerEditScreen());
+        })
+    );
+    await loadAllCustomer();
   }
 }

@@ -18,16 +18,13 @@ class CustomerListScreen extends HookConsumerWidget {
       body: _CustomerListPage(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await Navigator.push(
+          viewModel.navigateCustomerEditScreen(
             context,
-            viewModel.navigateCustomerEditScreen(
-              const CustomerEditState(
-                customer: Customer(),
-                addMode: true,
-              ),
+            const CustomerEditState(
+              customer: Customer(),
+              addMode: true,
             ),
           );
-          await viewModel.loadAllCustomer(); // 戻ってくる度にDBから読み込み
         },
         child: const Icon(Icons.add),
       ),
@@ -49,11 +46,7 @@ class _CustomerListPage extends HookConsumerWidget {
           child: ListTile(
             title: Text(customer.name),
             onTap: () async {
-              await Navigator.push(
-                context,
-                viewModel.navigateCustomerInfoScreen(customer),
-              );
-              await viewModel.loadAllCustomer();
+              viewModel.navigateCustomerInfoScreen(context, customer);
             },
           ),
         );
