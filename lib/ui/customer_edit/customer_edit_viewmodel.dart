@@ -11,7 +11,7 @@ final customerEditProvider =
 class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
   CustomerEditViewModel(CustomerEditState customer) : super(customer);
 
-  final _repository = CustomerRepository(AppDatabase());
+  final customerRepository = CustomerRepository(AppDatabase());
 
   void setName(String name) {
     state = state.copyWith(customer: state.customer.copyWith(name: name));
@@ -23,9 +23,9 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
 
   void save(BuildContext context) async {
     if (state.addMode) {
-      await _repository.insert(state.customer);
+      await customerRepository.insert(state.customer);
     } else {
-      await _repository
+      await customerRepository
           .update(state.customer)
           .then((_) => Navigator.pop(context, state.customer));
     }

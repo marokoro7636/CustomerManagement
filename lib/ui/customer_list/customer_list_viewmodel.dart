@@ -12,17 +12,17 @@ import 'package:customer_management/model/entity/customer.dart';
 
 final customerListProvider =
     StateNotifierProvider<CustomerListViewModel, CustomerListState>(
-        (ref) => CustomerListViewModel(CustomerRepository(AppDatabase())));
+        (ref) => CustomerListViewModel());
 
 class CustomerListViewModel extends StateNotifier<CustomerListState> {
-  CustomerListViewModel(this._repository) : super(const CustomerListState()) {
+  CustomerListViewModel() : super(const CustomerListState()) {
     loadAllCustomer();
   }
 
-  final CustomerRepository _repository;
+  final customerRepository = CustomerRepository(AppDatabase());
 
   Future loadAllCustomer() async {
-    final allCustomer = await _repository.loadAllCustomer();
+    final allCustomer = await customerRepository.loadAllCustomer();
     state = state.copyWith(
       allCustomers: allCustomer,
       customers: allCustomer,
@@ -47,7 +47,7 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
         MaterialPageRoute(builder: (BuildContext context) {
       return ProviderScope(overrides: [
         customerInfoProvider.overrideWith(
-            (ref) => CustomerInfoViewModel(_repository, customer)),
+            (ref) => CustomerInfoViewModel(customer)),
       ], child: const CustomerInfoScreen());
     }));
     await loadAllCustomer();

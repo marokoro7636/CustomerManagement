@@ -24,7 +24,7 @@ class OrderInfoViewModel extends StateNotifier<OrderInfoState> {
       BuildContext context,
       OrderEditState orderEditState,
       ) async {
-    final order = await Navigator.push(
+    final editedOrder = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -38,8 +38,8 @@ class OrderInfoViewModel extends StateNotifier<OrderInfoState> {
         },
       ),
     );
-    if(order != null) {
-      state = state.copyWith(order: order);
+    if(editedOrder != null) {
+      state = state.copyWith(order: editedOrder);
     }
   }
 }

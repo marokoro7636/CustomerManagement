@@ -16,9 +16,9 @@ final customerInfoProvider =
         (ref) => throw UnimplementedError());
 
 class CustomerInfoViewModel extends StateNotifier<Customer> {
-  CustomerInfoViewModel(this._repository, Customer customer) : super(customer);
+  CustomerInfoViewModel(Customer customer) : super(customer);
 
-  final CustomerRepository _repository;
+  final customerRepository = CustomerRepository(AppDatabase());
   final orderRepository = OrderRepository(AppDatabase());
 
   Future<bool> delete() async {
@@ -26,7 +26,7 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
     // 削除できた場合trueを返す
     final order = await orderRepository.loadOrder(state);
     if(order.isEmpty) {
-      await _repository.delete(state);
+      await customerRepository.delete(state);
       return true;
     } else {
       return false;
@@ -37,7 +37,7 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
     BuildContext context,
     CustomerEditState customer,
   ) async {
-    final editResult = await Navigator.push(
+    final editedCustomer = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -51,7 +51,7 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
         },
       ),
     );
-    state = editResult ?? state;
+    state = editedCustomer ?? state;
   }
 
   void navigateOrderListUserScreen(BuildContext context, Customer customer) async {

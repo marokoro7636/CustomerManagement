@@ -11,7 +11,7 @@ StateNotifierProvider<OrderEditViewModel, OrderEditState>(
 class OrderEditViewModel extends StateNotifier<OrderEditState> {
   OrderEditViewModel(OrderEditState orderEditState) : super(orderEditState);
 
-  final _repository = OrderRepository(AppDatabase());
+  final orderRepository = OrderRepository(AppDatabase());
 
   void setGoodsName(String name) {
     state = state.copyWith(order: state.order.copyWith(goodsName: name));
@@ -23,9 +23,9 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
 
   void save(BuildContext context) async {
     if (state.addMode) {
-      await _repository.insert(state.order);
+      await orderRepository.insert(state.order);
     } else {
-      await _repository
+      await orderRepository
           .update(state.order)
           .then((_) => Navigator.pop(context, state.order));
     }
