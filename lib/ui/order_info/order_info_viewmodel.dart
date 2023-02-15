@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final orderInfoProvider =
-StateNotifierProvider<OrderInfoViewModel, OrderInfoState>(
+    StateNotifierProvider<OrderInfoViewModel, OrderInfoState>(
         (ref) => throw UnimplementedError());
 
 class OrderInfoViewModel extends StateNotifier<OrderInfoState> {
@@ -20,25 +20,29 @@ class OrderInfoViewModel extends StateNotifier<OrderInfoState> {
     await orderRepository.delete(state.order);
   }
 
-  void navigateOrderEditScreen(
-      BuildContext context,
-      OrderEditState orderEditState,
-      ) async {
+  void navigateOrderEditScreen(BuildContext context) async {
     final editedOrder = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
           return ProviderScope(
             overrides: [
-              orderEditProvider
-                  .overrideWith((ref) => OrderEditViewModel(orderEditState)),
+              orderEditProvider.overrideWith(
+                (ref) => OrderEditViewModel(
+                  OrderEditState(
+                    customer: state.customer,
+                    order: state.order,
+                    addMode: false,
+                  ),
+                ),
+              ),
             ],
             child: OrderEditScreen(),
           );
         },
       ),
     );
-    if(editedOrder != null) {
+    if (editedOrder != null) {
       state = state.copyWith(order: editedOrder);
     }
   }

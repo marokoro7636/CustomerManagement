@@ -1,4 +1,3 @@
-import 'package:customer_management/ui/order_edit/order_edit_state.dart';
 import 'package:customer_management/ui/order_info/order_info_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,14 +25,7 @@ class OrderInfoScreen extends HookConsumerWidget {
             Text('単価 : ${state.order.goodsPrice}'),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                viewModel.navigateOrderEditScreen(
-                  context,
-                  OrderEditState(customer: state.customer,
-                    order: state.order,
-                    addMode: false,),
-                );
-              },
+              onPressed: () => viewModel.navigateOrderEditScreen(context),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               child: const Text('注文の編集'),
             ),

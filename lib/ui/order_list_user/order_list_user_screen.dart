@@ -1,6 +1,3 @@
-import 'package:customer_management/model/entity/order.dart';
-import 'package:customer_management/ui/order_edit/order_edit_state.dart';
-import 'package:customer_management/ui/order_info/order_info_state.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,15 +16,7 @@ class OrderListUserScreen extends HookConsumerWidget {
       ),
       body: _OrderListUserPage(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          viewModel.navigateOrderEditScreen(
-            context,
-            OrderEditState(
-                customer: state.customer,
-                order: Order(customerId: state.customer.id),
-                addMode: true),
-          );
-        },
+        onPressed: () => viewModel.navigateOrderEditScreen(context),
         child: const Icon(Icons.add),
       ),
     );
@@ -47,10 +36,7 @@ class _OrderListUserPage extends HookConsumerWidget {
         return Card(
           child: ListTile(
             title: Text(order.goodsName),
-            onTap: () => viewModel.navigateOrderInfoScreen(
-              context,
-              OrderInfoState(customer: state.customer, order: order)
-            ),
+            onTap: () => viewModel.navigateOrderInfoScreen(context, index),
           ),
         );
       },

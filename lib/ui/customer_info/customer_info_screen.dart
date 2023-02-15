@@ -1,4 +1,3 @@
-import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:customer_management/ui/customer_info/customer_info_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,16 +23,12 @@ class CustomerInfoScreen extends HookConsumerWidget {
             Text('住所 : ${state.address}'),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () =>
-                  viewModel.navigateOrderListUserScreen(context, state),
+              onPressed: () => viewModel.navigateOrderListUserScreen(context),
               child: const Text('注文一覧'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                viewModel.navigateCustomerEditScreen(context,
-                    CustomerEditState(customer: state, addMode: false));
-              },
+              onPressed: () => viewModel.navigateCustomerEditScreen(context),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               child: const Text('顧客の編集'),
             ),

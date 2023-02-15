@@ -1,8 +1,6 @@
-import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
-import 'package:customer_management/model/entity/customer.dart';
 
 class CustomerListScreen extends HookConsumerWidget {
   const CustomerListScreen({Key? key}) : super(key: key);
@@ -33,15 +31,7 @@ class CustomerListScreen extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          viewModel.navigateCustomerEditScreen(
-            context,
-            const CustomerEditState(
-              customer: Customer(),
-              addMode: true,
-            ),
-          );
-        },
+        onPressed: () => viewModel.navigateCustomerEditScreen(context),
         child: const Icon(Icons.add),
       ),
     );
@@ -61,9 +51,7 @@ class _CustomerListPage extends HookConsumerWidget {
         return Card(
           child: ListTile(
             title: Text(customer.name),
-            onTap: () async {
-              viewModel.navigateCustomerInfoScreen(context, customer);
-            },
+            onTap: () => viewModel.navigateCustomerInfoScreen(context, index),
           ),
         );
       },

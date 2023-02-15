@@ -30,7 +30,7 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   }
 
   void search(String keyword) {
-    if(keyword.isEmpty) {
+    if (keyword.isEmpty) {
       state = state.copyWith(customers: state.allCustomers);
     } else {
       state = state.copyWith(
@@ -41,26 +41,31 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     }
   }
 
-  void navigateCustomerInfoScreen(
-      BuildContext context, Customer customer) async {
+  void navigateCustomerInfoScreen(BuildContext context, int index) async {
     await Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) {
       return ProviderScope(overrides: [
         customerInfoProvider.overrideWith(
-            (ref) => CustomerInfoViewModel(customer)),
+            (ref) => CustomerInfoViewModel(state.customers[index])),
       ], child: const CustomerInfoScreen());
     }));
     await loadAllCustomer();
   }
 
-  void navigateCustomerEditScreen(
-      BuildContext context, CustomerEditState customer) async {
+  void navigateCustomerEditScreen(BuildContext context) async {
     await Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) {
-      return ProviderScope(overrides: [
-        customerEditProvider
-            .overrideWith((ref) => CustomerEditViewModel(customer)),
-      ], child: CustomerEditScreen());
+      return ProviderScope(
+        overrides: [
+          customerEditProvider.overrideWith((ref) => CustomerEditViewModel(
+                const CustomerEditState(
+                  customer: Customer(),
+                  addMode: true,
+                ),
+              )),
+        ],
+        child: CustomerEditScreen(),
+      );
     }));
     await loadAllCustomer();
   }

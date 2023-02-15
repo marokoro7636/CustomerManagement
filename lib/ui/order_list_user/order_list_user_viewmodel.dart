@@ -1,3 +1,4 @@
+import 'package:customer_management/model/entity/order.dart';
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/order_edit/order_edit_screen.dart';
 import 'package:customer_management/ui/order_edit/order_edit_state.dart';
@@ -28,15 +29,21 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     );
   }
 
-  void navigateOrderInfoScreen(BuildContext context, OrderInfoState orderInfoState) async {
+  void navigateOrderInfoScreen(BuildContext context, int index) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
           return ProviderScope(
             overrides: [
-              orderInfoProvider
-                  .overrideWith((ref) => OrderInfoViewModel(orderInfoState))
+              orderInfoProvider.overrideWith(
+                (ref) => OrderInfoViewModel(
+                  OrderInfoState(
+                    customer: state.customer,
+                    order: state.orders[index],
+                  ),
+                ),
+              ),
             ],
             child: const OrderInfoScreen(),
           );
@@ -46,8 +53,7 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     await loadOrder();
   }
 
-  void navigateOrderEditScreen(
-      BuildContext context, OrderEditState orderEditState) async {
+  void navigateOrderEditScreen(BuildContext context) async {
     // Navigate.push
     await Navigator.push(
       context,
@@ -55,8 +61,14 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
         builder: (context) {
           return ProviderScope(
             overrides: [
-              orderEditProvider
-                  .overrideWith((ref) => OrderEditViewModel(orderEditState))
+              orderEditProvider.overrideWith(
+                (ref) => OrderEditViewModel(
+                  OrderEditState(
+                      customer: state.customer,
+                      order: Order(customerId: state.customer.id),
+                      addMode: true),
+                ),
+              ),
             ],
             child: OrderEditScreen(),
           );

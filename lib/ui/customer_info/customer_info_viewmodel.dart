@@ -25,7 +25,7 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
     // 顧客の注文履歴がある場合削除しない
     // 削除できた場合trueを返す
     final order = await orderRepository.loadOrder(state);
-    if(order.isEmpty) {
+    if (order.isEmpty) {
       await customerRepository.delete(state);
       return true;
     } else {
@@ -33,18 +33,21 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
     }
   }
 
-  void navigateCustomerEditScreen(
-    BuildContext context,
-    CustomerEditState customer,
-  ) async {
+  void navigateCustomerEditScreen(BuildContext context) async {
     final editedCustomer = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
           return ProviderScope(
             overrides: [
-              customerEditProvider
-                  .overrideWith((ref) => CustomerEditViewModel(customer)),
+              customerEditProvider.overrideWith(
+                (ref) => CustomerEditViewModel(
+                  CustomerEditState(
+                    customer: state,
+                    addMode: false,
+                  ),
+                ),
+              ),
             ],
             child: CustomerEditScreen(),
           );
@@ -54,7 +57,7 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
     state = editedCustomer ?? state;
   }
 
-  void navigateOrderListUserScreen(BuildContext context, Customer customer) async {
+  void navigateOrderListUserScreen(BuildContext context) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -62,8 +65,7 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
           return ProviderScope(
             overrides: [
               orderListUserProvider.overrideWith((ref) =>
-                  OrderListUserViewModel(
-                      OrderListUserState(customer: customer))),
+                  OrderListUserViewModel(OrderListUserState(customer: state))),
             ],
             child: const OrderListUserScreen(),
           );
