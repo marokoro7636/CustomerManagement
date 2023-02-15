@@ -22,34 +22,46 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   final CustomerRepository _repository;
 
   Future loadAllCustomer() async {
+    final allCustomer = await _repository.loadAllCustomer();
     state = state.copyWith(
-      customers: await _repository.loadAllCustomer(),
+      allCustomers: allCustomer,
+      customers: allCustomer,
     );
   }
 
-  void navigateCustomerInfoScreen(BuildContext context, Customer customer) async {
-    await Navigator.push(
-        context,
+  void search(String keyword) {
+    if(keyword.isEmpty) {
+      state = state.copyWith(customers: state.allCustomers);
+    } else {
+      state = state.copyWith(
+        customers: state.customers.where((element) {
+          return element.name.contains(RegExp(keyword));
+        }).toList(),
+      );
+    }
+  }
+
+  void navigateCustomerInfoScreen(
+      BuildContext context, Customer customer) async {
+    await Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) {
-          return ProviderScope(overrides: [
-            customerInfoProvider
-                .overrideWith((ref) => CustomerInfoViewModel(_repository, customer)),
-          ], child: const CustomerInfoScreen());
-        })
-    );
+      return ProviderScope(overrides: [
+        customerInfoProvider.overrideWith(
+            (ref) => CustomerInfoViewModel(_repository, customer)),
+      ], child: const CustomerInfoScreen());
+    }));
     await loadAllCustomer();
   }
 
-  void navigateCustomerEditScreen(BuildContext context, CustomerEditState customer) async {
-    await Navigator.push(
-        context,
+  void navigateCustomerEditScreen(
+      BuildContext context, CustomerEditState customer) async {
+    await Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) {
-          return ProviderScope(overrides: [
-            customerEditProvider
-                .overrideWith((ref) => CustomerEditViewModel(customer)),
-          ], child: CustomerEditScreen());
-        })
-    );
+      return ProviderScope(overrides: [
+        customerEditProvider
+            .overrideWith((ref) => CustomerEditViewModel(customer)),
+      ], child: CustomerEditScreen());
+    }));
     await loadAllCustomer();
   }
 }

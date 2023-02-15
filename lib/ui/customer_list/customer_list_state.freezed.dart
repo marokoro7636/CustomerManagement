@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CustomerListState {
+  List<Customer> get allCustomers => throw _privateConstructorUsedError;
   List<Customer> get customers => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +30,7 @@ abstract class $CustomerListStateCopyWith<$Res> {
           CustomerListState value, $Res Function(CustomerListState) then) =
       _$CustomerListStateCopyWithImpl<$Res, CustomerListState>;
   @useResult
-  $Res call({List<Customer> customers});
+  $Res call({List<Customer> allCustomers, List<Customer> customers});
 }
 
 /// @nodoc
@@ -45,9 +46,14 @@ class _$CustomerListStateCopyWithImpl<$Res, $Val extends CustomerListState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? allCustomers = null,
     Object? customers = null,
   }) {
     return _then(_value.copyWith(
+      allCustomers: null == allCustomers
+          ? _value.allCustomers
+          : allCustomers // ignore: cast_nullable_to_non_nullable
+              as List<Customer>,
       customers: null == customers
           ? _value.customers
           : customers // ignore: cast_nullable_to_non_nullable
@@ -64,7 +70,7 @@ abstract class _$$_CustomerListStateCopyWith<$Res>
       __$$_CustomerListStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Customer> customers});
+  $Res call({List<Customer> allCustomers, List<Customer> customers});
 }
 
 /// @nodoc
@@ -78,9 +84,14 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? allCustomers = null,
     Object? customers = null,
   }) {
     return _then(_$_CustomerListState(
+      allCustomers: null == allCustomers
+          ? _value._allCustomers
+          : allCustomers // ignore: cast_nullable_to_non_nullable
+              as List<Customer>,
       customers: null == customers
           ? _value._customers
           : customers // ignore: cast_nullable_to_non_nullable
@@ -92,8 +103,20 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_CustomerListState implements _CustomerListState {
-  const _$_CustomerListState({final List<Customer> customers = const []})
-      : _customers = customers;
+  const _$_CustomerListState(
+      {final List<Customer> allCustomers = const [],
+      final List<Customer> customers = const []})
+      : _allCustomers = allCustomers,
+        _customers = customers;
+
+  final List<Customer> _allCustomers;
+  @override
+  @JsonKey()
+  List<Customer> get allCustomers {
+    if (_allCustomers is EqualUnmodifiableListView) return _allCustomers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allCustomers);
+  }
 
   final List<Customer> _customers;
   @override
@@ -106,7 +129,7 @@ class _$_CustomerListState implements _CustomerListState {
 
   @override
   String toString() {
-    return 'CustomerListState(customers: $customers)';
+    return 'CustomerListState(allCustomers: $allCustomers, customers: $customers)';
   }
 
   @override
@@ -115,12 +138,16 @@ class _$_CustomerListState implements _CustomerListState {
         (other.runtimeType == runtimeType &&
             other is _$_CustomerListState &&
             const DeepCollectionEquality()
+                .equals(other._allCustomers, _allCustomers) &&
+            const DeepCollectionEquality()
                 .equals(other._customers, _customers));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_customers));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_allCustomers),
+      const DeepCollectionEquality().hash(_customers));
 
   @JsonKey(ignore: true)
   @override
@@ -131,9 +158,12 @@ class _$_CustomerListState implements _CustomerListState {
 }
 
 abstract class _CustomerListState implements CustomerListState {
-  const factory _CustomerListState({final List<Customer> customers}) =
-      _$_CustomerListState;
+  const factory _CustomerListState(
+      {final List<Customer> allCustomers,
+      final List<Customer> customers}) = _$_CustomerListState;
 
+  @override
+  List<Customer> get allCustomers;
   @override
   List<Customer> get customers;
   @override

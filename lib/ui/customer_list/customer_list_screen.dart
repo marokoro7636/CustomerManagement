@@ -15,7 +15,24 @@ class CustomerListScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text('顧客一覧'),
       ),
-      body: _CustomerListPage(),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            TextField(
+              decoration: const InputDecoration(
+                labelText: ' 検索',
+                suffixIcon: Icon(Icons.search),
+              ),
+              // TODO 漢字変換や濁点半濁点を検知する
+              onChanged: (value) => viewModel.search(value),
+            ),
+            Expanded(
+              child: _CustomerListPage(),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           viewModel.navigateCustomerEditScreen(
