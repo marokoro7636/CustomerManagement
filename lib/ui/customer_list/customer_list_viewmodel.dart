@@ -34,7 +34,7 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
       state = state.copyWith(customers: state.allCustomers);
     } else {
       state = state.copyWith(
-        customers: state.customers.where((element) {
+        customers: state.allCustomers.where((element) {
           return element.name.contains(RegExp(keyword));
         }).toList(),
       );

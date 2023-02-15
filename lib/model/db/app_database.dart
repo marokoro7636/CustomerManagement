@@ -109,20 +109,6 @@ class AppDatabase {
     return maps.map((map) => Order.fromJson(map)).toList();
   }
 
-  Future<List<Customer>> searchCustomer(String keyword) async {
-    final db = await database;
-    var maps = await db.query(
-      _customerTableName,
-      orderBy: '$_columnName DESC',
-      where: '$_columnName LIKE ?',
-      whereArgs: ['%$keyword%'],
-    );
-
-    if (maps.isEmpty) return [];
-
-    return maps.map((map) => Customer.fromJson(map)).toList();
-  }
-
   Future insertCustomer(Customer customer) async {
     final db = await database;
     final row = customer.toJson();

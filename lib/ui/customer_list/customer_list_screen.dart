@@ -24,7 +24,6 @@ class CustomerListScreen extends HookConsumerWidget {
                 labelText: ' 検索',
                 suffixIcon: Icon(Icons.search),
               ),
-              // TODO 漢字変換や濁点半濁点を検知する
               onChanged: (value) => viewModel.search(value),
             ),
             Expanded(
