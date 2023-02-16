@@ -1,0 +1,16 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'customer.freezed.dart';
+part 'customer.g.dart';
+
+@freezed
+class Customer with _$Customer{
+  const factory Customer({
+    @Default(0) int id,
+    @Default('') String name,
+    @Default('') String address,
+  }) = _Customer;
+
+  factory Customer.fromJson(Map<String, dynamic> json)
+    => _$CustomerFromJson(json);
+}
