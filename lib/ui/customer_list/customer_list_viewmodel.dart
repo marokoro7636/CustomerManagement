@@ -30,6 +30,9 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   }
 
   void search(String keyword) {
+    if (state.keyword != keyword) {
+      state = state.copyWith(keyword: keyword);
+    }
     if (keyword.isEmpty) {
       state = state.copyWith(customers: state.allCustomers);
     } else {
@@ -50,6 +53,7 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
       ], child: const CustomerInfoScreen());
     }));
     await loadAllCustomer();
+    search(state.keyword);
   }
 
   void navigateCustomerEditScreen(BuildContext context) async {
@@ -68,5 +72,6 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
       );
     }));
     await loadAllCustomer();
+    search(state.keyword);
   }
 }

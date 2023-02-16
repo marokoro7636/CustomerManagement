@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CustomerListState {
+  String get keyword => throw _privateConstructorUsedError;
   List<Customer> get allCustomers => throw _privateConstructorUsedError;
   List<Customer> get customers => throw _privateConstructorUsedError;
 
@@ -30,7 +31,8 @@ abstract class $CustomerListStateCopyWith<$Res> {
           CustomerListState value, $Res Function(CustomerListState) then) =
       _$CustomerListStateCopyWithImpl<$Res, CustomerListState>;
   @useResult
-  $Res call({List<Customer> allCustomers, List<Customer> customers});
+  $Res call(
+      {String keyword, List<Customer> allCustomers, List<Customer> customers});
 }
 
 /// @nodoc
@@ -46,10 +48,15 @@ class _$CustomerListStateCopyWithImpl<$Res, $Val extends CustomerListState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? keyword = null,
     Object? allCustomers = null,
     Object? customers = null,
   }) {
     return _then(_value.copyWith(
+      keyword: null == keyword
+          ? _value.keyword
+          : keyword // ignore: cast_nullable_to_non_nullable
+              as String,
       allCustomers: null == allCustomers
           ? _value.allCustomers
           : allCustomers // ignore: cast_nullable_to_non_nullable
@@ -70,7 +77,8 @@ abstract class _$$_CustomerListStateCopyWith<$Res>
       __$$_CustomerListStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Customer> allCustomers, List<Customer> customers});
+  $Res call(
+      {String keyword, List<Customer> allCustomers, List<Customer> customers});
 }
 
 /// @nodoc
@@ -84,10 +92,15 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? keyword = null,
     Object? allCustomers = null,
     Object? customers = null,
   }) {
     return _then(_$_CustomerListState(
+      keyword: null == keyword
+          ? _value.keyword
+          : keyword // ignore: cast_nullable_to_non_nullable
+              as String,
       allCustomers: null == allCustomers
           ? _value._allCustomers
           : allCustomers // ignore: cast_nullable_to_non_nullable
@@ -104,11 +117,15 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
 
 class _$_CustomerListState implements _CustomerListState {
   const _$_CustomerListState(
-      {final List<Customer> allCustomers = const [],
+      {this.keyword = '',
+      final List<Customer> allCustomers = const [],
       final List<Customer> customers = const []})
       : _allCustomers = allCustomers,
         _customers = customers;
 
+  @override
+  @JsonKey()
+  final String keyword;
   final List<Customer> _allCustomers;
   @override
   @JsonKey()
@@ -129,7 +146,7 @@ class _$_CustomerListState implements _CustomerListState {
 
   @override
   String toString() {
-    return 'CustomerListState(allCustomers: $allCustomers, customers: $customers)';
+    return 'CustomerListState(keyword: $keyword, allCustomers: $allCustomers, customers: $customers)';
   }
 
   @override
@@ -137,6 +154,7 @@ class _$_CustomerListState implements _CustomerListState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CustomerListState &&
+            (identical(other.keyword, keyword) || other.keyword == keyword) &&
             const DeepCollectionEquality()
                 .equals(other._allCustomers, _allCustomers) &&
             const DeepCollectionEquality()
@@ -146,6 +164,7 @@ class _$_CustomerListState implements _CustomerListState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      keyword,
       const DeepCollectionEquality().hash(_allCustomers),
       const DeepCollectionEquality().hash(_customers));
 
@@ -159,9 +178,12 @@ class _$_CustomerListState implements _CustomerListState {
 
 abstract class _CustomerListState implements CustomerListState {
   const factory _CustomerListState(
-      {final List<Customer> allCustomers,
+      {final String keyword,
+      final List<Customer> allCustomers,
       final List<Customer> customers}) = _$_CustomerListState;
 
+  @override
+  String get keyword;
   @override
   List<Customer> get allCustomers;
   @override

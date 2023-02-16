@@ -6,6 +6,7 @@ part 'customer_list_state.freezed.dart';
 @freezed
 class CustomerListState with _$CustomerListState {
   const factory CustomerListState({
+    @Default('') String keyword,
     @Default([]) List<Customer> allCustomers,
     @Default([]) List<Customer> customers,
   }) = _CustomerListState;
