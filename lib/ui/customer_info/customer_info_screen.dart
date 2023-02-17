@@ -29,7 +29,7 @@ class CustomerInfoScreen extends HookConsumerWidget {
             const SizedBox(height: 20),
             Text('アカウント名 : ${state.accountName}'),
             const SizedBox(height: 20),
-            Text('アカウントID : ${state.accountId}'),
+            Text('アカウントID : @${state.accountId}'),
             const SizedBox(height: 20),
             Text('備考 : ${state.notes}'),
             const SizedBox(height: 20),

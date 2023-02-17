@@ -78,6 +78,8 @@ class _CustomerListPage extends HookConsumerWidget {
         return Card(
           child: ListTile(
             title: Text(customer.name),
+            subtitle: Text(customer.address),
+            trailing: Text('${customer.accountName} @${customer.accountId}'),
             onTap: () => viewModel.navigateCustomerInfoScreen(context, index),
           ),
         );
