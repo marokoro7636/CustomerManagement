@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CustomerListState {
   String get keyword => throw _privateConstructorUsedError;
+  SearchType get searchType => throw _privateConstructorUsedError;
   List<Customer> get allCustomers => throw _privateConstructorUsedError;
   List<Customer> get customers => throw _privateConstructorUsedError;
 
@@ -32,7 +33,10 @@ abstract class $CustomerListStateCopyWith<$Res> {
       _$CustomerListStateCopyWithImpl<$Res, CustomerListState>;
   @useResult
   $Res call(
-      {String keyword, List<Customer> allCustomers, List<Customer> customers});
+      {String keyword,
+      SearchType searchType,
+      List<Customer> allCustomers,
+      List<Customer> customers});
 }
 
 /// @nodoc
@@ -49,6 +53,7 @@ class _$CustomerListStateCopyWithImpl<$Res, $Val extends CustomerListState>
   @override
   $Res call({
     Object? keyword = null,
+    Object? searchType = null,
     Object? allCustomers = null,
     Object? customers = null,
   }) {
@@ -57,6 +62,10 @@ class _$CustomerListStateCopyWithImpl<$Res, $Val extends CustomerListState>
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
               as String,
+      searchType: null == searchType
+          ? _value.searchType
+          : searchType // ignore: cast_nullable_to_non_nullable
+              as SearchType,
       allCustomers: null == allCustomers
           ? _value.allCustomers
           : allCustomers // ignore: cast_nullable_to_non_nullable
@@ -78,7 +87,10 @@ abstract class _$$_CustomerListStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String keyword, List<Customer> allCustomers, List<Customer> customers});
+      {String keyword,
+      SearchType searchType,
+      List<Customer> allCustomers,
+      List<Customer> customers});
 }
 
 /// @nodoc
@@ -93,6 +105,7 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? keyword = null,
+    Object? searchType = null,
     Object? allCustomers = null,
     Object? customers = null,
   }) {
@@ -101,6 +114,10 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
               as String,
+      searchType: null == searchType
+          ? _value.searchType
+          : searchType // ignore: cast_nullable_to_non_nullable
+              as SearchType,
       allCustomers: null == allCustomers
           ? _value._allCustomers
           : allCustomers // ignore: cast_nullable_to_non_nullable
@@ -118,6 +135,7 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
 class _$_CustomerListState implements _CustomerListState {
   const _$_CustomerListState(
       {this.keyword = '',
+      this.searchType = SearchType.name,
       final List<Customer> allCustomers = const [],
       final List<Customer> customers = const []})
       : _allCustomers = allCustomers,
@@ -126,6 +144,9 @@ class _$_CustomerListState implements _CustomerListState {
   @override
   @JsonKey()
   final String keyword;
+  @override
+  @JsonKey()
+  final SearchType searchType;
   final List<Customer> _allCustomers;
   @override
   @JsonKey()
@@ -146,7 +167,7 @@ class _$_CustomerListState implements _CustomerListState {
 
   @override
   String toString() {
-    return 'CustomerListState(keyword: $keyword, allCustomers: $allCustomers, customers: $customers)';
+    return 'CustomerListState(keyword: $keyword, searchType: $searchType, allCustomers: $allCustomers, customers: $customers)';
   }
 
   @override
@@ -155,6 +176,8 @@ class _$_CustomerListState implements _CustomerListState {
         (other.runtimeType == runtimeType &&
             other is _$_CustomerListState &&
             (identical(other.keyword, keyword) || other.keyword == keyword) &&
+            (identical(other.searchType, searchType) ||
+                other.searchType == searchType) &&
             const DeepCollectionEquality()
                 .equals(other._allCustomers, _allCustomers) &&
             const DeepCollectionEquality()
@@ -165,6 +188,7 @@ class _$_CustomerListState implements _CustomerListState {
   int get hashCode => Object.hash(
       runtimeType,
       keyword,
+      searchType,
       const DeepCollectionEquality().hash(_allCustomers),
       const DeepCollectionEquality().hash(_customers));
 
@@ -179,11 +203,14 @@ class _$_CustomerListState implements _CustomerListState {
 abstract class _CustomerListState implements CustomerListState {
   const factory _CustomerListState(
       {final String keyword,
+      final SearchType searchType,
       final List<Customer> allCustomers,
       final List<Customer> customers}) = _$_CustomerListState;
 
   @override
   String get keyword;
+  @override
+  SearchType get searchType;
   @override
   List<Customer> get allCustomers;
   @override
