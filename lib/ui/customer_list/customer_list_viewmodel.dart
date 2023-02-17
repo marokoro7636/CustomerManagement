@@ -52,6 +52,20 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
                       (element) => element.name.contains(RegExp(state.keyword)))
                   .toList());
           break;
+        case SearchType.accountId:
+          state = state.copyWith(
+              customers: state.allCustomers
+                  .where((element) =>
+                      element.accountId.contains(RegExp(state.keyword)))
+                  .toList());
+          break;
+        case SearchType.accountName:
+          state = state.copyWith(
+              customers: state.allCustomers
+                  .where((element) =>
+                      element.accountName.contains(RegExp(state.keyword)))
+                  .toList());
+          break;
         case SearchType.address:
           state = state.copyWith(
               customers: state.allCustomers

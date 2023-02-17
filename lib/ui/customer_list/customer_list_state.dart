@@ -5,6 +5,8 @@ part 'customer_list_state.freezed.dart';
 
 enum SearchType {
   name,
+  accountId,
+  accountName,
   address,
 }
 

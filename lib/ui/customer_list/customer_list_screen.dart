@@ -25,6 +25,14 @@ class CustomerListScreen extends HookConsumerWidget {
                 child: Text('名前'),
               ),
               DropdownMenuItem(
+                value: SearchType.accountId,
+                child: Text('アカウントID'),
+              ),
+              DropdownMenuItem(
+                value: SearchType.accountName,
+                child: Text('アカウント名'),
+              ),
+              DropdownMenuItem(
                 value: SearchType.address,
                 child: Text('住所'),
               ),

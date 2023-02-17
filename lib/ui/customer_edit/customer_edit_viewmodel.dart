@@ -13,12 +13,32 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
 
   final customerRepository = CustomerRepository(AppDatabase());
 
-  void setName(String name) {
-    state = state.copyWith(customer: state.customer.copyWith(name: name));
+  void setName(String value) {
+    state = state.copyWith(customer: state.customer.copyWith(name: value));
   }
 
-  void setAddress(String address) {
-    state = state.copyWith(customer: state.customer.copyWith(address: address));
+  void setNameKana(String value) {
+    state = state.copyWith(customer: state.customer.copyWith(nameKana: value));
+  }
+
+  void setPostCode(String value) {
+    state = state.copyWith(customer: state.customer.copyWith(postCode: value));
+  }
+
+  void setAddress(String value) {
+    state = state.copyWith(customer: state.customer.copyWith(address: value));
+  }
+
+  void setAccountName(String value) {
+    state = state.copyWith(customer: state.customer.copyWith(accountName: value));
+  }
+
+  void setAccountId(String value) {
+    state = state.copyWith(customer: state.customer.copyWith(accountId: value));
+  }
+
+  void setNotes(String value) {
+    state = state.copyWith(customer: state.customer.copyWith(notes: value));
   }
 
   void save(BuildContext context) async {

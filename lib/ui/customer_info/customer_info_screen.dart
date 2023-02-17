@@ -14,13 +14,24 @@ class CustomerInfoScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text('顧客の詳細'),
       ),
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Column(
           children: [
             const SizedBox(height: 20),
             Text('氏名 : ${state.name}'),
             const SizedBox(height: 20),
+            Text('氏名(ひらがな) : ${state.nameKana}'),
+            const SizedBox(height: 20),
+            Text('郵便番号 : ${state.postCode}'),
+            const SizedBox(height: 20),
             Text('住所 : ${state.address}'),
+            const SizedBox(height: 20),
+            Text('アカウント名 : ${state.accountName}'),
+            const SizedBox(height: 20),
+            Text('アカウントID : ${state.accountId}'),
+            const SizedBox(height: 20),
+            Text('備考 : ${state.notes}'),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => viewModel.navigateOrderListUserScreen(context),
