@@ -1,4 +1,5 @@
 import 'package:customer_management/ui/order_info/order_info_viewmodel.dart';
+import 'package:customer_management/util/ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -22,7 +23,15 @@ class OrderInfoScreen extends HookConsumerWidget {
             const SizedBox(height: 20),
             Text('商品名 : ${state.order.goodsName}'),
             const SizedBox(height: 20),
-            Text('単価 : ${state.order.goodsPrice}'),
+            Text('単価 : ${state.order.goodsPrice}円'),
+            const SizedBox(height: 20),
+            Text('数量 : ${state.order.goodsAmount}'),
+            const SizedBox(height: 20),
+            Text('注文日 : ${state.order.orderDate!.toFormattedString()}'),
+            const SizedBox(height: 20),
+            Text(
+                '発送日 : ${state.order.sendDate != null ? state.order.sendDate!.toFormattedString() : ''}'
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => viewModel.navigateOrderEditScreen(context),
@@ -32,9 +41,7 @@ class OrderInfoScreen extends HookConsumerWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                await viewModel
-                    .delete()
-                    .then((_) => Navigator.pop(context));
+                await viewModel.delete().then((_) => Navigator.pop(context));
                 // TODO 削除ダイアログを出す
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
