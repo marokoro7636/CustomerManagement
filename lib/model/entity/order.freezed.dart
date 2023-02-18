@@ -24,6 +24,11 @@ mixin _$Order {
   int get customerId => throw _privateConstructorUsedError;
   String get goodsName => throw _privateConstructorUsedError;
   int get goodsPrice => throw _privateConstructorUsedError;
+  int get goodsAmount => throw _privateConstructorUsedError;
+  @DateTimeConverter()
+  DateTime? get orderDate => throw _privateConstructorUsedError;
+  @DateTimeConverter()
+  DateTime? get sendDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +40,14 @@ abstract class $OrderCopyWith<$Res> {
   factory $OrderCopyWith(Order value, $Res Function(Order) then) =
       _$OrderCopyWithImpl<$Res, Order>;
   @useResult
-  $Res call({int id, int customerId, String goodsName, int goodsPrice});
+  $Res call(
+      {int id,
+      int customerId,
+      String goodsName,
+      int goodsPrice,
+      int goodsAmount,
+      @DateTimeConverter() DateTime? orderDate,
+      @DateTimeConverter() DateTime? sendDate});
 }
 
 /// @nodoc
@@ -55,6 +67,9 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? customerId = null,
     Object? goodsName = null,
     Object? goodsPrice = null,
+    Object? goodsAmount = null,
+    Object? orderDate = freezed,
+    Object? sendDate = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,6 +88,18 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.goodsPrice
           : goodsPrice // ignore: cast_nullable_to_non_nullable
               as int,
+      goodsAmount: null == goodsAmount
+          ? _value.goodsAmount
+          : goodsAmount // ignore: cast_nullable_to_non_nullable
+              as int,
+      orderDate: freezed == orderDate
+          ? _value.orderDate
+          : orderDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      sendDate: freezed == sendDate
+          ? _value.sendDate
+          : sendDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -83,7 +110,14 @@ abstract class _$$_OrderCopyWith<$Res> implements $OrderCopyWith<$Res> {
       __$$_OrderCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, int customerId, String goodsName, int goodsPrice});
+  $Res call(
+      {int id,
+      int customerId,
+      String goodsName,
+      int goodsPrice,
+      int goodsAmount,
+      @DateTimeConverter() DateTime? orderDate,
+      @DateTimeConverter() DateTime? sendDate});
 }
 
 /// @nodoc
@@ -99,6 +133,9 @@ class __$$_OrderCopyWithImpl<$Res> extends _$OrderCopyWithImpl<$Res, _$_Order>
     Object? customerId = null,
     Object? goodsName = null,
     Object? goodsPrice = null,
+    Object? goodsAmount = null,
+    Object? orderDate = freezed,
+    Object? sendDate = freezed,
   }) {
     return _then(_$_Order(
       id: null == id
@@ -117,6 +154,18 @@ class __$$_OrderCopyWithImpl<$Res> extends _$OrderCopyWithImpl<$Res, _$_Order>
           ? _value.goodsPrice
           : goodsPrice // ignore: cast_nullable_to_non_nullable
               as int,
+      goodsAmount: null == goodsAmount
+          ? _value.goodsAmount
+          : goodsAmount // ignore: cast_nullable_to_non_nullable
+              as int,
+      orderDate: freezed == orderDate
+          ? _value.orderDate
+          : orderDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      sendDate: freezed == sendDate
+          ? _value.sendDate
+          : sendDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -128,7 +177,10 @@ class _$_Order implements _Order {
       {this.id = 0,
       this.customerId = 0,
       this.goodsName = '',
-      this.goodsPrice = 0});
+      this.goodsPrice = 0,
+      this.goodsAmount = 0,
+      @DateTimeConverter() this.orderDate,
+      @DateTimeConverter() this.sendDate});
 
   factory _$_Order.fromJson(Map<String, dynamic> json) =>
       _$$_OrderFromJson(json);
@@ -145,10 +197,19 @@ class _$_Order implements _Order {
   @override
   @JsonKey()
   final int goodsPrice;
+  @override
+  @JsonKey()
+  final int goodsAmount;
+  @override
+  @DateTimeConverter()
+  final DateTime? orderDate;
+  @override
+  @DateTimeConverter()
+  final DateTime? sendDate;
 
   @override
   String toString() {
-    return 'Order(id: $id, customerId: $customerId, goodsName: $goodsName, goodsPrice: $goodsPrice)';
+    return 'Order(id: $id, customerId: $customerId, goodsName: $goodsName, goodsPrice: $goodsPrice, goodsAmount: $goodsAmount, orderDate: $orderDate, sendDate: $sendDate)';
   }
 
   @override
@@ -162,13 +223,19 @@ class _$_Order implements _Order {
             (identical(other.goodsName, goodsName) ||
                 other.goodsName == goodsName) &&
             (identical(other.goodsPrice, goodsPrice) ||
-                other.goodsPrice == goodsPrice));
+                other.goodsPrice == goodsPrice) &&
+            (identical(other.goodsAmount, goodsAmount) ||
+                other.goodsAmount == goodsAmount) &&
+            (identical(other.orderDate, orderDate) ||
+                other.orderDate == orderDate) &&
+            (identical(other.sendDate, sendDate) ||
+                other.sendDate == sendDate));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, customerId, goodsName, goodsPrice);
+  int get hashCode => Object.hash(runtimeType, id, customerId, goodsName,
+      goodsPrice, goodsAmount, orderDate, sendDate);
 
   @JsonKey(ignore: true)
   @override
@@ -189,7 +256,10 @@ abstract class _Order implements Order {
       {final int id,
       final int customerId,
       final String goodsName,
-      final int goodsPrice}) = _$_Order;
+      final int goodsPrice,
+      final int goodsAmount,
+      @DateTimeConverter() final DateTime? orderDate,
+      @DateTimeConverter() final DateTime? sendDate}) = _$_Order;
 
   factory _Order.fromJson(Map<String, dynamic> json) = _$_Order.fromJson;
 
@@ -201,6 +271,14 @@ abstract class _Order implements Order {
   String get goodsName;
   @override
   int get goodsPrice;
+  @override
+  int get goodsAmount;
+  @override
+  @DateTimeConverter()
+  DateTime? get orderDate;
+  @override
+  @DateTimeConverter()
+  DateTime? get sendDate;
   @override
   @JsonKey(ignore: true)
   _$$_OrderCopyWith<_$_Order> get copyWith =>

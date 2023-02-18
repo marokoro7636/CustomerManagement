@@ -9,12 +9,20 @@ class AppDatabase {
   final String _columnId = 'id';
   final String _columnName = 'name';
   final String _columnAddress = 'address';
+  final String _columnPostCode =  'postCode';
+  final String _columnNameKana =  'nameKana';
+  final String _columnAccountName =  'accountName';
+  final String _columnAccountId =  'accountId';
+  final String _columnNotes =  'notes';
 
   // 注文テーブル
   final String _orderTableName = 'ordering';
   final String _columnCustomerId = 'customerId';
   final String _columnGoodsName = 'goodsName';
   final String _columnGoodsPrice = 'goodsPrice';
+  final String _columnGoodsAmount = 'goodsAmount';
+  final String _columnOrderDate = 'orderDate';
+  final String _columnSendDate = 'sendDate';
 
   Database? _database;
 
@@ -41,7 +49,12 @@ class AppDatabase {
       CREATE TABLE $_customerTableName(
         $_columnId INTEGER PRIMARY KEY,
         $_columnName TEXT,
-        $_columnAddress TEXT
+        $_columnAddress TEXT,
+        $_columnPostCode TEXT,
+        $_columnNameKana TEXT,
+        $_columnAccountName TEXT,
+        $_columnAccountId TEXT,
+        $_columnNotes TEXT
       )
     ''';
     final String sqlOrder = '''
@@ -49,7 +62,10 @@ class AppDatabase {
         $_columnId INTEGER PRIMARY KEY,
         $_columnCustomerId INTEGER,
         $_columnGoodsName TEXT,
-        $_columnGoodsPrice INTEGER
+        $_columnGoodsPrice INTEGER,
+        $_columnGoodsAmount INTEGER,
+        $_columnOrderDate TEXT,
+        $_columnSendDate TEXT        
       )
      ''';
 
@@ -61,7 +77,7 @@ class AppDatabase {
     final db = await database;
     var maps = await db.query(
       _customerTableName,
-      orderBy: '$_columnName ASC',
+      orderBy: '$_columnNameKana ASC',
     );
 
     if (maps.isEmpty) return [];
@@ -73,7 +89,7 @@ class AppDatabase {
     final db = await database;
     var maps = await db.query(
       _customerTableName,
-      orderBy: '$_columnName ASC',
+      orderBy: '$_columnNameKana ASC',
       where: '$_columnId = ?',
       whereArgs: [customerId]
     );
@@ -99,7 +115,7 @@ class AppDatabase {
     final db = await database;
     var maps = await db.query(
       _orderTableName,
-      orderBy: '$_columnGoodsName ASC',
+      orderBy: '$_columnOrderDate ASC',
       where: '$_columnCustomerId = ?',
       whereArgs: [customer.id]
     );

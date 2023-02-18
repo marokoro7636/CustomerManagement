@@ -19,7 +19,7 @@ class OrderEditScreen extends HookConsumerWidget {
             ? '${state.customer.name}さんの注文の追加'
             : '${state.customer.name}さんの注文の編集'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(30),
           child: Form(
@@ -59,6 +59,65 @@ class OrderEditScreen extends HookConsumerWidget {
                       return null;
                     },
                     onChanged: (value) => viewModel.setGoodsPrice(value),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    initialValue: state.order.goodsAmount == 0
+                        ? ''
+                        : state.order.goodsAmount.toString(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '数量',
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '数量を入力してください';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => viewModel.setGoodsAmount(value),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    readOnly: true,
+                    controller: viewModel.orderDateController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: '注文日',
+                      prefixIcon: IconButton(
+                        onPressed: () => viewModel.setOrderDate(context),
+                        icon: const Icon(Icons.calendar_today),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () => viewModel.deleteOrderDate(),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '注文日を入力してください';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    readOnly: true,
+                    controller: viewModel.sendDateController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: '発送日',
+                      prefixIcon: IconButton(
+                        onPressed: () => viewModel.setSendDate(context),
+                        icon: const Icon(Icons.calendar_today),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () => viewModel.deleteSendDate(),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(

@@ -17,7 +17,7 @@ class CustomerEditScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(state.addMode ? '顧客の追加' : '顧客の編集'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(30),
           child: Form(
@@ -41,6 +41,35 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    initialValue: state.customer.nameKana,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '氏名(ひらがな)',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '氏名(ひらがな)を入力してください';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => viewModel.setNameKana(value),
+                  ),const SizedBox(height: 20),
+                  TextFormField(
+                    initialValue: state.customer.postCode,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '郵便番号',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        // TODO 郵便番号用のバリデーション
+                        return '郵便番号を入力してください';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => viewModel.setPostCode(value),
+                  ),const SizedBox(height: 20),
+                  TextFormField(
                     initialValue: state.customer.address,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -53,6 +82,42 @@ class CustomerEditScreen extends HookConsumerWidget {
                       return null;
                     },
                     onChanged: (value) => viewModel.setAddress(value),
+                  ),const SizedBox(height: 20),
+                  TextFormField(
+                    initialValue: state.customer.accountName,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'アカウント名',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'アカウント名を入力してください';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => viewModel.setAccountName(value),
+                  ),const SizedBox(height: 20),
+                  TextFormField(
+                    initialValue: state.customer.accountId,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'アカウントID(英数字記号)',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'アカウントIDを入力してください';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => viewModel.setAccountId(value),
+                  ),const SizedBox(height: 20),
+                  TextFormField(
+                    initialValue: state.customer.notes,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '備考',
+                    ),
+                    onChanged: (value) => viewModel.setNotes(value),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(

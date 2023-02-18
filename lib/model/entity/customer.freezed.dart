@@ -22,7 +22,12 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) {
 mixin _$Customer {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get nameKana => throw _privateConstructorUsedError;
+  String get postCode => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
+  String get accountName => throw _privateConstructorUsedError;
+  String get accountId => throw _privateConstructorUsedError;
+  String get notes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +40,15 @@ abstract class $CustomerCopyWith<$Res> {
   factory $CustomerCopyWith(Customer value, $Res Function(Customer) then) =
       _$CustomerCopyWithImpl<$Res, Customer>;
   @useResult
-  $Res call({int id, String name, String address});
+  $Res call(
+      {int id,
+      String name,
+      String nameKana,
+      String postCode,
+      String address,
+      String accountName,
+      String accountId,
+      String notes});
 }
 
 /// @nodoc
@@ -53,7 +66,12 @@ class _$CustomerCopyWithImpl<$Res, $Val extends Customer>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? nameKana = null,
+    Object? postCode = null,
     Object? address = null,
+    Object? accountName = null,
+    Object? accountId = null,
+    Object? notes = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -64,9 +82,29 @@ class _$CustomerCopyWithImpl<$Res, $Val extends Customer>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      nameKana: null == nameKana
+          ? _value.nameKana
+          : nameKana // ignore: cast_nullable_to_non_nullable
+              as String,
+      postCode: null == postCode
+          ? _value.postCode
+          : postCode // ignore: cast_nullable_to_non_nullable
+              as String,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      accountName: null == accountName
+          ? _value.accountName
+          : accountName // ignore: cast_nullable_to_non_nullable
+              as String,
+      accountId: null == accountId
+          ? _value.accountId
+          : accountId // ignore: cast_nullable_to_non_nullable
+              as String,
+      notes: null == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -79,7 +117,15 @@ abstract class _$$_CustomerCopyWith<$Res> implements $CustomerCopyWith<$Res> {
       __$$_CustomerCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String address});
+  $Res call(
+      {int id,
+      String name,
+      String nameKana,
+      String postCode,
+      String address,
+      String accountName,
+      String accountId,
+      String notes});
 }
 
 /// @nodoc
@@ -95,7 +141,12 @@ class __$$_CustomerCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? nameKana = null,
+    Object? postCode = null,
     Object? address = null,
+    Object? accountName = null,
+    Object? accountId = null,
+    Object? notes = null,
   }) {
     return _then(_$_Customer(
       id: null == id
@@ -106,9 +157,29 @@ class __$$_CustomerCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      nameKana: null == nameKana
+          ? _value.nameKana
+          : nameKana // ignore: cast_nullable_to_non_nullable
+              as String,
+      postCode: null == postCode
+          ? _value.postCode
+          : postCode // ignore: cast_nullable_to_non_nullable
+              as String,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      accountName: null == accountName
+          ? _value.accountName
+          : accountName // ignore: cast_nullable_to_non_nullable
+              as String,
+      accountId: null == accountId
+          ? _value.accountId
+          : accountId // ignore: cast_nullable_to_non_nullable
+              as String,
+      notes: null == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -117,7 +188,15 @@ class __$$_CustomerCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Customer implements _Customer {
-  const _$_Customer({this.id = 0, this.name = '', this.address = ''});
+  const _$_Customer(
+      {this.id = 0,
+      this.name = '',
+      this.nameKana = '',
+      this.postCode = '',
+      this.address = '',
+      this.accountName = '',
+      this.accountId = '',
+      this.notes = ''});
 
   factory _$_Customer.fromJson(Map<String, dynamic> json) =>
       _$$_CustomerFromJson(json);
@@ -130,11 +209,26 @@ class _$_Customer implements _Customer {
   final String name;
   @override
   @JsonKey()
+  final String nameKana;
+  @override
+  @JsonKey()
+  final String postCode;
+  @override
+  @JsonKey()
   final String address;
+  @override
+  @JsonKey()
+  final String accountName;
+  @override
+  @JsonKey()
+  final String accountId;
+  @override
+  @JsonKey()
+  final String notes;
 
   @override
   String toString() {
-    return 'Customer(id: $id, name: $name, address: $address)';
+    return 'Customer(id: $id, name: $name, nameKana: $nameKana, postCode: $postCode, address: $address, accountName: $accountName, accountId: $accountId, notes: $notes)';
   }
 
   @override
@@ -144,12 +238,22 @@ class _$_Customer implements _Customer {
             other is _$_Customer &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.address, address) || other.address == address));
+            (identical(other.nameKana, nameKana) ||
+                other.nameKana == nameKana) &&
+            (identical(other.postCode, postCode) ||
+                other.postCode == postCode) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.accountName, accountName) ||
+                other.accountName == accountName) &&
+            (identical(other.accountId, accountId) ||
+                other.accountId == accountId) &&
+            (identical(other.notes, notes) || other.notes == notes));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, address);
+  int get hashCode => Object.hash(runtimeType, id, name, nameKana, postCode,
+      address, accountName, accountId, notes);
 
   @JsonKey(ignore: true)
   @override
@@ -167,7 +271,14 @@ class _$_Customer implements _Customer {
 
 abstract class _Customer implements Customer {
   const factory _Customer(
-      {final int id, final String name, final String address}) = _$_Customer;
+      {final int id,
+      final String name,
+      final String nameKana,
+      final String postCode,
+      final String address,
+      final String accountName,
+      final String accountId,
+      final String notes}) = _$_Customer;
 
   factory _Customer.fromJson(Map<String, dynamic> json) = _$_Customer.fromJson;
 
@@ -176,7 +287,17 @@ abstract class _Customer implements Customer {
   @override
   String get name;
   @override
+  String get nameKana;
+  @override
+  String get postCode;
+  @override
   String get address;
+  @override
+  String get accountName;
+  @override
+  String get accountId;
+  @override
+  String get notes;
   @override
   @JsonKey(ignore: true)
   _$$_CustomerCopyWith<_$_Customer> get copyWith =>

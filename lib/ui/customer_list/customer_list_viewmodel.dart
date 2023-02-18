@@ -27,20 +27,53 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
       allCustomers: allCustomer,
       customers: allCustomer,
     );
+    search();
   }
 
-  void search(String keyword) {
-    if (state.keyword != keyword) {
-      state = state.copyWith(keyword: keyword);
-    }
-    if (keyword.isEmpty) {
+  void setSearchType(SearchType searchType) {
+    state = state.copyWith(searchType: searchType);
+    search();
+  }
+
+  void setKeyword(String keyword) {
+    state = state.copyWith(keyword: keyword);
+    search();
+  }
+
+  void search() {
+    if (state.keyword.isEmpty) {
       state = state.copyWith(customers: state.allCustomers);
     } else {
-      state = state.copyWith(
-        customers: state.allCustomers.where((element) {
-          return element.name.contains(RegExp(keyword));
-        }).toList(),
-      );
+      switch (state.searchType) {
+        case SearchType.name:
+          state = state.copyWith(
+              customers: state.allCustomers
+                  .where(
+                      (element) => element.name.contains(RegExp(state.keyword)))
+                  .toList());
+          break;
+        case SearchType.accountId:
+          state = state.copyWith(
+              customers: state.allCustomers
+                  .where((element) =>
+                      element.accountId.contains(RegExp(state.keyword)))
+                  .toList());
+          break;
+        case SearchType.accountName:
+          state = state.copyWith(
+              customers: state.allCustomers
+                  .where((element) =>
+                      element.accountName.contains(RegExp(state.keyword)))
+                  .toList());
+          break;
+        case SearchType.address:
+          state = state.copyWith(
+              customers: state.allCustomers
+                  .where((element) =>
+                      element.address.contains(RegExp(state.keyword)))
+                  .toList());
+          break;
+      }
     }
   }
 
@@ -53,7 +86,6 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
       ], child: const CustomerInfoScreen());
     }));
     await loadAllCustomer();
-    search(state.keyword);
   }
 
   void navigateCustomerEditScreen(BuildContext context) async {
@@ -72,6 +104,5 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
       );
     }));
     await loadAllCustomer();
-    search(state.keyword);
   }
 }
