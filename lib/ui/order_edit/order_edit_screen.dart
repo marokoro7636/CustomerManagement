@@ -81,10 +81,15 @@ class OrderEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    readOnly: true,
                     controller: viewModel.orderDateController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       labelText: '注文日',
+                      prefixIcon: IconButton(
+                        onPressed: () => viewModel.setOrderDate(context),
+                        icon: const Icon(Icons.calendar_today),
+                      ),
                       suffixIcon: IconButton(
                         onPressed: () => viewModel.deleteOrderDate(),
                         icon: const Icon(Icons.close),
@@ -96,20 +101,23 @@ class OrderEditScreen extends HookConsumerWidget {
                       }
                       return null;
                     },
-                    onTap: () => viewModel.setOrderDate(context),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    readOnly: true,
                     controller: viewModel.sendDateController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       labelText: '発送日',
+                      prefixIcon: IconButton(
+                        onPressed: () => viewModel.setSendDate(context),
+                        icon: const Icon(Icons.calendar_today),
+                      ),
                       suffixIcon: IconButton(
                         onPressed: () => viewModel.deleteSendDate(),
                         icon: const Icon(Icons.close),
                       ),
                     ),
-                    onTap: () => viewModel.setSendDate(context),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
