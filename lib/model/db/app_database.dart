@@ -20,6 +20,9 @@ class AppDatabase {
   final String _columnCustomerId = 'customerId';
   final String _columnGoodsName = 'goodsName';
   final String _columnGoodsPrice = 'goodsPrice';
+  final String _columnGoodsAmount = 'goodsAmount';
+  final String _columnOrderDate = 'orderDate';
+  final String _columnSendDate = 'sendDate';
 
   Database? _database;
 
@@ -59,7 +62,10 @@ class AppDatabase {
         $_columnId INTEGER PRIMARY KEY,
         $_columnCustomerId INTEGER,
         $_columnGoodsName TEXT,
-        $_columnGoodsPrice INTEGER
+        $_columnGoodsPrice INTEGER,
+        $_columnGoodsAmount INTEGER,
+        $_columnOrderDate TEXT,
+        $_columnSendDate TEXT        
       )
      ''';
 
@@ -109,7 +115,7 @@ class AppDatabase {
     final db = await database;
     var maps = await db.query(
       _orderTableName,
-      orderBy: '$_columnGoodsName ASC',
+      orderBy: '$_columnOrderDate ASC',
       where: '$_columnCustomerId = ?',
       whereArgs: [customer.id]
     );
