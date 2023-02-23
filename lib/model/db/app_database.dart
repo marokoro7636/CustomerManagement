@@ -1,4 +1,5 @@
 import 'package:customer_management/model/entity/order.dart';
+import 'package:customer_management/model/entity/goods_summary.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:customer_management/model/entity/customer.dart';
@@ -23,6 +24,10 @@ class AppDatabase {
   final String _columnGoodsAmount = 'goodsAmount';
   final String _columnOrderDate = 'orderDate';
   final String _columnSendDate = 'sendDate';
+
+  // 年間売上ビュー
+  final String _columnTotalGoodsPrice = 'totalGoodsPrice';
+  final String _columnTotalGoodsAmount = 'totalGoodsAmount';
 
   Database? _database;
 
@@ -185,5 +190,19 @@ class AppDatabase {
       where: '$_columnId = ?',
       whereArgs: [order.id],
     );
+  }
+
+  Future<List<GoodsSummary>> groupOrderByName(int year) async {
+    final db = await database;
+    final sql = '''
+      SELECT $_columnGoodsName, SUM($_columnGoodsAmount) AS $_columnTotalGoodsAmount, 
+      SUM($_columnGoodsPrice*$_columnGoodsAmount) AS $_columnTotalGoodsPrice
+      FROM $_orderTableName
+      WHERE CAST(SUBSTR($_columnOrderDate, 1, 4) AS INTEGER) = $year
+      GROUP BY $_columnGoodsName
+      ORDER BY $_columnTotalGoodsPrice DESC
+    ''';
+    final maps = await db.rawQuery(sql);
+    return maps.map((map) => GoodsSummary.fromJson(map)).toList();
   }
 }
