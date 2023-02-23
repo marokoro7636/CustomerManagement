@@ -24,6 +24,8 @@ class AppDatabase {
   final String _columnGoodsAmount = 'goodsAmount';
   final String _columnOrderDate = 'orderDate';
   final String _columnSendDate = 'sendDate';
+
+  // 年間売上ビュー
   final String _columnTotalGoodsPrice = 'totalGoodsPrice';
   final String _columnTotalGoodsAmount = 'totalGoodsAmount';
 
@@ -198,6 +200,7 @@ class AppDatabase {
       FROM $_orderTableName
       WHERE CAST(SUBSTR($_columnOrderDate, 1, 4) AS INTEGER) = $year
       GROUP BY $_columnGoodsName
+      ORDER BY $_columnTotalGoodsPrice DESC
     ''';
     final maps = await db.rawQuery(sql);
     return maps.map((map) => GoodsSummary.fromJson(map)).toList();

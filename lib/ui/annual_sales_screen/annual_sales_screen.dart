@@ -1,4 +1,4 @@
-import 'package:customer_management/model/db/app_database.dart';
+import 'package:customer_management/ui/annual_sales_screen/annual_sales_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,25 +7,58 @@ class AnnualSalesScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(annualSalesProvider);
+    final viewModel = ref.watch(annualSalesProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('年間売上'),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            ElevatedButton(
-              child: const Text('テスト'),
-              onPressed: () async {
-                final db = AppDatabase();
-                print(await db.groupOrderByName(2022));
-                print(await db.groupOrderByName(2023));
-              },
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () => viewModel.downYear(),
+                  child: const Text('<'),
+                ),
+                Text('${state.year}年'),
+                TextButton(
+                  onPressed: () => viewModel.upYear(),
+                  child: const Text('>'),
+                ),
+              ],
+            ),
+            Expanded(
+              child: _AnnualSalesListView(),
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }
+
+class _AnnualSalesListView extends HookConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(annualSalesProvider);
+
+    return ListView.builder(
+      itemCount: state.summaryList.length,
+      itemBuilder: (BuildContext context, int index) {
+        var summary = state.summaryList[index];
+        return Card(
+          child: ListTile(
+            title: Text(summary.goodsName),
+            subtitle: Text('${summary.totalGoodsAmount}個'),
+            trailing: Text('計￥${summary.totalGoodsPrice}'),
+          ),
+        );
+      },
+    );
+  }
+}
+

@@ -1,4 +1,5 @@
 import 'package:customer_management/ui/annual_sales_screen/annual_sales_screen.dart';
+import 'package:customer_management/ui/annual_sales_screen/annual_sales_viewmodel.dart';
 import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,6 +22,7 @@ class BaseScreen extends HookConsumerWidget {
     final pageType = ref.watch(baseStateProvider);
     final viewModel = ref.watch(baseStateProvider.notifier);
     final customerListViewModel = ref.watch(customerListProvider.notifier);
+    final annualSalesViewModel = ref.watch(annualSalesProvider.notifier);
 
     return Scaffold(
       body: screens[pageType.index],
@@ -31,8 +33,10 @@ class BaseScreen extends HookConsumerWidget {
         ],
         currentIndex: pageType.index,
         onTap: (index) async {
-          if(index == 0) {
+          if (index == 0) {
             await customerListViewModel.loadAllCustomer();
+          } else {
+            annualSalesViewModel.loadGoodsSummary();
           }
           viewModel.state = PageType.values[index];
         },
