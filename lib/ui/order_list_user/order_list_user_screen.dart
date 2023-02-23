@@ -34,10 +34,21 @@ class _OrderListUserPage extends HookConsumerWidget {
       itemCount: state.orders.length,
       itemBuilder: (BuildContext context, int index) {
         var order = state.orders[index];
+        var isSend = order.sendDate != null;
+        var orderDate = order.orderDate!.toFormattedString();
+        var sendDate = isSend ? order.sendDate!.toFormattedString() : '';
+
         return Card(
           child: ListTile(
-            title: Text(order.goodsName),
-            subtitle: Text('注文日:${order.orderDate!.toFormattedString()}'),
+            title: Text(
+              order.goodsName,
+              style: !isSend
+                  ? const TextStyle(
+                      color: Colors.red,
+                    )
+                  : null,
+            ),
+            subtitle: Text('注文日:$orderDate\n発送日:$sendDate'),
             trailing: Text('￥${order.goodsPrice} x ${order.goodsAmount}'),
             onTap: () => viewModel.navigateOrderInfoScreen(context, index),
           ),
