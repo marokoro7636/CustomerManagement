@@ -8,6 +8,8 @@ part 'order_list_user_state.freezed.dart';
 class OrderListUserState with _$OrderListUserState {
   const factory OrderListUserState({
     required Customer customer,
+    @Default([]) List<Order> allOrders,
     @Default([]) List<Order> orders,
+    @Default(false) bool onlyNotSend,
   }) = _OrderListUserState;
 }

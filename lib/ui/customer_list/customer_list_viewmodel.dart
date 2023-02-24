@@ -59,39 +59,39 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   }
 
   void search() {
-    final List<Customer> allCustomers;
+    final List<Customer> customers;
     if (state.onlyNotSend) {
       // 未発送の顧客のみを抜き出す
-      allCustomers = state.allCustomers.where((e) => !e.isSend).toList();
+      customers = state.allCustomers.where((e) => !e.isSend).toList();
     } else {
-      allCustomers = state.allCustomers;
+      customers = state.allCustomers;
     }
 
     if (state.keyword.isEmpty) {
-      state = state.copyWith(customers: allCustomers);
+      state = state.copyWith(customers: customers);
     } else {
       switch (state.searchType) {
         case SearchType.name:
           state = state.copyWith(
-              customers: allCustomers
+              customers: customers
                   .where((e) => e.name.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.accountId:
           state = state.copyWith(
-              customers: allCustomers
+              customers: customers
                   .where((e) => e.accountId.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.accountName:
           state = state.copyWith(
-              customers: allCustomers
+              customers: customers
                   .where((e) => e.accountName.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.address:
           state = state.copyWith(
-              customers: allCustomers
+              customers: customers
                   .where((e) => e.address.contains(RegExp(state.keyword)))
                   .toList());
           break;

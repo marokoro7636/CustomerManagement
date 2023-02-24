@@ -21,12 +21,30 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     loadOrder();
   }
 
-  final _repository = OrderRepository(AppDatabase());
+  final orderRepository = OrderRepository(AppDatabase());
 
   Future loadOrder() async {
+    final allOrders = await orderRepository.loadOrder(state.customer);
     state = state.copyWith(
-      orders: await _repository.loadOrder(state.customer),
+      allOrders: allOrders,
+      orders: allOrders,
     );
+    search();
+  }
+
+  void changeSwitch(bool value) {
+    state = state.copyWith(onlyNotSend: value);
+    search();
+  }
+
+  void search() {
+    final List<Order> orders;
+    if (state.onlyNotSend) {
+      orders = state.allOrders.where((e) => e.sendDate == null).toList();
+    } else {
+      orders = state.allOrders;
+    }
+    state = state.copyWith(orders: orders);
   }
 
   void navigateOrderInfoScreen(BuildContext context, int index) async {

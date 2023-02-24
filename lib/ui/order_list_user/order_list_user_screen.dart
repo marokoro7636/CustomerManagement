@@ -15,7 +15,25 @@ class OrderListUserScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text('${state.customer.name}さんの注文一覧'),
       ),
-      body: _OrderListUserPage(),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Text('未発送のみ'),
+                Switch(
+                  value: state.onlyNotSend,
+                  onChanged: (value) => viewModel.changeSwitch(value),
+                ),
+              ],
+            ),
+            Expanded(
+              child: _OrderListUserPage(),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => viewModel.navigateOrderEditScreen(context),
         child: const Icon(Icons.add),
