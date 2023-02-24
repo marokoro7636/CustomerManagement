@@ -1,3 +1,4 @@
+import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_screen.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
@@ -20,14 +21,26 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   }
 
   final customerRepository = CustomerRepository(AppDatabase());
+  final orderRepository = OrderRepository(AppDatabase());
+  final searchController = TextEditingController();
 
   Future loadAllCustomer() async {
-    final allCustomer = await customerRepository.loadAllCustomer();
+    searchController.text = state.keyword; // 検索ワードをフォームに表示
+
+    // 顧客ごとに未発送の商品の存在確認
+    var allCustomer = await customerRepository.loadAllCustomer();
+    allCustomer = await Future.wait(allCustomer.map((customer) async {
+      final orders = await orderRepository.loadOrder(customer);
+      final isSend = orders.every((order) => order.sendDate != null);
+      return customer.copyWith(isSend: isSend);
+    }));
+
+    // 全ての顧客と表示用の顧客リストをstateに保存
     state = state.copyWith(
       allCustomers: allCustomer,
       customers: allCustomer,
     );
-    search();
+    search(); // 検索キーワードから表示用の顧客リストを更新
   }
 
   void setSearchType(SearchType searchType) {
@@ -40,37 +53,46 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     search();
   }
 
+  void changeSwitch(bool value) {
+    state = state.copyWith(onlyNotSend: value);
+    search();
+  }
+
   void search() {
+    final List<Customer> customers;
+    if (state.onlyNotSend) {
+      // 未発送の顧客のみを抜き出す
+      customers = state.allCustomers.where((e) => !e.isSend).toList();
+    } else {
+      customers = state.allCustomers;
+    }
+
     if (state.keyword.isEmpty) {
-      state = state.copyWith(customers: state.allCustomers);
+      state = state.copyWith(customers: customers);
     } else {
       switch (state.searchType) {
         case SearchType.name:
           state = state.copyWith(
-              customers: state.allCustomers
-                  .where(
-                      (element) => element.name.contains(RegExp(state.keyword)))
+              customers: customers
+                  .where((e) => e.name.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.accountId:
           state = state.copyWith(
-              customers: state.allCustomers
-                  .where((element) =>
-                      element.accountId.contains(RegExp(state.keyword)))
+              customers: customers
+                  .where((e) => e.accountId.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.accountName:
           state = state.copyWith(
-              customers: state.allCustomers
-                  .where((element) =>
-                      element.accountName.contains(RegExp(state.keyword)))
+              customers: customers
+                  .where((e) => e.accountName.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.address:
           state = state.copyWith(
-              customers: state.allCustomers
-                  .where((element) =>
-                      element.address.contains(RegExp(state.keyword)))
+              customers: customers
+                  .where((e) => e.address.contains(RegExp(state.keyword)))
                   .toList());
           break;
       }

@@ -17,5 +17,6 @@ class CustomerListState with _$CustomerListState {
     @Default(SearchType.name) SearchType searchType,
     @Default([]) List<Customer> allCustomers,
     @Default([]) List<Customer> customers,
+    @Default(false) bool onlyNotSend,
   }) = _CustomerListState;
 }

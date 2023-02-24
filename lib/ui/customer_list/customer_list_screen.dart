@@ -14,37 +14,45 @@ class CustomerListScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('顧客一覧'),
-        actions: [
-          // 顧客の検索方法を選択
-          DropdownButton(
-            value: state.searchType,
-            onChanged: (searchType) => viewModel.setSearchType(searchType!),
-            items: const [
-              DropdownMenuItem(
-                value: SearchType.name,
-                child: Text('名前'),
-              ),
-              DropdownMenuItem(
-                value: SearchType.accountId,
-                child: Text('アカウントID'),
-              ),
-              DropdownMenuItem(
-                value: SearchType.accountName,
-                child: Text('アカウント名'),
-              ),
-              DropdownMenuItem(
-                value: SearchType.address,
-                child: Text('住所'),
-              ),
-            ],
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            Row(
+              children: [
+                // 顧客の検索方法を選択
+                DropdownButton(
+                  value: state.searchType,
+                  onChanged: (searchType) => viewModel.setSearchType(searchType!),
+                  items: const [
+                    DropdownMenuItem(
+                      value: SearchType.name,
+                      child: Text('名前'),
+                    ),
+                    DropdownMenuItem(
+                      value: SearchType.accountId,
+                      child: Text('アカウントID'),
+                    ),
+                    DropdownMenuItem(
+                      value: SearchType.accountName,
+                      child: Text('アカウント名'),
+                    ),
+                    DropdownMenuItem(
+                      value: SearchType.address,
+                      child: Text('住所'),
+                    ),
+                  ],
+                ),
+                const Text('未発送のみ'),
+                Switch(
+                  value: state.onlyNotSend,
+                  onChanged: (value) => viewModel.changeSwitch(value),
+                ),
+              ],
+            ),
             TextField(
+              controller: viewModel.searchController,
               decoration: const InputDecoration(
                 labelText: ' 検索',
                 suffixIcon: Icon(Icons.search),
@@ -77,7 +85,14 @@ class _CustomerListPage extends HookConsumerWidget {
         var customer = state.customers[index];
         return Card(
           child: ListTile(
-            title: Text(customer.name),
+            title: Text(
+              customer.name,
+              style: !customer.isSend
+                  ? const TextStyle(
+                      color: Colors.red,
+                    )
+                  : null,
+            ),
             subtitle: Text(customer.address),
             trailing: Text('${customer.accountName} @${customer.accountId}'),
             onTap: () => viewModel.navigateCustomerInfoScreen(context, index),

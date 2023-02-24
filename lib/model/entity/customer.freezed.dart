@@ -28,6 +28,7 @@ mixin _$Customer {
   String get accountName => throw _privateConstructorUsedError;
   String get accountId => throw _privateConstructorUsedError;
   String get notes => throw _privateConstructorUsedError;
+  bool get isSend => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +49,8 @@ abstract class $CustomerCopyWith<$Res> {
       String address,
       String accountName,
       String accountId,
-      String notes});
+      String notes,
+      bool isSend});
 }
 
 /// @nodoc
@@ -72,6 +74,7 @@ class _$CustomerCopyWithImpl<$Res, $Val extends Customer>
     Object? accountName = null,
     Object? accountId = null,
     Object? notes = null,
+    Object? isSend = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -106,6 +109,10 @@ class _$CustomerCopyWithImpl<$Res, $Val extends Customer>
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String,
+      isSend: null == isSend
+          ? _value.isSend
+          : isSend // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -125,7 +132,8 @@ abstract class _$$_CustomerCopyWith<$Res> implements $CustomerCopyWith<$Res> {
       String address,
       String accountName,
       String accountId,
-      String notes});
+      String notes,
+      bool isSend});
 }
 
 /// @nodoc
@@ -147,6 +155,7 @@ class __$$_CustomerCopyWithImpl<$Res>
     Object? accountName = null,
     Object? accountId = null,
     Object? notes = null,
+    Object? isSend = null,
   }) {
     return _then(_$_Customer(
       id: null == id
@@ -181,6 +190,10 @@ class __$$_CustomerCopyWithImpl<$Res>
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String,
+      isSend: null == isSend
+          ? _value.isSend
+          : isSend // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -196,7 +209,8 @@ class _$_Customer implements _Customer {
       this.address = '',
       this.accountName = '',
       this.accountId = '',
-      this.notes = ''});
+      this.notes = '',
+      this.isSend = true});
 
   factory _$_Customer.fromJson(Map<String, dynamic> json) =>
       _$$_CustomerFromJson(json);
@@ -225,10 +239,13 @@ class _$_Customer implements _Customer {
   @override
   @JsonKey()
   final String notes;
+  @override
+  @JsonKey()
+  final bool isSend;
 
   @override
   String toString() {
-    return 'Customer(id: $id, name: $name, nameKana: $nameKana, postCode: $postCode, address: $address, accountName: $accountName, accountId: $accountId, notes: $notes)';
+    return 'Customer(id: $id, name: $name, nameKana: $nameKana, postCode: $postCode, address: $address, accountName: $accountName, accountId: $accountId, notes: $notes, isSend: $isSend)';
   }
 
   @override
@@ -247,13 +264,14 @@ class _$_Customer implements _Customer {
                 other.accountName == accountName) &&
             (identical(other.accountId, accountId) ||
                 other.accountId == accountId) &&
-            (identical(other.notes, notes) || other.notes == notes));
+            (identical(other.notes, notes) || other.notes == notes) &&
+            (identical(other.isSend, isSend) || other.isSend == isSend));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, nameKana, postCode,
-      address, accountName, accountId, notes);
+      address, accountName, accountId, notes, isSend);
 
   @JsonKey(ignore: true)
   @override
@@ -278,7 +296,8 @@ abstract class _Customer implements Customer {
       final String address,
       final String accountName,
       final String accountId,
-      final String notes}) = _$_Customer;
+      final String notes,
+      final bool isSend}) = _$_Customer;
 
   factory _Customer.fromJson(Map<String, dynamic> json) = _$_Customer.fromJson;
 
@@ -298,6 +317,8 @@ abstract class _Customer implements Customer {
   String get accountId;
   @override
   String get notes;
+  @override
+  bool get isSend;
   @override
   @JsonKey(ignore: true)
   _$$_CustomerCopyWith<_$_Customer> get copyWith =>

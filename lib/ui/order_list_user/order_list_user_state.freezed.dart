@@ -17,7 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$OrderListUserState {
   Customer get customer => throw _privateConstructorUsedError;
+  List<Order> get allOrders => throw _privateConstructorUsedError;
   List<Order> get orders => throw _privateConstructorUsedError;
+  bool get onlyNotSend => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OrderListUserStateCopyWith<OrderListUserState> get copyWith =>
@@ -30,7 +32,11 @@ abstract class $OrderListUserStateCopyWith<$Res> {
           OrderListUserState value, $Res Function(OrderListUserState) then) =
       _$OrderListUserStateCopyWithImpl<$Res, OrderListUserState>;
   @useResult
-  $Res call({Customer customer, List<Order> orders});
+  $Res call(
+      {Customer customer,
+      List<Order> allOrders,
+      List<Order> orders,
+      bool onlyNotSend});
 
   $CustomerCopyWith<$Res> get customer;
 }
@@ -49,17 +55,27 @@ class _$OrderListUserStateCopyWithImpl<$Res, $Val extends OrderListUserState>
   @override
   $Res call({
     Object? customer = null,
+    Object? allOrders = null,
     Object? orders = null,
+    Object? onlyNotSend = null,
   }) {
     return _then(_value.copyWith(
       customer: null == customer
           ? _value.customer
           : customer // ignore: cast_nullable_to_non_nullable
               as Customer,
+      allOrders: null == allOrders
+          ? _value.allOrders
+          : allOrders // ignore: cast_nullable_to_non_nullable
+              as List<Order>,
       orders: null == orders
           ? _value.orders
           : orders // ignore: cast_nullable_to_non_nullable
               as List<Order>,
+      onlyNotSend: null == onlyNotSend
+          ? _value.onlyNotSend
+          : onlyNotSend // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -80,7 +96,11 @@ abstract class _$$_OrderListUserStateCopyWith<$Res>
       __$$_OrderListUserStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Customer customer, List<Order> orders});
+  $Res call(
+      {Customer customer,
+      List<Order> allOrders,
+      List<Order> orders,
+      bool onlyNotSend});
 
   @override
   $CustomerCopyWith<$Res> get customer;
@@ -98,17 +118,27 @@ class __$$_OrderListUserStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? customer = null,
+    Object? allOrders = null,
     Object? orders = null,
+    Object? onlyNotSend = null,
   }) {
     return _then(_$_OrderListUserState(
       customer: null == customer
           ? _value.customer
           : customer // ignore: cast_nullable_to_non_nullable
               as Customer,
+      allOrders: null == allOrders
+          ? _value._allOrders
+          : allOrders // ignore: cast_nullable_to_non_nullable
+              as List<Order>,
       orders: null == orders
           ? _value._orders
           : orders // ignore: cast_nullable_to_non_nullable
               as List<Order>,
+      onlyNotSend: null == onlyNotSend
+          ? _value.onlyNotSend
+          : onlyNotSend // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -117,11 +147,24 @@ class __$$_OrderListUserStateCopyWithImpl<$Res>
 
 class _$_OrderListUserState implements _OrderListUserState {
   const _$_OrderListUserState(
-      {required this.customer, final List<Order> orders = const []})
-      : _orders = orders;
+      {required this.customer,
+      final List<Order> allOrders = const [],
+      final List<Order> orders = const [],
+      this.onlyNotSend = false})
+      : _allOrders = allOrders,
+        _orders = orders;
 
   @override
   final Customer customer;
+  final List<Order> _allOrders;
+  @override
+  @JsonKey()
+  List<Order> get allOrders {
+    if (_allOrders is EqualUnmodifiableListView) return _allOrders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allOrders);
+  }
+
   final List<Order> _orders;
   @override
   @JsonKey()
@@ -132,8 +175,12 @@ class _$_OrderListUserState implements _OrderListUserState {
   }
 
   @override
+  @JsonKey()
+  final bool onlyNotSend;
+
+  @override
   String toString() {
-    return 'OrderListUserState(customer: $customer, orders: $orders)';
+    return 'OrderListUserState(customer: $customer, allOrders: $allOrders, orders: $orders, onlyNotSend: $onlyNotSend)';
   }
 
   @override
@@ -143,12 +190,20 @@ class _$_OrderListUserState implements _OrderListUserState {
             other is _$_OrderListUserState &&
             (identical(other.customer, customer) ||
                 other.customer == customer) &&
-            const DeepCollectionEquality().equals(other._orders, _orders));
+            const DeepCollectionEquality()
+                .equals(other._allOrders, _allOrders) &&
+            const DeepCollectionEquality().equals(other._orders, _orders) &&
+            (identical(other.onlyNotSend, onlyNotSend) ||
+                other.onlyNotSend == onlyNotSend));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, customer, const DeepCollectionEquality().hash(_orders));
+      runtimeType,
+      customer,
+      const DeepCollectionEquality().hash(_allOrders),
+      const DeepCollectionEquality().hash(_orders),
+      onlyNotSend);
 
   @JsonKey(ignore: true)
   @override
@@ -161,12 +216,18 @@ class _$_OrderListUserState implements _OrderListUserState {
 abstract class _OrderListUserState implements OrderListUserState {
   const factory _OrderListUserState(
       {required final Customer customer,
-      final List<Order> orders}) = _$_OrderListUserState;
+      final List<Order> allOrders,
+      final List<Order> orders,
+      final bool onlyNotSend}) = _$_OrderListUserState;
 
   @override
   Customer get customer;
   @override
+  List<Order> get allOrders;
+  @override
   List<Order> get orders;
+  @override
+  bool get onlyNotSend;
   @override
   @JsonKey(ignore: true)
   _$$_OrderListUserStateCopyWith<_$_OrderListUserState> get copyWith =>
