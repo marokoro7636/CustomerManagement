@@ -20,6 +20,7 @@ mixin _$CustomerListState {
   SearchType get searchType => throw _privateConstructorUsedError;
   List<Customer> get allCustomers => throw _privateConstructorUsedError;
   List<Customer> get customers => throw _privateConstructorUsedError;
+  bool get onlyNotSend => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CustomerListStateCopyWith<CustomerListState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $CustomerListStateCopyWith<$Res> {
       {String keyword,
       SearchType searchType,
       List<Customer> allCustomers,
-      List<Customer> customers});
+      List<Customer> customers,
+      bool onlyNotSend});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$CustomerListStateCopyWithImpl<$Res, $Val extends CustomerListState>
     Object? searchType = null,
     Object? allCustomers = null,
     Object? customers = null,
+    Object? onlyNotSend = null,
   }) {
     return _then(_value.copyWith(
       keyword: null == keyword
@@ -74,6 +77,10 @@ class _$CustomerListStateCopyWithImpl<$Res, $Val extends CustomerListState>
           ? _value.customers
           : customers // ignore: cast_nullable_to_non_nullable
               as List<Customer>,
+      onlyNotSend: null == onlyNotSend
+          ? _value.onlyNotSend
+          : onlyNotSend // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -90,7 +97,8 @@ abstract class _$$_CustomerListStateCopyWith<$Res>
       {String keyword,
       SearchType searchType,
       List<Customer> allCustomers,
-      List<Customer> customers});
+      List<Customer> customers,
+      bool onlyNotSend});
 }
 
 /// @nodoc
@@ -108,6 +116,7 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
     Object? searchType = null,
     Object? allCustomers = null,
     Object? customers = null,
+    Object? onlyNotSend = null,
   }) {
     return _then(_$_CustomerListState(
       keyword: null == keyword
@@ -126,6 +135,10 @@ class __$$_CustomerListStateCopyWithImpl<$Res>
           ? _value._customers
           : customers // ignore: cast_nullable_to_non_nullable
               as List<Customer>,
+      onlyNotSend: null == onlyNotSend
+          ? _value.onlyNotSend
+          : onlyNotSend // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -137,7 +150,8 @@ class _$_CustomerListState implements _CustomerListState {
       {this.keyword = '',
       this.searchType = SearchType.name,
       final List<Customer> allCustomers = const [],
-      final List<Customer> customers = const []})
+      final List<Customer> customers = const [],
+      this.onlyNotSend = false})
       : _allCustomers = allCustomers,
         _customers = customers;
 
@@ -166,8 +180,12 @@ class _$_CustomerListState implements _CustomerListState {
   }
 
   @override
+  @JsonKey()
+  final bool onlyNotSend;
+
+  @override
   String toString() {
-    return 'CustomerListState(keyword: $keyword, searchType: $searchType, allCustomers: $allCustomers, customers: $customers)';
+    return 'CustomerListState(keyword: $keyword, searchType: $searchType, allCustomers: $allCustomers, customers: $customers, onlyNotSend: $onlyNotSend)';
   }
 
   @override
@@ -181,7 +199,9 @@ class _$_CustomerListState implements _CustomerListState {
             const DeepCollectionEquality()
                 .equals(other._allCustomers, _allCustomers) &&
             const DeepCollectionEquality()
-                .equals(other._customers, _customers));
+                .equals(other._customers, _customers) &&
+            (identical(other.onlyNotSend, onlyNotSend) ||
+                other.onlyNotSend == onlyNotSend));
   }
 
   @override
@@ -190,7 +210,8 @@ class _$_CustomerListState implements _CustomerListState {
       keyword,
       searchType,
       const DeepCollectionEquality().hash(_allCustomers),
-      const DeepCollectionEquality().hash(_customers));
+      const DeepCollectionEquality().hash(_customers),
+      onlyNotSend);
 
   @JsonKey(ignore: true)
   @override
@@ -205,7 +226,8 @@ abstract class _CustomerListState implements CustomerListState {
       {final String keyword,
       final SearchType searchType,
       final List<Customer> allCustomers,
-      final List<Customer> customers}) = _$_CustomerListState;
+      final List<Customer> customers,
+      final bool onlyNotSend}) = _$_CustomerListState;
 
   @override
   String get keyword;
@@ -215,6 +237,8 @@ abstract class _CustomerListState implements CustomerListState {
   List<Customer> get allCustomers;
   @override
   List<Customer> get customers;
+  @override
+  bool get onlyNotSend;
   @override
   @JsonKey(ignore: true)
   _$$_CustomerListStateCopyWith<_$_CustomerListState> get copyWith =>

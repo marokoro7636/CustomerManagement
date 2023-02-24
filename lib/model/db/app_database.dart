@@ -15,6 +15,7 @@ class AppDatabase {
   final String _columnAccountName =  'accountName';
   final String _columnAccountId =  'accountId';
   final String _columnNotes =  'notes';
+  final String _isSend = 'isSend';
 
   // 注文テーブル
   final String _orderTableName = 'ordering';
@@ -133,9 +134,9 @@ class AppDatabase {
   Future insertCustomer(Customer customer) async {
     final db = await database;
     final row = customer.toJson();
-    row.remove(_columnId);
+    row.remove(_columnId); // idは自動採番のため除く
+    row.remove(_isSend); // isSendはカラムに含めない
 
-    // idは自動採番のため除く
     return await db.insert(
         _customerTableName,
         row
@@ -145,9 +146,8 @@ class AppDatabase {
   Future insertOrder(Order order) async {
     final db = await database;
     final row = order.toJson();
-    row.remove(_columnId);
+    row.remove(_columnId); // idは自動採番のため除く
 
-    // idは自動採番のため除く
     return await db.insert(
         _orderTableName,
         row
@@ -156,9 +156,12 @@ class AppDatabase {
 
   Future updateCustomer(Customer customer) async {
     final db = await database;
+    final row = customer.toJson();
+    row.remove(_isSend); // isSendはカラムに含めない
+
     return await db.update(
       _customerTableName,
-      customer.toJson(),
+      row,
       where: '$_columnId = ?',
       whereArgs: [customer.id],
     );

@@ -48,37 +48,46 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     search();
   }
 
+  void changeSwitch(bool value) {
+    state = state.copyWith(onlyNotSend: value);
+    search();
+  }
+
   void search() {
+    final List<Customer> allCustomers;
+    if (state.onlyNotSend) {
+      // 未発送の顧客のみを抜き出す
+      allCustomers = state.allCustomers.where((e) => !e.isSend).toList();
+    } else {
+      allCustomers = state.allCustomers;
+    }
+
     if (state.keyword.isEmpty) {
-      state = state.copyWith(customers: state.allCustomers);
+      state = state.copyWith(customers: allCustomers);
     } else {
       switch (state.searchType) {
         case SearchType.name:
           state = state.copyWith(
-              customers: state.allCustomers
-                  .where(
-                      (element) => element.name.contains(RegExp(state.keyword)))
+              customers: allCustomers
+                  .where((e) => e.name.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.accountId:
           state = state.copyWith(
-              customers: state.allCustomers
-                  .where((element) =>
-                      element.accountId.contains(RegExp(state.keyword)))
+              customers: allCustomers
+                  .where((e) => e.accountId.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.accountName:
           state = state.copyWith(
-              customers: state.allCustomers
-                  .where((element) =>
-                      element.accountName.contains(RegExp(state.keyword)))
+              customers: allCustomers
+                  .where((e) => e.accountName.contains(RegExp(state.keyword)))
                   .toList());
           break;
         case SearchType.address:
           state = state.copyWith(
-              customers: state.allCustomers
-                  .where((element) =>
-                      element.address.contains(RegExp(state.keyword)))
+              customers: allCustomers
+                  .where((e) => e.address.contains(RegExp(state.keyword)))
                   .toList());
           break;
       }

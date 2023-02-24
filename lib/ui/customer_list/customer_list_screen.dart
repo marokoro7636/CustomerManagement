@@ -14,36 +14,43 @@ class CustomerListScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('顧客一覧'),
-        actions: [
-          // 顧客の検索方法を選択
-          DropdownButton(
-            value: state.searchType,
-            onChanged: (searchType) => viewModel.setSearchType(searchType!),
-            items: const [
-              DropdownMenuItem(
-                value: SearchType.name,
-                child: Text('名前'),
-              ),
-              DropdownMenuItem(
-                value: SearchType.accountId,
-                child: Text('アカウントID'),
-              ),
-              DropdownMenuItem(
-                value: SearchType.accountName,
-                child: Text('アカウント名'),
-              ),
-              DropdownMenuItem(
-                value: SearchType.address,
-                child: Text('住所'),
-              ),
-            ],
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            Row(
+              children: [
+                // 顧客の検索方法を選択
+                DropdownButton(
+                  value: state.searchType,
+                  onChanged: (searchType) => viewModel.setSearchType(searchType!),
+                  items: const [
+                    DropdownMenuItem(
+                      value: SearchType.name,
+                      child: Text('名前'),
+                    ),
+                    DropdownMenuItem(
+                      value: SearchType.accountId,
+                      child: Text('アカウントID'),
+                    ),
+                    DropdownMenuItem(
+                      value: SearchType.accountName,
+                      child: Text('アカウント名'),
+                    ),
+                    DropdownMenuItem(
+                      value: SearchType.address,
+                      child: Text('住所'),
+                    ),
+                  ],
+                ),
+                const Text('未発送のみ'),
+                Switch(
+                  value: state.onlyNotSend,
+                  onChanged: (value) => viewModel.changeSwitch(value),
+                ),
+              ],
+            ),
             TextField(
               decoration: const InputDecoration(
                 labelText: ' 検索',
