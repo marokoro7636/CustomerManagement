@@ -14,6 +14,7 @@ class Customer with _$Customer{
     @Default('') String accountName,
     @Default('') String accountId,
     @Default('') String notes,
+    @Default(true) bool isSend,
   }) = _Customer;
 
   factory Customer.fromJson(Map<String, dynamic> json)

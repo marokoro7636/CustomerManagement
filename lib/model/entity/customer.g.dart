@@ -15,6 +15,7 @@ _$_Customer _$$_CustomerFromJson(Map<String, dynamic> json) => _$_Customer(
       accountName: json['accountName'] as String? ?? '',
       accountId: json['accountId'] as String? ?? '',
       notes: json['notes'] as String? ?? '',
+      isSend: json['isSend'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$_CustomerToJson(_$_Customer instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$$_CustomerToJson(_$_Customer instance) =>
       'accountName': instance.accountName,
       'accountId': instance.accountId,
       'notes': instance.notes,
+      'isSend': instance.isSend,
     };

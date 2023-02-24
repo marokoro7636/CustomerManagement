@@ -1,3 +1,4 @@
+import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_screen.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
@@ -20,9 +21,16 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   }
 
   final customerRepository = CustomerRepository(AppDatabase());
+  final orderRepository = OrderRepository(AppDatabase());
 
   Future loadAllCustomer() async {
-    final allCustomer = await customerRepository.loadAllCustomer();
+    var allCustomer = await customerRepository.loadAllCustomer();
+    allCustomer = await Future.wait(allCustomer.map((customer) async {
+      final orders = await orderRepository.loadOrder(customer);
+      final isSend = orders.every((order) => order.sendDate != null);
+      return customer.copyWith(isSend: isSend);
+    }));
+    // print(allCustomer);
     state = state.copyWith(
       allCustomers: allCustomer,
       customers: allCustomer,
