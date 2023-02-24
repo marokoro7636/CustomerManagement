@@ -22,20 +22,25 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
 
   final customerRepository = CustomerRepository(AppDatabase());
   final orderRepository = OrderRepository(AppDatabase());
+  final searchController = TextEditingController();
 
   Future loadAllCustomer() async {
+    searchController.text = state.keyword; // 検索ワードをフォームに表示
+
+    // 顧客ごとに未発送の商品の存在確認
     var allCustomer = await customerRepository.loadAllCustomer();
     allCustomer = await Future.wait(allCustomer.map((customer) async {
       final orders = await orderRepository.loadOrder(customer);
       final isSend = orders.every((order) => order.sendDate != null);
       return customer.copyWith(isSend: isSend);
     }));
-    // print(allCustomer);
+
+    // 全ての顧客と表示用の顧客リストをstateに保存
     state = state.copyWith(
       allCustomers: allCustomer,
       customers: allCustomer,
     );
-    search();
+    search(); // 検索キーワードから表示用の顧客リストを更新
   }
 
   void setSearchType(SearchType searchType) {

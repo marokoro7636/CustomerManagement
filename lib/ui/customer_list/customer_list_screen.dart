@@ -52,6 +52,7 @@ class CustomerListScreen extends HookConsumerWidget {
               ],
             ),
             TextField(
+              controller: viewModel.searchController,
               decoration: const InputDecoration(
                 labelText: ' 検索',
                 suffixIcon: Icon(Icons.search),
