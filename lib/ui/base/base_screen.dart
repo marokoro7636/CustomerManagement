@@ -25,14 +25,12 @@ class BaseScreen extends HookConsumerWidget {
     final annualSalesViewModel = ref.watch(annualSalesProvider.notifier);
 
     return Scaffold(
-      body: screens[pageType.index],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '顧客'),
-          BottomNavigationBarItem(icon: Icon(Icons.info), label: '年間売上'),
-        ],
-        currentIndex: pageType.index,
-        onTap: (index) async {
+      body: SafeArea(
+        child: screens[pageType.index],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: pageType.index,
+        onDestinationSelected: (index) async {
           if (index == 0) {
             await customerListViewModel.loadAllCustomer();
           } else {
@@ -40,7 +38,10 @@ class BaseScreen extends HookConsumerWidget {
           }
           viewModel.state = PageType.values[index];
         },
-        type: BottomNavigationBarType.fixed,
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.home), label: '顧客一覧'),
+          NavigationDestination(icon: Icon(Icons.info), label: '年間売上'),
+        ],
       ),
     );
   }

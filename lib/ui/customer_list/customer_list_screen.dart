@@ -12,57 +12,63 @@ class CustomerListScreen extends HookConsumerWidget {
     final viewModel = ref.watch(customerListProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('顧客一覧'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                // 顧客の検索方法を選択
-                DropdownButton(
-                  value: state.searchType,
-                  onChanged: (searchType) => viewModel.setSearchType(searchType!),
-                  items: const [
-                    DropdownMenuItem(
-                      value: SearchType.name,
-                      child: Text('名前'),
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const _SearchBar(),
+              Container(
+                alignment: Alignment.centerLeft,
+                height: 96,
+                child: Wrap(
+                  spacing: 10,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    MenuAnchor(
+                      menuChildren: SearchType.values.map((searchType) {
+                        return MenuItemButton(
+                          child: Text(searchType.display),
+                          onPressed: () => viewModel.setSearchType(searchType),
+                        );
+                      }).toList(),
+                      builder: (context, controller, child) => InputChip(
+                        label: Text("検索対象 : ${state.searchType.display}"),
+                        selected: true,
+                        showCheckmark: false,
+                        deleteIcon: const Icon(Icons.arrow_drop_down, size: 18),
+                        onDeleted: () {
+                          if (controller.isOpen) {
+                            controller.close();
+                          } else {
+                            controller.open();
+                          }
+                        },
+                        onSelected: (value) {
+                          if (controller.isOpen) {
+                            controller.close();
+                          } else {
+                            controller.open();
+                          }
+                        },
+                      ),
                     ),
-                    DropdownMenuItem(
-                      value: SearchType.accountId,
-                      child: Text('アカウントID'),
-                    ),
-                    DropdownMenuItem(
-                      value: SearchType.accountName,
-                      child: Text('アカウント名'),
-                    ),
-                    DropdownMenuItem(
-                      value: SearchType.address,
-                      child: Text('住所'),
+                    FilterChip(
+                      label: const Text('未発送のみ'),
+                      selected: state.onlyNotSend,
+                      onSelected: (value) {
+                        viewModel.changeSwitch(value);
+                        print(value);
+                      },
                     ),
                   ],
                 ),
-                const Text('未発送のみ'),
-                Switch(
-                  value: state.onlyNotSend,
-                  onChanged: (value) => viewModel.changeSwitch(value),
-                ),
-              ],
-            ),
-            TextField(
-              controller: viewModel.searchController,
-              decoration: const InputDecoration(
-                labelText: ' 検索',
-                suffixIcon: Icon(Icons.search),
               ),
-              onChanged: (value) => viewModel.setKeyword(value),
-            ),
-            Expanded(
-              child: _CustomerListPage(),
-            ),
-          ],
+              Expanded(child: _CustomerList()),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -73,32 +79,94 @@ class CustomerListScreen extends HookConsumerWidget {
   }
 }
 
-class _CustomerListPage extends HookConsumerWidget {
+class _CustomerList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(customerListProvider);
     final viewModel = ref.watch(customerListProvider.notifier);
+
+    final colorScheme = Theme.of(context).colorScheme;
 
     return ListView.builder(
       itemCount: state.customers.length,
       itemBuilder: (BuildContext context, int index) {
         var customer = state.customers[index];
         return Card(
+          color: customer.isSend ? colorScheme.surface : colorScheme.error,
           child: ListTile(
-            title: Text(
-              customer.name,
-              style: !customer.isSend
-                  ? const TextStyle(
-                      color: Colors.red,
-                    )
-                  : null,
-            ),
+            title: Text(customer.name),
             subtitle: Text(customer.address),
             trailing: Text('${customer.accountName} @${customer.accountId}'),
+            textColor:
+                customer.isSend ? colorScheme.onSurface : colorScheme.onError,
             onTap: () => viewModel.navigateCustomerInfoScreen(context, index),
           ),
         );
       },
+    );
+  }
+}
+
+class _SearchBar extends HookConsumerWidget {
+  const _SearchBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(customerListProvider.notifier);
+
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      constraints: const BoxConstraints(minWidth: 360, maxWidth: 720),
+      width: double.infinity,
+      height: 56,
+      child: Material(
+        elevation: 3,
+        color: colorScheme.surface,
+        shadowColor: colorScheme.shadow,
+        surfaceTintColor: colorScheme.surfaceTint,
+        borderRadius: BorderRadius.circular(56 / 2),
+        child: InkWell(
+          onTap: () {},
+          borderRadius: BorderRadius.circular(56 / 2),
+          highlightColor: Colors.transparent,
+          splashFactory: InkRipple.splashFactory,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () => print("menu"),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: TextField(
+                      controller: viewModel.searchController,
+                      cursorColor: colorScheme.primary,
+                      style: textTheme.bodyLarge,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        isCollapsed: true,
+                        border: InputBorder.none,
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                        hintText: '検索',
+                        hintStyle: textTheme.bodyLarge?.apply(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                      onChanged: (value) => viewModel.setKeyword(value),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
