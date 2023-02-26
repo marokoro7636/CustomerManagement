@@ -27,7 +27,6 @@ class CustomerListScreen extends HookConsumerWidget {
                   spacing: 10,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    const Icon(Icons.search),
                     MenuAnchor(
                       menuChildren: SearchType.values.map((searchType) {
                         return MenuItemButton(
@@ -35,9 +34,18 @@ class CustomerListScreen extends HookConsumerWidget {
                           onPressed: () => viewModel.setSearchType(searchType),
                         );
                       }).toList(),
-                      builder: (context, controller, child) => FilterChip(
+                      builder: (context, controller, child) => InputChip(
                         label: Text("検索対象 : ${state.searchType.display}"),
                         selected: true,
+                        showCheckmark: false,
+                        deleteIcon: const Icon(Icons.arrow_drop_down, size: 18),
+                        onDeleted: () {
+                          if (controller.isOpen) {
+                            controller.close();
+                          } else {
+                            controller.open();
+                          }
+                        },
                         onSelected: (value) {
                           if (controller.isOpen) {
                             controller.close();
@@ -47,29 +55,6 @@ class CustomerListScreen extends HookConsumerWidget {
                         },
                       ),
                     ),
-                    // DropdownMenu<SearchType>(
-                    //   label: const Text("検索対象"),
-                    //   dropdownMenuEntries: const [
-                    //     DropdownMenuEntry(
-                    //       value: SearchType.name,
-                    //       label: "名前",
-                    //     ),
-                    //     DropdownMenuEntry(
-                    //       value: SearchType.accountId,
-                    //       label: "アカウントID",
-                    //     ),
-                    //     DropdownMenuEntry(
-                    //       value: SearchType.accountName,
-                    //       label: "アカウント名",
-                    //     ),
-                    //     DropdownMenuEntry(
-                    //       value: SearchType.address,
-                    //       label: "住所",
-                    //     ),
-                    //   ],
-                    //   onSelected: (searchType) =>
-                    //       viewModel.setSearchType(searchType!),
-                    // ),
                     FilterChip(
                       label: const Text('未発送のみ'),
                       selected: state.onlyNotSend,
