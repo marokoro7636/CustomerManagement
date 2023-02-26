@@ -24,7 +24,7 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   final orderRepository = OrderRepository(AppDatabase());
   final searchController = TextEditingController();
 
-  Future loadAllCustomer() async {
+  void loadAllCustomer() async {
     searchController.text = state.keyword; // 検索ワードをフォームに表示
 
     // 顧客ごとに未発送の商品の存在確認
@@ -107,7 +107,7 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
             (ref) => CustomerInfoViewModel(state.customers[index])),
       ], child: const CustomerInfoScreen());
     }));
-    await loadAllCustomer();
+    loadAllCustomer();
   }
 
   void navigateCustomerEditScreen(BuildContext context) async {
@@ -125,6 +125,6 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
         child: CustomerEditScreen(),
       );
     }));
-    await loadAllCustomer();
+    loadAllCustomer();
   }
 }

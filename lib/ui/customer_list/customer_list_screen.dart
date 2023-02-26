@@ -4,7 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
 
 class CustomerListScreen extends HookConsumerWidget {
-  const CustomerListScreen({Key? key}) : super(key: key);
+  const CustomerListScreen({
+    Key? key,
+    required this.openDrawer,
+  }) : super(key: key);
+
+  final void Function() openDrawer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +24,7 @@ class CustomerListScreen extends HookConsumerWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              const _SearchBar(),
+              _SearchBar(openDrawer: openDrawer),
               Container(
                 alignment: Alignment.centerLeft,
                 height: 96,
@@ -109,7 +114,12 @@ class _CustomerList extends HookConsumerWidget {
 }
 
 class _SearchBar extends HookConsumerWidget {
-  const _SearchBar({Key? key}) : super(key: key);
+  const _SearchBar({
+    Key? key,
+    required this.openDrawer,
+  }) : super(key: key);
+
+  final void Function() openDrawer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -139,7 +149,7 @@ class _SearchBar extends HookConsumerWidget {
               children: [
                 IconButton(
                   icon: const Icon(Icons.menu),
-                  onPressed: () => print("menu"),
+                  onPressed: openDrawer,
                 ),
                 Expanded(
                   child: Padding(

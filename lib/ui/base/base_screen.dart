@@ -1,42 +1,37 @@
-import 'package:customer_management/ui/annual_sales_screen/annual_sales_screen.dart';
-import 'package:customer_management/ui/annual_sales_screen/annual_sales_viewmodel.dart';
-import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
+import 'package:customer_management/ui/components/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:customer_management/ui/customer_list//customer_list_screen.dart';
 
-final baseStateProvider = StateProvider<PageType>((ref) => PageType.customer);
-
-enum PageType { customer, sales }
+import 'package:customer_management/ui/route.dart';
 
 class BaseScreen extends HookConsumerWidget {
-  BaseScreen({Key? key}) : super(key: key);
+  BaseScreen({Key? key, required this.screens}) : super(key: key);
 
-  final screens = [
-    const CustomerListScreen(),
-    const AnnualSalesScreen(),
-  ];
+  final Widget screens;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pageType = ref.watch(baseStateProvider);
-    final viewModel = ref.watch(baseStateProvider.notifier);
-    final customerListViewModel = ref.watch(customerListProvider.notifier);
-    final annualSalesViewModel = ref.watch(annualSalesProvider.notifier);
+    final router = ref.watch(routerProvider);
 
     return Scaffold(
-      body: SafeArea(
-        child: screens[pageType.index],
+      key: scaffoldKey,
+      body: SafeArea(child: screens),
+      drawer: AppDrawer(
+        selectedIndex: _selectedDrawerIndex(router.location),
+        onDestinationSelected: (index) {
+          if (index == 1) context.push(settingPath);
+        },
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: pageType.index,
-        onDestinationSelected: (index) async {
+        selectedIndex: _selectedBottomNavigationIndex(router.location),
+        onDestinationSelected: (index) {
           if (index == 0) {
-            await customerListViewModel.loadAllCustomer();
-          } else {
-            annualSalesViewModel.loadGoodsSummary();
+            context.go(customerPath);
+          } else if (index == 1) {
+            context.push(annualSalesPath);
           }
-          viewModel.state = PageType.values[index];
         },
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: '顧客一覧'),
@@ -44,5 +39,26 @@ class BaseScreen extends HookConsumerWidget {
         ],
       ),
     );
+  }
+
+  static int _selectedDrawerIndex(String location) {
+    if (location.contains("/base")) {
+      return 0;
+    } else if (location.contains(settingPath)) {
+      return 1;
+    } else {
+      throw Error();
+    }
+  }
+
+  static int _selectedBottomNavigationIndex(String location) {
+    switch (location) {
+      case customerPath:
+        return 0;
+      case annualSalesPath:
+        return 1;
+      default:
+        return 0;
+    }
   }
 }
