@@ -1,6 +1,7 @@
 import 'package:customer_management/ui/setting/setting_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SettingScreen extends HookConsumerWidget {
@@ -19,17 +20,27 @@ class SettingScreen extends HookConsumerWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Text(state.currentUser != null ? state.currentUser!.email : ''),
+            state.currentUser != null
+                ? ListTile(
+                    leading: GoogleUserCircleAvatar(
+                      identity: state.currentUser!,
+                    ),
+                    title: Text(state.currentUser!.displayName ?? ''),
+                    subtitle: Text(state.currentUser!.email),
+                  )
+                : const Text('サインインしていません'),
             const SizedBox(height: 20),
-            SignInButton(
-              Buttons.Google,
-              text: "Sign up with Google",
-              onPressed: viewModel.signIn,
-            ),
-            ElevatedButton(
-              onPressed: viewModel.signOut,
-              child: const Text('ログアウト'),
-            ),
+            state.currentUser != null
+                ? ElevatedButton(
+                    onPressed: viewModel.signOut,
+                    child: const Text('ログアウト'),
+                  )
+                : SignInButton(
+                    Buttons.Google,
+                    text: "Sign up with Google",
+                    onPressed: viewModel.signIn,
+                  ),
+            const SizedBox(height: 20),
             ElevatedButton(onPressed: viewModel.p, child: const Text('表示'))
           ],
         ),

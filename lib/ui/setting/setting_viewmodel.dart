@@ -4,12 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final settingProvider =
 StateNotifierProvider<SettingViewModel, SettingState>(
-        (ref) => SettingViewModel());
+        (ref) => SettingViewModel(ref));
 
 class SettingViewModel extends StateNotifier<SettingState> {
-  SettingViewModel() : super(const SettingState());
+  SettingViewModel(this.ref) : super(const SettingState());
 
-  final googleRepository = GoogleDriveRepository();
+  final Ref ref;
+  late final googleRepository = ref.watch(googleRepositoryProvider);
 
   void signIn() async {
     if (state.currentUser != null) return;
@@ -19,10 +20,12 @@ class SettingViewModel extends StateNotifier<SettingState> {
 
   void signOut() async {
     await googleRepository.signOutWithGoogle();
+    state = state.copyWith(currentUser: googleRepository.currentUser);
   }
 
   void p() {
-    print(state.currentUser);
+    print('repo : ${googleRepository.currentUser}');
+    print('state : ${state.currentUser}');
   }
 
 }
