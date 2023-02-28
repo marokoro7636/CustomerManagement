@@ -41,7 +41,20 @@ class SettingScreen extends HookConsumerWidget {
                     onPressed: viewModel.signIn,
                   ),
             const SizedBox(height: 20),
-            ElevatedButton(onPressed: viewModel.p, child: const Text('表示'))
+            ElevatedButton(
+              onPressed: state.currentUser != null ? viewModel.upload : null,
+              child: const Text('アップロード'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: state.currentUser != null ? viewModel.download : null,
+              child: const Text('ダウンロード'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: viewModel.infoForDebug,
+              child: const Text('表示'),
+            ),
           ],
         ),
       ),

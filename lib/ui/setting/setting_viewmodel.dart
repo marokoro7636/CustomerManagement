@@ -23,9 +23,19 @@ class SettingViewModel extends StateNotifier<SettingState> {
     state = state.copyWith(currentUser: googleRepository.currentUser);
   }
 
-  void p() {
-    print('repo : ${googleRepository.currentUser}');
-    print('state : ${state.currentUser}');
+  void upload() async {
+    await googleRepository.uploadFileToGoogleDrive();
+    print('Upload finished');
   }
 
+  void download() async {
+    await googleRepository.downloadGoogleDriveFile();
+    print('Download finished');
+  }
+
+  void infoForDebug() async {
+    print('repo : ${googleRepository.currentUser}');
+    print('state : ${state.currentUser}');
+    await googleRepository.listGoogleDriveFiles();
+  }
 }
