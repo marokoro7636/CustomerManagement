@@ -3,39 +3,59 @@ import 'package:customer_management/ui/setting//setting_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final settingProvider =
-StateNotifierProvider<SettingViewModel, SettingState>(
+    StateNotifierProvider<SettingViewModel, AsyncValue<SettingState>>(
         (ref) => SettingViewModel(ref));
 
-class SettingViewModel extends StateNotifier<SettingState> {
-  SettingViewModel(this.ref) : super(const SettingState());
+class SettingViewModel extends StateNotifier<AsyncValue<SettingState>> {
+  SettingViewModel(this.ref) : super(const AsyncValue.data(SettingState()));
 
   final Ref ref;
   late final googleRepository = ref.watch(googleRepositoryProvider);
 
   void signIn() async {
-    if (state.currentUser != null) return;
-    await googleRepository.signInWithGoogle();
-    state = state.copyWith(currentUser: googleRepository.currentUser);
+    if (state.value!.currentUser != null) return;
+    state = await AsyncValue.guard(() async {
+      await googleRepository.signInWithGoogle();
+      return state.value!.copyWith(currentUser: googleRepository.currentUser);
+    });
   }
 
   void signOut() async {
-    await googleRepository.signOutWithGoogle();
-    state = state.copyWith(currentUser: googleRepository.currentUser);
+    state = await AsyncValue.guard(() async {
+      await googleRepository.signOutWithGoogle();
+      return state.value!.copyWith(currentUser: googleRepository.currentUser);
+    });
   }
 
   void upload() async {
-    await googleRepository.uploadFileToGoogleDrive();
-    print('Upload finished');
+    if (state.value!.currentUser == null) return;
+    state = const AsyncLoading<SettingState>().copyWithPrevious(state);
+    try {
+      await googleRepository.uploadFileToGoogleDrive();
+      state = AsyncData<SettingState>(state.value!).copyWithPrevious(state);
+    } catch (error, stackTrace) {
+      state =
+          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+    }
+    print('upload finished');
   }
 
   void download() async {
-    await googleRepository.downloadGoogleDriveFile();
-    print('Download finished');
+    if (state.value!.currentUser == null) return;
+    state = const AsyncLoading<SettingState>().copyWithPrevious(state);
+    try {
+      await googleRepository.downloadGoogleDriveFile();
+      state = AsyncData<SettingState>(state.value!).copyWithPrevious(state);
+    } catch (error, stackTrace) {
+      state =
+          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+    }
+    print('download finished');
   }
 
   void infoForDebug() async {
     print('repo : ${googleRepository.currentUser}');
-    print('state : ${state.currentUser}');
+    print('state : ${state.value!.currentUser}');
     await googleRepository.listGoogleDriveFiles();
   }
 }

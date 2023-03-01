@@ -12,51 +12,70 @@ class SettingScreen extends HookConsumerWidget {
     final state = ref.watch(settingProvider);
     final viewModel = ref.watch(settingProvider.notifier);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('設定'),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            state.currentUser != null
-                ? ListTile(
-                    leading: GoogleUserCircleAvatar(
-                      identity: state.currentUser!,
-                    ),
-                    title: Text(state.currentUser!.displayName ?? ''),
-                    subtitle: Text(state.currentUser!.email),
-                  )
-                : const Text('サインインしていません'),
-            const SizedBox(height: 20),
-            state.currentUser != null
-                ? ElevatedButton(
-                    onPressed: viewModel.signOut,
-                    child: const Text('ログアウト'),
-                  )
-                : SignInButton(
-                    Buttons.Google,
-                    text: "Sign up with Google",
-                    onPressed: viewModel.signIn,
+    return state.when(
+      data: (data) {
+        return !state.isRefreshing
+            ? Scaffold(
+                appBar: AppBar(
+                  title: const Text('設定'),
+                ),
+                body: Center(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      data.currentUser != null
+                          ? ListTile(
+                              leading: GoogleUserCircleAvatar(
+                                identity: data.currentUser!,
+                              ),
+                              title: Text(data.currentUser!.displayName ?? ''),
+                              subtitle: Text(data.currentUser!.email),
+                            )
+                          : const Text('サインインしていません'),
+                      const SizedBox(height: 20),
+                      data.currentUser != null
+                          ? ElevatedButton(
+                              onPressed: viewModel.signOut,
+                              child: const Text('ログアウト'),
+                            )
+                          : SignInButton(
+                              Buttons.Google,
+                              text: "Sign up with Google",
+                              onPressed: viewModel.signIn,
+                            ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed:
+                            data.currentUser != null ? viewModel.upload : null,
+                        child: const Text('アップロード'),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: data.currentUser != null
+                            ? viewModel.download
+                            : null,
+                        child: const Text('ダウンロード'),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: viewModel.infoForDebug,
+                        child: const Text('表示'),
+                      ),
+                    ],
                   ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: state.currentUser != null ? viewModel.upload : null,
-              child: const Text('アップロード'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: state.currentUser != null ? viewModel.download : null,
-              child: const Text('ダウンロード'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: viewModel.infoForDebug,
-              child: const Text('表示'),
-            ),
-          ],
-        ),
+                ),
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              );
+      },
+      // TODO エラー時の動作
+      error: (error, stacktrace) => Center(
+        child: Text(error.toString()),
+      ),
+      // TODO ローディング時の動作
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
