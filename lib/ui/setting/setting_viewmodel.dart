@@ -16,40 +16,42 @@ class SettingViewModel extends StateNotifier<AsyncValue<SettingState>> {
     if (state.value!.currentUser != null) return;
     state = await AsyncValue.guard(() async {
       await googleRepository.signInWithGoogle();
-      return state.value!.copyWith(currentUser: googleRepository.currentUser);
+      await googleRepository.listGoogleDriveFiles();
+      return state.value!.copyWith(
+        currentUser: googleRepository.currentUser,
+        list: googleRepository.list,
+      );
     });
   }
 
   void signOut() async {
     state = await AsyncValue.guard(() async {
       await googleRepository.signOutWithGoogle();
-      return state.value!.copyWith(currentUser: googleRepository.currentUser);
+      return state.value!.copyWith(
+        currentUser: googleRepository.currentUser,
+        list: googleRepository.list,
+      );
     });
   }
 
   void upload() async {
     if (state.value!.currentUser == null) return;
     state = const AsyncLoading<SettingState>().copyWithPrevious(state);
-    try {
+    state = await AsyncValue.guard(() async {
       await googleRepository.uploadFileToGoogleDrive();
-      state = AsyncData<SettingState>(state.value!).copyWithPrevious(state);
-    } catch (error, stackTrace) {
-      state =
-          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
-    }
+      await googleRepository.listGoogleDriveFiles();
+      return state.value!.copyWith(list: googleRepository.list);
+    });
     print('upload finished');
   }
 
   void download() async {
     if (state.value!.currentUser == null) return;
     state = const AsyncLoading<SettingState>().copyWithPrevious(state);
-    try {
+    state = await AsyncValue.guard(() async {
       await googleRepository.downloadGoogleDriveFile();
-      state = AsyncData<SettingState>(state.value!).copyWithPrevious(state);
-    } catch (error, stackTrace) {
-      state =
-          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
-    }
+      return state.value!;
+    });
     print('download finished');
   }
 
@@ -57,5 +59,6 @@ class SettingViewModel extends StateNotifier<AsyncValue<SettingState>> {
     print('repo : ${googleRepository.currentUser}');
     print('state : ${state.value!.currentUser}');
     await googleRepository.listGoogleDriveFiles();
+    print(googleRepository.list!.files![0].id);
   }
 }

@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SettingState {
   GoogleSignInAccount? get currentUser => throw _privateConstructorUsedError;
+  drive.FileList? get list => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingStateCopyWith<SettingState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $SettingStateCopyWith<$Res> {
           SettingState value, $Res Function(SettingState) then) =
       _$SettingStateCopyWithImpl<$Res, SettingState>;
   @useResult
-  $Res call({GoogleSignInAccount? currentUser});
+  $Res call({GoogleSignInAccount? currentUser, drive.FileList? list});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
   @override
   $Res call({
     Object? currentUser = freezed,
+    Object? list = freezed,
   }) {
     return _then(_value.copyWith(
       currentUser: freezed == currentUser
           ? _value.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
               as GoogleSignInAccount?,
+      list: freezed == list
+          ? _value.list
+          : list // ignore: cast_nullable_to_non_nullable
+              as drive.FileList?,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$_SettingStateCopyWith<$Res>
       __$$_SettingStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({GoogleSignInAccount? currentUser});
+  $Res call({GoogleSignInAccount? currentUser, drive.FileList? list});
 }
 
 /// @nodoc
@@ -79,12 +85,17 @@ class __$$_SettingStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentUser = freezed,
+    Object? list = freezed,
   }) {
     return _then(_$_SettingState(
       currentUser: freezed == currentUser
           ? _value.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
               as GoogleSignInAccount?,
+      list: freezed == list
+          ? _value.list
+          : list // ignore: cast_nullable_to_non_nullable
+              as drive.FileList?,
     ));
   }
 }
@@ -92,14 +103,16 @@ class __$$_SettingStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SettingState implements _SettingState {
-  const _$_SettingState({this.currentUser});
+  const _$_SettingState({this.currentUser, this.list});
 
   @override
   final GoogleSignInAccount? currentUser;
+  @override
+  final drive.FileList? list;
 
   @override
   String toString() {
-    return 'SettingState(currentUser: $currentUser)';
+    return 'SettingState(currentUser: $currentUser, list: $list)';
   }
 
   @override
@@ -108,11 +121,12 @@ class _$_SettingState implements _SettingState {
         (other.runtimeType == runtimeType &&
             other is _$_SettingState &&
             (identical(other.currentUser, currentUser) ||
-                other.currentUser == currentUser));
+                other.currentUser == currentUser) &&
+            (identical(other.list, list) || other.list == list));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentUser);
+  int get hashCode => Object.hash(runtimeType, currentUser, list);
 
   @JsonKey(ignore: true)
   @override
@@ -122,11 +136,14 @@ class _$_SettingState implements _SettingState {
 }
 
 abstract class _SettingState implements SettingState {
-  const factory _SettingState({final GoogleSignInAccount? currentUser}) =
-      _$_SettingState;
+  const factory _SettingState(
+      {final GoogleSignInAccount? currentUser,
+      final drive.FileList? list}) = _$_SettingState;
 
   @override
   GoogleSignInAccount? get currentUser;
+  @override
+  drive.FileList? get list;
   @override
   @JsonKey(ignore: true)
   _$$_SettingStateCopyWith<_$_SettingState> get copyWith =>

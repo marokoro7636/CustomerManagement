@@ -10,7 +10,7 @@ final googleRepositoryProvider = Provider((ref) => GoogleDriveRepository());
 
 class GoogleDriveRepository {
   GoogleSignInAccount? currentUser;
-  late drive.FileList list;
+  drive.FileList? list;
   final _googleSignIn = GoogleSignIn(scopes: [
     drive.DriveApi.driveAppdataScope,
   ]);
@@ -27,6 +27,7 @@ class GoogleDriveRepository {
   Future signOutWithGoogle() async {
     try {
       currentUser = await _googleSignIn.signOut();
+      list = null;
     } catch (e) {
       print(e);
     }
@@ -41,15 +42,6 @@ class GoogleDriveRepository {
         .list(spaces: 'appDataFolder', $fields: 'files(id, name, modifiedTime)')
         .then((value) {
       list = value;
-
-      // debug
-      if (list.files!.isNotEmpty) {
-        for (var file in list.files!) {
-          print('${file.id}, ${file.name}');
-        }
-      } else {
-        print('Google Drive is empty');
-      }
     });
   }
 
@@ -62,7 +54,7 @@ class GoogleDriveRepository {
 
     // バックアップファイルは1つのみとする
     await listGoogleDriveFiles();
-    for (var file in list.files!) {
+    for (var file in list!.files!) {
       await googleDriveApi.files.delete(file.id!);
     }
 
@@ -81,12 +73,12 @@ class GoogleDriveRepository {
     if (currentUser == null) return;
 
     await listGoogleDriveFiles();
-    if (list.files!.isEmpty) return;
+    if (list!.files!.isEmpty) return;
 
     final httpClient = (await _googleSignIn.authenticatedClient())!;
     final googleDriveApi = drive.DriveApi(httpClient);
     drive.Media file = (await googleDriveApi.files.get(
-      list.files![0].id!,
+      list!.files![0].id!,
       downloadOptions: drive.DownloadOptions.fullMedia,
     )) as drive.Media;
 

@@ -33,6 +33,11 @@ class SettingScreen extends HookConsumerWidget {
                             )
                           : const Text('サインインしていません'),
                       const SizedBox(height: 20),
+                      data.list != null && data.list!.files!.isNotEmpty
+                          ? Text(
+                              '最終更新:${data.list!.files![0].modifiedTime!.toLocal()}')
+                          : const Text('バックアップデータがありません'),
+                      const SizedBox(height: 20),
                       data.currentUser != null
                           ? ElevatedButton(
                               onPressed: viewModel.signOut,
@@ -51,7 +56,9 @@ class SettingScreen extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: data.currentUser != null
+                        onPressed: data.currentUser != null &&
+                                data.list != null &&
+                                data.list!.files!.isNotEmpty
                             ? viewModel.download
                             : null,
                         child: const Text('ダウンロード'),
