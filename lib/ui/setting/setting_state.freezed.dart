@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SettingState {
   GoogleSignInAccount? get currentUser => throw _privateConstructorUsedError;
   drive.FileList? get list => throw _privateConstructorUsedError;
+  LoadType? get loadType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingStateCopyWith<SettingState> get copyWith =>
@@ -30,7 +31,10 @@ abstract class $SettingStateCopyWith<$Res> {
           SettingState value, $Res Function(SettingState) then) =
       _$SettingStateCopyWithImpl<$Res, SettingState>;
   @useResult
-  $Res call({GoogleSignInAccount? currentUser, drive.FileList? list});
+  $Res call(
+      {GoogleSignInAccount? currentUser,
+      drive.FileList? list,
+      LoadType? loadType});
 }
 
 /// @nodoc
@@ -48,6 +52,7 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
   $Res call({
     Object? currentUser = freezed,
     Object? list = freezed,
+    Object? loadType = freezed,
   }) {
     return _then(_value.copyWith(
       currentUser: freezed == currentUser
@@ -58,6 +63,10 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
           ? _value.list
           : list // ignore: cast_nullable_to_non_nullable
               as drive.FileList?,
+      loadType: freezed == loadType
+          ? _value.loadType
+          : loadType // ignore: cast_nullable_to_non_nullable
+              as LoadType?,
     ) as $Val);
   }
 }
@@ -70,7 +79,10 @@ abstract class _$$_SettingStateCopyWith<$Res>
       __$$_SettingStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({GoogleSignInAccount? currentUser, drive.FileList? list});
+  $Res call(
+      {GoogleSignInAccount? currentUser,
+      drive.FileList? list,
+      LoadType? loadType});
 }
 
 /// @nodoc
@@ -86,6 +98,7 @@ class __$$_SettingStateCopyWithImpl<$Res>
   $Res call({
     Object? currentUser = freezed,
     Object? list = freezed,
+    Object? loadType = freezed,
   }) {
     return _then(_$_SettingState(
       currentUser: freezed == currentUser
@@ -96,6 +109,10 @@ class __$$_SettingStateCopyWithImpl<$Res>
           ? _value.list
           : list // ignore: cast_nullable_to_non_nullable
               as drive.FileList?,
+      loadType: freezed == loadType
+          ? _value.loadType
+          : loadType // ignore: cast_nullable_to_non_nullable
+              as LoadType?,
     ));
   }
 }
@@ -103,16 +120,18 @@ class __$$_SettingStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SettingState implements _SettingState {
-  const _$_SettingState({this.currentUser, this.list});
+  const _$_SettingState({this.currentUser, this.list, this.loadType});
 
   @override
   final GoogleSignInAccount? currentUser;
   @override
   final drive.FileList? list;
+  @override
+  final LoadType? loadType;
 
   @override
   String toString() {
-    return 'SettingState(currentUser: $currentUser, list: $list)';
+    return 'SettingState(currentUser: $currentUser, list: $list, loadType: $loadType)';
   }
 
   @override
@@ -122,11 +141,13 @@ class _$_SettingState implements _SettingState {
             other is _$_SettingState &&
             (identical(other.currentUser, currentUser) ||
                 other.currentUser == currentUser) &&
-            (identical(other.list, list) || other.list == list));
+            (identical(other.list, list) || other.list == list) &&
+            (identical(other.loadType, loadType) ||
+                other.loadType == loadType));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentUser, list);
+  int get hashCode => Object.hash(runtimeType, currentUser, list, loadType);
 
   @JsonKey(ignore: true)
   @override
@@ -138,12 +159,15 @@ class _$_SettingState implements _SettingState {
 abstract class _SettingState implements SettingState {
   const factory _SettingState(
       {final GoogleSignInAccount? currentUser,
-      final drive.FileList? list}) = _$_SettingState;
+      final drive.FileList? list,
+      final LoadType? loadType}) = _$_SettingState;
 
   @override
   GoogleSignInAccount? get currentUser;
   @override
   drive.FileList? get list;
+  @override
+  LoadType? get loadType;
   @override
   @JsonKey(ignore: true)
   _$$_SettingStateCopyWith<_$_SettingState> get copyWith =>

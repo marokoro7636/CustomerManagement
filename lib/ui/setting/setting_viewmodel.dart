@@ -12,46 +12,68 @@ class SettingViewModel extends StateNotifier<AsyncValue<SettingState>> {
   final Ref ref;
   late final googleRepository = ref.watch(googleRepositoryProvider);
 
+  void resetLoadType() {
+    state = AsyncData(state.value!.copyWith(loadType: null))
+        .copyWithPrevious(state);
+  }
+
   void signIn() async {
     if (state.value!.currentUser != null) return;
-    state = await AsyncValue.guard(() async {
+    try {
       await googleRepository.signInWithGoogle();
       await googleRepository.listGoogleDriveFiles();
-      return state.value!.copyWith(
+      state = AsyncData(state.value!.copyWith(
         currentUser: googleRepository.currentUser,
         list: googleRepository.list,
-      );
-    });
+      )).copyWithPrevious(state);
+    } catch (error, stackTrace) {
+      state =
+          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+    }
   }
 
   void signOut() async {
-    state = await AsyncValue.guard(() async {
+    try {
       await googleRepository.signOutWithGoogle();
-      return state.value!.copyWith(
+      state = AsyncData(state.value!.copyWith(
         currentUser: googleRepository.currentUser,
         list: googleRepository.list,
-      );
-    });
+      )).copyWithPrevious(state);
+    } catch (error, stackTrace) {
+      state =
+          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+    }
   }
 
   void upload() async {
     if (state.value!.currentUser == null) return;
     state = const AsyncLoading<SettingState>().copyWithPrevious(state);
-    state = await AsyncValue.guard(() async {
+    try {
       await googleRepository.uploadFileToGoogleDrive();
       await googleRepository.listGoogleDriveFiles();
-      return state.value!.copyWith(list: googleRepository.list);
-    });
+      state = AsyncData<SettingState>(state.value!.copyWith(
+        list: googleRepository.list,
+        loadType: LoadType.upload,
+      )).copyWithPrevious(state);
+    } catch (error, stackTrace) {
+      state =
+          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+    }
     print('upload finished');
   }
 
   void download() async {
     if (state.value!.currentUser == null) return;
     state = const AsyncLoading<SettingState>().copyWithPrevious(state);
-    state = await AsyncValue.guard(() async {
+    try {
       await googleRepository.downloadGoogleDriveFile();
-      return state.value!;
-    });
+      state = AsyncData<SettingState>(
+              state.value!.copyWith(loadType: LoadType.download))
+          .copyWithPrevious(state);
+    } catch (error, stackTrace) {
+      state =
+          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+    }
     print('download finished');
   }
 
