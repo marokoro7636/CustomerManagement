@@ -47,13 +47,14 @@ class SettingViewModel extends StateNotifier<AsyncValue<SettingState>> {
 
   void upload() async {
     if (state.value!.currentUser == null) return;
+    state = AsyncData<SettingState>(
+        state.value!.copyWith(loadType: LoadType.upload));
     state = const AsyncLoading<SettingState>().copyWithPrevious(state);
     try {
       await googleRepository.uploadFileToGoogleDrive();
       await googleRepository.listGoogleDriveFiles();
       state = AsyncData<SettingState>(state.value!.copyWith(
         list: googleRepository.list,
-        loadType: LoadType.upload,
       )).copyWithPrevious(state);
     } catch (error, stackTrace) {
       state =
@@ -64,12 +65,12 @@ class SettingViewModel extends StateNotifier<AsyncValue<SettingState>> {
 
   void download() async {
     if (state.value!.currentUser == null) return;
+    state = AsyncData<SettingState>(
+        state.value!.copyWith(loadType: LoadType.download));
     state = const AsyncLoading<SettingState>().copyWithPrevious(state);
     try {
       await googleRepository.downloadGoogleDriveFile();
-      state = AsyncData<SettingState>(
-              state.value!.copyWith(loadType: LoadType.download))
-          .copyWithPrevious(state);
+      state = AsyncData<SettingState>(state.value!).copyWithPrevious(state);
     } catch (error, stackTrace) {
       state =
           AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);

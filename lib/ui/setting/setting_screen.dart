@@ -22,39 +22,49 @@ class SettingScreen extends HookConsumerWidget {
           skipLoadingOnRefresh: false,
           data: (_) {
             if (state.value!.loadType != null) {
+              late String message;
               if (state.value!.loadType!.index == LoadType.upload.index) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text('アップロード成功')));
-                  viewModel.resetLoadType();
-                });
-              } else if (state.value!.loadType!.index == LoadType.download.index) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text('ダウンロード成功')));
-                  viewModel.resetLoadType();
-                });
+                message = 'アップロードが完了しました';
+              } else if (state.value!.loadType!.index ==
+                  LoadType.download.index) {
+                message = 'ダウンロードが完了しました';
               }
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(message)));
+                viewModel.resetLoadType();
+              });
             }
             return const _SettingScreenBase();
           },
           error: (e, s) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('エラーが発生しました')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('エラーが発生しました。もう一度お試しください。')));
             });
             return const _SettingScreenBase();
           },
           loading: () {
-            return const Stack(
+            late String message;
+            if (state.value!.loadType!.index == LoadType.upload.index) {
+              message = 'アップロード中です';
+            } else if (state.value!.loadType!.index ==
+                LoadType.download.index) {
+              message = 'ダウンロード中です';
+            }
+
+            return Stack(
               children: [
-                _SettingScreenBase(),
-                ColoredBox(
-                  color: Colors.black54,
-                  child: Center(
-                    child: CircularProgressIndicator(),
+                const _SettingScreenBase(),
+                const Center(
+                  child: ColoredBox(
+                    color: Colors.black26,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
-                )
+                ),
+                Center(child: Text(message)),
               ],
             );
           },
