@@ -1,10 +1,13 @@
 import 'package:customer_management/model/entity/order.dart';
 import 'package:customer_management/model/entity/goods_summary.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:customer_management/model/entity/customer.dart';
 
 class AppDatabase {
+  static const dbFileName = 'customer_management.db';
+
   // 顧客テーブル
   final String _customerTableName = 'customer';
   final String _columnId = 'id';
@@ -39,13 +42,20 @@ class AppDatabase {
 
   // データベース初期化
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'customer_management.db');
+    String path = await getDbPath();
 
     return await openDatabase(
       path,
       version: 1,
       onCreate: _createTable,
     );
+  }
+
+  static Future<String> getDbPath() async {
+    final dbDirectory = await getApplicationSupportDirectory();
+    final dbFilePath = dbDirectory.path;
+    final path = join(dbFilePath, dbFileName);
+    return path;
   }
 
   // データベースがnullの場合テーブル作成
