@@ -67,7 +67,8 @@ ThemeData _lightTheme = ThemeData.from(
 );
 
 ThemeData lightTheme = _lightTheme.copyWith(
-    textTheme: GoogleFonts.mPlusRounded1cTextTheme(_lightTheme.textTheme)
+  textTheme: GoogleFonts.mPlusRounded1cTextTheme(_lightTheme.textTheme),
+  splashFactory: NoSplash.splashFactory,
 );
 
 ThemeData _darkTheme = ThemeData.from(
@@ -76,5 +77,6 @@ ThemeData _darkTheme = ThemeData.from(
 );
 
 ThemeData darkTheme = _darkTheme.copyWith(
-    textTheme: GoogleFonts.mPlusRounded1cTextTheme(_darkTheme.textTheme)
+  textTheme: GoogleFonts.mPlusRounded1cTextTheme(_darkTheme.textTheme),
+  splashFactory: NoSplash.splashFactory,
 );
