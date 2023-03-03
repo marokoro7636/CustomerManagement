@@ -93,6 +93,7 @@ class _CustomerList extends HookConsumerWidget {
         var customer = state.customers[index];
         return Card(
           color: customer.isSend ? colorScheme.surface : colorScheme.error,
+          clipBehavior: Clip.hardEdge,
           child: ListTile(
             title: Text(customer.name),
             subtitle: Text(customer.address),
