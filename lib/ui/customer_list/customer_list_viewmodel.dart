@@ -1,10 +1,7 @@
 import 'package:customer_management/model/repository/order_repository.dart';
-import 'package:customer_management/ui/customer_edit/customer_edit_screen.dart';
-import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
-import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
-import 'package:customer_management/ui/customer_info/customer_info_screen.dart';
-import 'package:customer_management/ui/customer_info/customer_info_viewmodel.dart';
+import 'package:customer_management/ui/route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
@@ -99,32 +96,11 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     }
   }
 
-  void navigateCustomerInfoScreen(BuildContext context, int index) async {
-    await Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) {
-      return ProviderScope(overrides: [
-        customerInfoProvider.overrideWith(
-            (ref) => CustomerInfoViewModel(state.customers[index])),
-      ], child: const CustomerInfoScreen());
-    }));
-    loadAllCustomer();
+  void navigateCustomerInfoScreen(BuildContext context, int index) {
+    context.push(customerInfoPath, extra: state.customers[index]);
   }
 
-  void navigateCustomerEditScreen(BuildContext context) async {
-    await Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) {
-      return ProviderScope(
-        overrides: [
-          customerEditProvider.overrideWith((ref) => CustomerEditViewModel(
-                const CustomerEditState(
-                  customer: Customer(),
-                  addMode: true,
-                ),
-              )),
-        ],
-        child: CustomerEditScreen(),
-      );
-    }));
-    loadAllCustomer();
+  void navigateCustomerAddScreen(BuildContext context) {
+    context.push(customerAddPath);
   }
 }

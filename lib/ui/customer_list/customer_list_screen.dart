@@ -77,7 +77,7 @@ class CustomerListScreen extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => viewModel.navigateCustomerEditScreen(context),
+        onPressed: () => viewModel.navigateCustomerAddScreen(context),
         child: const Icon(Icons.add),
       ),
     );

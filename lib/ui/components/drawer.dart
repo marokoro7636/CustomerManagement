@@ -33,7 +33,6 @@ class AppDrawer extends HookConsumerWidget {
       ],
       onDestinationSelected: (index) {
         onDestinationSelected(index);
-        Scaffold.of(context).closeDrawer();
       },
     );
   }

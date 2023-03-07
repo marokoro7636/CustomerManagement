@@ -30,7 +30,7 @@ class BaseScreen extends HookConsumerWidget {
           if (index == 0) {
             context.go(customerPath);
           } else if (index == 1) {
-            context.push(annualSalesPath);
+            context.go(annualSalesPath);
           }
         },
         destinations: const [
@@ -47,7 +47,7 @@ class BaseScreen extends HookConsumerWidget {
     } else if (location.contains(settingPath)) {
       return 1;
     } else {
-      throw Error();
+      return 0;
     }
   }
 
