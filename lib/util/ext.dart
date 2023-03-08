@@ -5,6 +5,4 @@ extension DateTimeExt on DateTime {
     final formatter = DateFormat('yyyy/MM/dd');
     return formatter.format(this);
   }
-
-  String toBackupString() => DateFormat('yyyy/MM/dd HH:mm:ss').format(this);
 }

@@ -15,146 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$GoogleState {
-  GoogleSignInAccount get currentUser => throw _privateConstructorUsedError;
-  drive.FileList get list => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $GoogleStateCopyWith<GoogleState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $GoogleStateCopyWith<$Res> {
-  factory $GoogleStateCopyWith(
-          GoogleState value, $Res Function(GoogleState) then) =
-      _$GoogleStateCopyWithImpl<$Res, GoogleState>;
-  @useResult
-  $Res call({GoogleSignInAccount currentUser, drive.FileList list});
-}
-
-/// @nodoc
-class _$GoogleStateCopyWithImpl<$Res, $Val extends GoogleState>
-    implements $GoogleStateCopyWith<$Res> {
-  _$GoogleStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? currentUser = null,
-    Object? list = null,
-  }) {
-    return _then(_value.copyWith(
-      currentUser: null == currentUser
-          ? _value.currentUser
-          : currentUser // ignore: cast_nullable_to_non_nullable
-              as GoogleSignInAccount,
-      list: null == list
-          ? _value.list
-          : list // ignore: cast_nullable_to_non_nullable
-              as drive.FileList,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_GoogleStateCopyWith<$Res>
-    implements $GoogleStateCopyWith<$Res> {
-  factory _$$_GoogleStateCopyWith(
-          _$_GoogleState value, $Res Function(_$_GoogleState) then) =
-      __$$_GoogleStateCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({GoogleSignInAccount currentUser, drive.FileList list});
-}
-
-/// @nodoc
-class __$$_GoogleStateCopyWithImpl<$Res>
-    extends _$GoogleStateCopyWithImpl<$Res, _$_GoogleState>
-    implements _$$_GoogleStateCopyWith<$Res> {
-  __$$_GoogleStateCopyWithImpl(
-      _$_GoogleState _value, $Res Function(_$_GoogleState) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? currentUser = null,
-    Object? list = null,
-  }) {
-    return _then(_$_GoogleState(
-      currentUser: null == currentUser
-          ? _value.currentUser
-          : currentUser // ignore: cast_nullable_to_non_nullable
-              as GoogleSignInAccount,
-      list: null == list
-          ? _value.list
-          : list // ignore: cast_nullable_to_non_nullable
-              as drive.FileList,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_GoogleState implements _GoogleState {
-  const _$_GoogleState({required this.currentUser, required this.list});
-
-  @override
-  final GoogleSignInAccount currentUser;
-  @override
-  final drive.FileList list;
-
-  @override
-  String toString() {
-    return 'GoogleState(currentUser: $currentUser, list: $list)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_GoogleState &&
-            (identical(other.currentUser, currentUser) ||
-                other.currentUser == currentUser) &&
-            (identical(other.list, list) || other.list == list));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, currentUser, list);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_GoogleStateCopyWith<_$_GoogleState> get copyWith =>
-      __$$_GoogleStateCopyWithImpl<_$_GoogleState>(this, _$identity);
-}
-
-abstract class _GoogleState implements GoogleState {
-  const factory _GoogleState(
-      {required final GoogleSignInAccount currentUser,
-      required final drive.FileList list}) = _$_GoogleState;
-
-  @override
-  GoogleSignInAccount get currentUser;
-  @override
-  drive.FileList get list;
-  @override
-  @JsonKey(ignore: true)
-  _$$_GoogleStateCopyWith<_$_GoogleState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
 mixin _$SettingState {
-  AsyncValue<GoogleState>? get googleState =>
-      throw _privateConstructorUsedError;
-  LoadingType get loadingType => throw _privateConstructorUsedError;
+  GoogleSignInAccount? get currentUser => throw _privateConstructorUsedError;
+  drive.FileList? get list => throw _privateConstructorUsedError;
+  LoadType? get loadType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingStateCopyWith<SettingState> get copyWith =>
@@ -167,7 +31,10 @@ abstract class $SettingStateCopyWith<$Res> {
           SettingState value, $Res Function(SettingState) then) =
       _$SettingStateCopyWithImpl<$Res, SettingState>;
   @useResult
-  $Res call({AsyncValue<GoogleState>? googleState, LoadingType loadingType});
+  $Res call(
+      {GoogleSignInAccount? currentUser,
+      drive.FileList? list,
+      LoadType? loadType});
 }
 
 /// @nodoc
@@ -183,18 +50,23 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? googleState = freezed,
-    Object? loadingType = null,
+    Object? currentUser = freezed,
+    Object? list = freezed,
+    Object? loadType = freezed,
   }) {
     return _then(_value.copyWith(
-      googleState: freezed == googleState
-          ? _value.googleState
-          : googleState // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<GoogleState>?,
-      loadingType: null == loadingType
-          ? _value.loadingType
-          : loadingType // ignore: cast_nullable_to_non_nullable
-              as LoadingType,
+      currentUser: freezed == currentUser
+          ? _value.currentUser
+          : currentUser // ignore: cast_nullable_to_non_nullable
+              as GoogleSignInAccount?,
+      list: freezed == list
+          ? _value.list
+          : list // ignore: cast_nullable_to_non_nullable
+              as drive.FileList?,
+      loadType: freezed == loadType
+          ? _value.loadType
+          : loadType // ignore: cast_nullable_to_non_nullable
+              as LoadType?,
     ) as $Val);
   }
 }
@@ -207,7 +79,10 @@ abstract class _$$_SettingStateCopyWith<$Res>
       __$$_SettingStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AsyncValue<GoogleState>? googleState, LoadingType loadingType});
+  $Res call(
+      {GoogleSignInAccount? currentUser,
+      drive.FileList? list,
+      LoadType? loadType});
 }
 
 /// @nodoc
@@ -221,18 +96,23 @@ class __$$_SettingStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? googleState = freezed,
-    Object? loadingType = null,
+    Object? currentUser = freezed,
+    Object? list = freezed,
+    Object? loadType = freezed,
   }) {
     return _then(_$_SettingState(
-      googleState: freezed == googleState
-          ? _value.googleState
-          : googleState // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<GoogleState>?,
-      loadingType: null == loadingType
-          ? _value.loadingType
-          : loadingType // ignore: cast_nullable_to_non_nullable
-              as LoadingType,
+      currentUser: freezed == currentUser
+          ? _value.currentUser
+          : currentUser // ignore: cast_nullable_to_non_nullable
+              as GoogleSignInAccount?,
+      list: freezed == list
+          ? _value.list
+          : list // ignore: cast_nullable_to_non_nullable
+              as drive.FileList?,
+      loadType: freezed == loadType
+          ? _value.loadType
+          : loadType // ignore: cast_nullable_to_non_nullable
+              as LoadType?,
     ));
   }
 }
@@ -240,16 +120,18 @@ class __$$_SettingStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SettingState implements _SettingState {
-  const _$_SettingState({this.googleState, required this.loadingType});
+  const _$_SettingState({this.currentUser, this.list, this.loadType});
 
   @override
-  final AsyncValue<GoogleState>? googleState;
+  final GoogleSignInAccount? currentUser;
   @override
-  final LoadingType loadingType;
+  final drive.FileList? list;
+  @override
+  final LoadType? loadType;
 
   @override
   String toString() {
-    return 'SettingState(googleState: $googleState, loadingType: $loadingType)';
+    return 'SettingState(currentUser: $currentUser, list: $list, loadType: $loadType)';
   }
 
   @override
@@ -257,14 +139,15 @@ class _$_SettingState implements _SettingState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SettingState &&
-            (identical(other.googleState, googleState) ||
-                other.googleState == googleState) &&
-            (identical(other.loadingType, loadingType) ||
-                other.loadingType == loadingType));
+            (identical(other.currentUser, currentUser) ||
+                other.currentUser == currentUser) &&
+            (identical(other.list, list) || other.list == list) &&
+            (identical(other.loadType, loadType) ||
+                other.loadType == loadType));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, googleState, loadingType);
+  int get hashCode => Object.hash(runtimeType, currentUser, list, loadType);
 
   @JsonKey(ignore: true)
   @override
@@ -275,13 +158,16 @@ class _$_SettingState implements _SettingState {
 
 abstract class _SettingState implements SettingState {
   const factory _SettingState(
-      {final AsyncValue<GoogleState>? googleState,
-      required final LoadingType loadingType}) = _$_SettingState;
+      {final GoogleSignInAccount? currentUser,
+      final drive.FileList? list,
+      final LoadType? loadType}) = _$_SettingState;
 
   @override
-  AsyncValue<GoogleState>? get googleState;
+  GoogleSignInAccount? get currentUser;
   @override
-  LoadingType get loadingType;
+  drive.FileList? get list;
+  @override
+  LoadType? get loadType;
   @override
   @JsonKey(ignore: true)
   _$$_SettingStateCopyWith<_$_SettingState> get copyWith =>

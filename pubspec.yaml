@@ -52,7 +52,6 @@ dependencies:
   extension_google_sign_in_as_googleapis_auth: ^2.0.9
   flutter_signin_button: ^2.0.0
   path_provider: ^2.0.13
-  settings_ui: ^2.0.2
 
 dev_dependencies:
   flutter_test:
