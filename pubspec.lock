@@ -184,7 +184,7 @@ packages:
       sha256: "5be16bf1707658e4c03078d4a9b90208ded217fb02c163e207d334082412f2fb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.4"
+    version: "2.2.5"
   extension_google_sign_in_as_googleapis_auth:
     dependency: "direct main"
     description:
@@ -277,7 +277,7 @@ packages:
       sha256: "40c0d7d03ccd24fa32ea08dcfc4df9bb92c4c26c9a91938945da3be10ed8ca83"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.0"
   flutter_signin_button:
     dependency: "direct main"
     description:
@@ -336,6 +336,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      sha256: b4bb06205ec607278b6fc23db238278417bca84a3905779cc68d1eb7afae37e2
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.0"
   google_fonts:
     dependency: "direct main"
     description:
@@ -356,10 +364,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_sign_in
-      sha256: "71c5311a19a2406498028a54fcac81351827297fa8cf5abbf51b7e0fa1bc64f5"
+      sha256: "750d08ffb4cd469f13068d15844ffd1d60c7ac1ca3c815918ba4ce4af22a2ddb"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.1"
+    version: "6.0.2"
   google_sign_in_android:
     dependency: transitive
     description:
@@ -372,10 +380,10 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_ios
-      sha256: eca3433737cfe8b231127d43a3e6527e07d5f8e4a0c00ce593aaaf7bc92bb135
+      sha256: "2575ef0d06dbe6923cedf39766da8305d407bb891d9f4a59502c642719776c5c"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.2"
+    version: "5.6.0"
   google_sign_in_platform_interface:
     dependency: transitive
     description:
@@ -552,14 +560,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
-  path_parsing:
-    dependency: transitive
-    description:
-      name: path_parsing
-      sha256: e3e67b1629e6f7e8100b367d3db6ba6af4b1f0bb80f64db18ef1fbabd2fa9ccf
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   path_provider:
     dependency: "direct main"
     description:
@@ -608,14 +608,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  petitparser:
-    dependency: transitive
-    description:
-      name: petitparser
-      sha256: "32e46db8021f6d027d9221b937653f5c8aa043e0dc093998e18331912f22936b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.2.0"
   platform:
     dependency: transitive
     description:
@@ -663,7 +655,7 @@ packages:
       sha256: ec85d7d55339d85f44ec2b682a82fea340071e8978257e5a43e69f79e98ef50c
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   quiver:
     dependency: transitive
     description:
@@ -837,30 +829,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
-  vector_graphics:
-    dependency: transitive
-    description:
-      name: vector_graphics
-      sha256: "254348b40251c995cf8301ac715486c8cfa0a93b7fdc4dbd495a30f04db1fb44"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
-  vector_graphics_codec:
-    dependency: transitive
-    description:
-      name: vector_graphics_codec
-      sha256: "143c290b762646c696c63be5d976bde7379ea892cb6868ddc5a17cbc56e71411"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
-  vector_graphics_compiler:
-    dependency: transitive
-    description:
-      name: vector_graphics_compiler
-      sha256: "3190cc26d9ebda686bafb9721bb6a74c6d358700f4fc978a0f2cba6912daff86"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   vector_math:
     dependency: transitive
     description:
@@ -901,14 +869,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  xml:
-    dependency: transitive
-    description:
-      name: xml
-      sha256: "979ee37d622dec6365e2efa4d906c37470995871fe9ae080d967e192d88286b5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.2.2"
   yaml:
     dependency: transitive
     description:
@@ -919,4 +879,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=3.0.0-204.0.dev <4.0.0"
-  flutter: ">=3.7.0-0"
+  flutter: ">=3.3.0"
