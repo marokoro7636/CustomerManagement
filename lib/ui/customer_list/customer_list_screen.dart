@@ -6,10 +6,7 @@ import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dar
 class CustomerListScreen extends HookConsumerWidget {
   const CustomerListScreen({
     Key? key,
-    required this.openDrawer,
   }) : super(key: key);
-
-  final void Function() openDrawer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +21,7 @@ class CustomerListScreen extends HookConsumerWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              _SearchBar(openDrawer: openDrawer),
+              _SearchBar(openDrawer: Scaffold.of(context).openDrawer),
               Container(
                 alignment: Alignment.centerLeft,
                 height: 96,

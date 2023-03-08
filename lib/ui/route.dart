@@ -42,23 +42,25 @@ final routerProvider = Provider(
           routes: [
             GoRoute(
               path: customerPath,
-              builder: (context, state) {
+              pageBuilder: (context, state) {
                 customerListViewModel.loadAllCustomer();
-                return CustomerListScreen(
-                  openDrawer: Scaffold.of(context).openDrawer,
+                return const NoTransitionPage<void>(
+                  child: CustomerListScreen(),
                 );
               },
             ),
             GoRoute(
               path: annualSalesPath,
-              builder: (context, state) {
+              pageBuilder: (context, state) {
                 annualSalesViewModel.loadGoodsSummary();
-                return const AnnualSalesScreen();
+                return const NoTransitionPage<void>(
+                  child: AnnualSalesScreen(),
+                );
               },
             ),
           ],
         ),
-        
+
         // 設定画面
         GoRoute(
           path: settingPath,
