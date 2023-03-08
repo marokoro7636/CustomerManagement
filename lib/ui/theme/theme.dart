@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:customer_management/ui/theme/color.dart';
+import 'package:settings_ui/settings_ui.dart';
 
 const ColorScheme darkColor = ColorScheme.dark(
   primary: blue80,
@@ -79,4 +80,8 @@ ThemeData _darkTheme = ThemeData.from(
 ThemeData darkTheme = _darkTheme.copyWith(
   textTheme: GoogleFonts.mPlusRounded1cTextTheme(_darkTheme.textTheme),
   splashFactory: NoSplash.splashFactory,
+);
+
+final settingsThemeData = SettingsThemeData(
+
 );

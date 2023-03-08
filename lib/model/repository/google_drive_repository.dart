@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:customer_management/model/db/app_database.dart';
+import 'package:customer_management/ui/setting/setting_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,51 +10,51 @@ import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sig
 final googleRepositoryProvider = Provider((ref) => GoogleDriveRepository());
 
 class GoogleDriveRepository {
-  GoogleSignInAccount? currentUser;
-  drive.FileList? list;
   final _googleSignIn = GoogleSignIn(scopes: [
     drive.DriveApi.driveAppdataScope,
   ]);
 
   // Googleにサインイン
-  Future signInWithGoogle() async {
-    try {
-      currentUser = await _googleSignIn.signIn();
-    } catch (e) {
-      print(e);
+  Future<GoogleState?> signInWithGoogle() async {
+    final currentUser = await _googleSignIn.signIn();
+    final list = await listGoogleDriveFiles();
+
+    if (currentUser == null || list == null) {
+      return null;
+    } else {
+      return GoogleState(
+        currentUser: currentUser,
+        list: list,
+      );
     }
   }
 
-  Future signOutWithGoogle() async {
-    try {
-      currentUser = await _googleSignIn.signOut();
-      list = null;
-    } catch (e) {
-      print(e);
-    }
+  Future<void> signOutWithGoogle() async {
+    await _googleSignIn.signOut();
   }
 
-  Future listGoogleDriveFiles() async {
-    if (currentUser == null) return;
+  Future<drive.FileList?> listGoogleDriveFiles() async {
+    final httpClient = await _googleSignIn.authenticatedClient();
 
-    final httpClient = (await _googleSignIn.authenticatedClient())!;
+    if (httpClient == null) return null;
+
     final googleDriveApi = drive.DriveApi(httpClient);
-    await googleDriveApi.files
-        .list(spaces: 'appDataFolder', $fields: 'files(id, name, modifiedTime)')
-        .then((value) {
-      list = value;
-    });
+    return await googleDriveApi.files.list(
+      spaces: 'appDataFolder',
+      $fields: 'files(id, name, modifiedTime)',
+    );
   }
 
   // GoogleドライブにDBをアップロード
   Future uploadFileToGoogleDrive() async {
-    if (currentUser == null) return;
+    final httpClient = await _googleSignIn.authenticatedClient();
 
-    final httpClient = (await _googleSignIn.authenticatedClient())!;
+    if (httpClient == null) return null;
+
     final googleDriveApi = drive.DriveApi(httpClient);
 
     // バックアップファイルは1つのみとする
-    await listGoogleDriveFiles();
+    final list = await listGoogleDriveFiles();
     for (var file in list!.files!) {
       await googleDriveApi.files.delete(file.id!);
     }
@@ -70,15 +71,17 @@ class GoogleDriveRepository {
 
   // GoogleドライブからDBをインポート
   Future downloadGoogleDriveFile() async {
-    if (currentUser == null) return;
+    final httpClient = await _googleSignIn.authenticatedClient();
 
-    await listGoogleDriveFiles();
+    if (httpClient == null) return null;
+
+    final googleDriveApi = drive.DriveApi(httpClient);
+
+    final list = await listGoogleDriveFiles();
     if (list!.files!.isEmpty) return;
 
-    final httpClient = (await _googleSignIn.authenticatedClient())!;
-    final googleDriveApi = drive.DriveApi(httpClient);
     drive.Media file = (await googleDriveApi.files.get(
-      list!.files![0].id!,
+      list.files![0].id!,
       downloadOptions: drive.DownloadOptions.fullMedia,
     )) as drive.Media;
 
@@ -92,9 +95,6 @@ class GoogleDriveRepository {
       },
       onDone: () async {
         await saveFile.writeAsBytes(dataStore);
-      },
-      onError: (error) {
-        print(error);
       },
     );
   }
