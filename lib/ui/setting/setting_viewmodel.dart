@@ -1,5 +1,5 @@
 import 'package:customer_management/model/repository/google_drive_repository.dart';
-import 'package:customer_management/ui/setting//setting_state.dart';
+import 'package:customer_management/ui/setting/setting_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final settingProvider = StateNotifierProvider<SettingViewModel, SettingState>(
@@ -10,12 +10,6 @@ class SettingViewModel extends StateNotifier<SettingState> {
       : super(const SettingState(loadingType: LoadingType.neutral));
 
   final GoogleDriveRepository googleRepository;
-
-  void resetLoadType() {
-    state = state.copyWith(
-      loadingType: LoadingType.neutral,
-    );
-  }
 
   void signIn() async {
     if (state.googleState != null) return;
@@ -32,6 +26,7 @@ class SettingViewModel extends StateNotifier<SettingState> {
       state = state.copyWith(
         googleState: AsyncError<GoogleState>(error, stackTrace)
             .copyWithPrevious(state.googleState!),
+        loadingType: LoadingType.neutral,
       );
     }
   }
@@ -45,6 +40,7 @@ class SettingViewModel extends StateNotifier<SettingState> {
       state = state.copyWith(
         googleState: AsyncError<GoogleState>(error, stackTrace)
             .copyWithPrevious(state.googleState!),
+        loadingType: LoadingType.neutral,
       );
     }
   }
@@ -67,11 +63,13 @@ class SettingViewModel extends StateNotifier<SettingState> {
           currentUser: state.googleState!.value!.currentUser,
           list: list!,
         )),
+        loadingType: LoadingType.neutral,
       );
     } catch (error, stackTrace) {
       state = state.copyWith(
         googleState: AsyncError<GoogleState>(error, stackTrace)
             .copyWithPrevious(state.googleState!),
+        loadingType: LoadingType.neutral,
       );
     }
     print('upload finished');
@@ -95,11 +93,13 @@ class SettingViewModel extends StateNotifier<SettingState> {
           currentUser: state.googleState!.value!.currentUser,
           list: list!,
         )),
+        loadingType: LoadingType.neutral,
       );
     } catch (error, stackTrace) {
       state = state.copyWith(
         googleState: AsyncError<GoogleState>(error, stackTrace)
             .copyWithPrevious(state.googleState!),
+        loadingType: LoadingType.neutral,
       );
     }
     print('download finished');
