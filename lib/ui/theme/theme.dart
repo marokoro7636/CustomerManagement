@@ -81,7 +81,3 @@ ThemeData darkTheme = _darkTheme.copyWith(
   textTheme: GoogleFonts.mPlusRounded1cTextTheme(_darkTheme.textTheme),
   splashFactory: NoSplash.splashFactory,
 );
-
-final settingsThemeData = SettingsThemeData(
-
-);
