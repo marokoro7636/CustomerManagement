@@ -2,86 +2,106 @@ import 'package:customer_management/model/repository/google_drive_repository.dar
 import 'package:customer_management/ui/setting//setting_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final settingProvider =
-    StateNotifierProvider<SettingViewModel, AsyncValue<SettingState>>(
-        (ref) => SettingViewModel(ref));
+final settingProvider = StateNotifierProvider<SettingViewModel, SettingState>(
+    (ref) => SettingViewModel(ref.watch(googleRepositoryProvider)));
 
-class SettingViewModel extends StateNotifier<AsyncValue<SettingState>> {
-  SettingViewModel(this.ref) : super(const AsyncValue.data(SettingState()));
+class SettingViewModel extends StateNotifier<SettingState> {
+  SettingViewModel(this.googleRepository)
+      : super(const SettingState(loadingType: LoadingType.neutral));
 
-  final Ref ref;
-  late final googleRepository = ref.watch(googleRepositoryProvider);
+  final GoogleDriveRepository googleRepository;
 
   void resetLoadType() {
-    state = AsyncData(state.value!.copyWith(loadType: null))
-        .copyWithPrevious(state);
+    state = state.copyWith(
+      loadingType: LoadingType.neutral,
+    );
   }
 
   void signIn() async {
-    if (state.value!.currentUser != null) return;
+    if (state.googleState != null) return;
+
     try {
-      await googleRepository.signInWithGoogle();
-      await googleRepository.listGoogleDriveFiles();
-      state = AsyncData(state.value!.copyWith(
-        currentUser: googleRepository.currentUser,
-        list: googleRepository.list,
-      )).copyWithPrevious(state);
+      final googleState = await googleRepository.signInWithGoogle();
+      if (googleState != null) {
+        // ログイン成功
+        state = state.copyWith(
+          googleState: AsyncData(googleState),
+        );
+      }
     } catch (error, stackTrace) {
-      state =
-          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+      state = state.copyWith(
+        googleState: AsyncError<GoogleState>(error, stackTrace)
+            .copyWithPrevious(state.googleState!),
+      );
     }
   }
 
   void signOut() async {
+    if (state.googleState == null) return;
     try {
       await googleRepository.signOutWithGoogle();
-      state = AsyncData(state.value!.copyWith(
-        currentUser: googleRepository.currentUser,
-        list: googleRepository.list,
-      )).copyWithPrevious(state);
+      state = state.copyWith(googleState: null);
     } catch (error, stackTrace) {
-      state =
-          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+      state = state.copyWith(
+        googleState: AsyncError<GoogleState>(error, stackTrace)
+            .copyWithPrevious(state.googleState!),
+      );
     }
   }
 
   void upload() async {
-    if (state.value!.currentUser == null) return;
-    state = AsyncData<SettingState>(
-        state.value!.copyWith(loadType: LoadType.upload));
-    state = const AsyncLoading<SettingState>().copyWithPrevious(state);
+    if (state.googleState == null) return;
+
+    state = state.copyWith(
+      googleState: const AsyncLoading<GoogleState>()
+          .copyWithPrevious(state.googleState!),
+      loadingType: LoadingType.upload,
+    );
+
     try {
       await googleRepository.uploadFileToGoogleDrive();
-      await googleRepository.listGoogleDriveFiles();
-      state = AsyncData<SettingState>(state.value!.copyWith(
-        list: googleRepository.list,
-      )).copyWithPrevious(state);
+      final list = await googleRepository.listGoogleDriveFiles();
+
+      state = state.copyWith(
+        googleState: AsyncData(GoogleState(
+          currentUser: state.googleState!.value!.currentUser,
+          list: list!,
+        )),
+      );
     } catch (error, stackTrace) {
-      state =
-          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+      state = state.copyWith(
+        googleState: AsyncError<GoogleState>(error, stackTrace)
+            .copyWithPrevious(state.googleState!),
+      );
     }
     print('upload finished');
   }
 
   void download() async {
-    if (state.value!.currentUser == null) return;
-    state = AsyncData<SettingState>(
-        state.value!.copyWith(loadType: LoadType.download));
-    state = const AsyncLoading<SettingState>().copyWithPrevious(state);
+    if (state.googleState == null) return;
+
+    state = state.copyWith(
+      googleState: const AsyncLoading<GoogleState>()
+          .copyWithPrevious(state.googleState!),
+      loadingType: LoadingType.download,
+    );
+
     try {
       await googleRepository.downloadGoogleDriveFile();
-      state = AsyncData<SettingState>(state.value!).copyWithPrevious(state);
+      final list = await googleRepository.listGoogleDriveFiles();
+
+      state = state.copyWith(
+        googleState: AsyncData(GoogleState(
+          currentUser: state.googleState!.value!.currentUser,
+          list: list!,
+        )),
+      );
     } catch (error, stackTrace) {
-      state =
-          AsyncError<SettingState>(error, stackTrace).copyWithPrevious(state);
+      state = state.copyWith(
+        googleState: AsyncError<GoogleState>(error, stackTrace)
+            .copyWithPrevious(state.googleState!),
+      );
     }
     print('download finished');
-  }
-
-  void infoForDebug() async {
-    print('repo : ${googleRepository.currentUser}');
-    print('state : ${state.value!.currentUser}');
-    await googleRepository.listGoogleDriveFiles();
-    print(googleRepository.list!.files![0].id);
   }
 }
