@@ -19,18 +19,24 @@ class OrderListUserScreen extends HookConsumerWidget {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                const Text('未発送のみ'),
-                Switch(
-                  value: state.onlyNotSend,
-                  onChanged: (value) => viewModel.changeSwitch(value),
-                ),
-              ],
+            Container(
+              alignment: Alignment.centerLeft,
+              height: 96,
+              child: Wrap(
+                spacing: 10,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  FilterChip(
+                    label: const Text('未発送のみ'),
+                    selected: state.onlyNotSend,
+                    onSelected: (value) {
+                      viewModel.changeSwitch(value);
+                    },
+                  ),
+                ],
+              ),
             ),
-            Expanded(
-              child: _OrderListUserPage(),
-            ),
+            Expanded(child: _OrderList()),
           ],
         ),
       ),
@@ -42,11 +48,13 @@ class OrderListUserScreen extends HookConsumerWidget {
   }
 }
 
-class _OrderListUserPage extends HookConsumerWidget {
+class _OrderList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(orderListUserProvider);
     final viewModel = ref.watch(orderListUserProvider.notifier);
+
+    final colorScheme = Theme.of(context).colorScheme;
 
     return ListView.builder(
       itemCount: state.orders.length,
@@ -57,17 +65,13 @@ class _OrderListUserPage extends HookConsumerWidget {
         var sendDate = isSend ? order.sendDate!.toFormattedString() : '';
 
         return Card(
+          color: isSend ? colorScheme.surface : colorScheme.error,
+          clipBehavior: Clip.hardEdge,
           child: ListTile(
-            title: Text(
-              order.goodsName,
-              style: !isSend
-                  ? const TextStyle(
-                      color: Colors.red,
-                    )
-                  : null,
-            ),
+            title: Text(order.goodsName),
             subtitle: Text('注文日:$orderDate\n発送日:$sendDate'),
             trailing: Text('￥${order.goodsPrice} x ${order.goodsAmount}'),
+            textColor: isSend ? colorScheme.onSurface : colorScheme.onError,
             onTap: () => viewModel.navigateOrderInfoScreen(context, index),
           ),
         );
