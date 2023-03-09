@@ -65,6 +65,7 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: initDate,
+      locale: const Locale('ja'),
       firstDate: DateTime(initDate.year - 3),
       lastDate: DateTime(initDate.year + 3),
     );

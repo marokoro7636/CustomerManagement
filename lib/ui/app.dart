@@ -1,6 +1,7 @@
 import 'package:customer_management/ui/route.dart';
 import 'package:customer_management/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomerManagementApp extends HookConsumerWidget {
@@ -17,6 +18,14 @@ class CustomerManagementApp extends HookConsumerWidget {
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       routerConfig: router,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ja'),
+      ],
     );
   }
 }
