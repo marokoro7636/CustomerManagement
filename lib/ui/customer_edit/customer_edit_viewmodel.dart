@@ -1,6 +1,7 @@
-import 'package:customer_management/model/entity/customer.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
+import 'package:customer_management/ui/route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
@@ -14,7 +15,8 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
 
   final customerRepository = CustomerRepository(AppDatabase());
 
-  final globalKey = GlobalKey<FormState>();
+  var containerKey = UniqueKey();
+  final formKey = GlobalKey<FormState>();
 
   void setName(String value) {
     state = state.copyWith(customer: state.customer.copyWith(name: value));
@@ -90,12 +92,14 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
     state = state.copyWith(customer: state.customer.copyWith(notes: value));
   }
 
-  Future save(BuildContext context) async {
-    if (globalKey.currentState!.validate()) {
+  void save(BuildContext context) async {
+    if (formKey.currentState!.validate()) {
       if (state.addMode) {
-        await customerRepository.insert(state.customer);
-        state = state.copyWith(customer: const Customer());
-        globalKey.currentState!.reset();
+        await customerRepository.insert(state.customer).then((value) {
+          context
+            ..pop()
+            ..push(customerAddPath);
+        });
       } else {
         await customerRepository
             .update(state.customer)

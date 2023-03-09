@@ -17,14 +17,15 @@ class CustomerEditScreen extends HookConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
+          key: viewModel.containerKey,
           padding: const EdgeInsets.all(30),
           child: Form(
-              key: viewModel.globalKey,
+              key: viewModel.formKey,
               child: Column(
                 children: [
                   const SizedBox(height: 20),
                   TextFormField(
-                    //initialValue: state.customer.name,
+                    initialValue: state.customer.name,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '氏名',
@@ -34,7 +35,7 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    //initialValue: state.customer.nameKana,
+                    initialValue: state.customer.nameKana,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '氏名(ひらがな)',
@@ -50,7 +51,7 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    //initialValue: state.customer.postCode,
+                    initialValue: state.customer.postCode,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '郵便番号',
@@ -64,7 +65,7 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    //initialValue: state.customer.address,
+                    initialValue: state.customer.address,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '住所',
@@ -74,7 +75,7 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    //initialValue: state.customer.accountName,
+                    initialValue: state.customer.accountName,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'アカウント名',
@@ -84,7 +85,7 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    //initialValue: state.customer.accountId,
+                    initialValue: state.customer.accountId,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'アカウントID(英数字記号)',
@@ -101,7 +102,7 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    //initialValue: state.customer.notes,
+                    initialValue: state.customer.notes,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '備考',
@@ -110,14 +111,14 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   FilledButton(
-                      onPressed: () async {
-                        await viewModel.save(context).then((value) =>
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('保存しました'),
-                                behavior: SnackBarBehavior.floating,
-                              ),
-                            ));
+                      onPressed: () {
+                        viewModel.save(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('保存しました'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
                       },
                       child: const Text('保存'))
                 ],
