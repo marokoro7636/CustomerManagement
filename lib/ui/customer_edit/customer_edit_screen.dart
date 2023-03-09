@@ -111,7 +111,13 @@ class CustomerEditScreen extends HookConsumerWidget {
                   const SizedBox(height: 20),
                   FilledButton(
                       onPressed: () async {
-                        await viewModel.save(context).then((value) => null);
+                        await viewModel.save(context).then((value) =>
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('保存しました'),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            ));
                       },
                       child: const Text('保存'))
                 ],
