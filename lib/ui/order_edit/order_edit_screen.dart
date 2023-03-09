@@ -92,7 +92,7 @@ class OrderEditScreen extends HookConsumerWidget {
                       border: const OutlineInputBorder(),
                       labelText: '発送日',
                       prefixIcon: IconButton(
-                        onPressed: () => viewModel.setSendDate(context),
+                        onPressed: () => viewModel.setOrderDate(context),
                         icon: const Icon(Icons.calendar_today),
                       ),
                       suffixIcon: IconButton(
