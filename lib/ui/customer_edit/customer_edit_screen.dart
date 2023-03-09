@@ -111,14 +111,17 @@ class CustomerEditScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   FilledButton(
-                      onPressed: () {
-                        viewModel.save(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('保存しました'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
+                      onPressed: () async {
+                        await viewModel.save(context).then((result) {
+                          if (result) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('保存しました'),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          }
+                        });
                       },
                       child: const Text('保存'))
                 ],

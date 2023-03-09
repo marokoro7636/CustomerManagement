@@ -92,7 +92,7 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
     state = state.copyWith(customer: state.customer.copyWith(notes: value));
   }
 
-  void save(BuildContext context) async {
+  Future<bool> save(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       if (state.addMode) {
         await customerRepository.insert(state.customer).then((value) {
@@ -105,6 +105,8 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
             .update(state.customer)
             .then((_) => Navigator.pop(context, state.customer));
       }
+      return true;
     }
+    return false;
   }
 }
