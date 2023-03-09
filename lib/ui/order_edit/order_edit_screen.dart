@@ -24,7 +24,7 @@ class OrderEditScreen extends HookConsumerWidget {
           child: Container(
             padding: const EdgeInsets.all(30),
             child: Form(
-              key: viewModel.globalKey,
+              key: viewModel.formKey,
               child: Column(
                 children: [
                   const SizedBox(height: 20),
@@ -82,7 +82,7 @@ class OrderEditScreen extends HookConsumerWidget {
                       ),
                     ),
                     validator: viewModel.validateOrderDate,
-                    onTap: () => viewModel.setSendDate(context),
+                    onTap: () => viewModel.setOrderDate(context),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -92,7 +92,7 @@ class OrderEditScreen extends HookConsumerWidget {
                       border: const OutlineInputBorder(),
                       labelText: '発送日',
                       prefixIcon: IconButton(
-                        onPressed: () => viewModel.setOrderDate(context),
+                        onPressed: () => viewModel.setSendDate(context),
                         icon: const Icon(Icons.calendar_today),
                       ),
                       suffixIcon: IconButton(

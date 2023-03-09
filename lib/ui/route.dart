@@ -9,6 +9,9 @@ import 'package:customer_management/ui/customer_info/customer_info_screen.dart';
 import 'package:customer_management/ui/customer_info/customer_info_viewmodel.dart';
 import 'package:customer_management/ui/customer_list/customer_list_screen.dart';
 import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
+import 'package:customer_management/ui/order_edit/order_edit_screen.dart';
+import 'package:customer_management/ui/order_edit/order_edit_state.dart';
+import 'package:customer_management/ui/order_edit/order_edit_viewmodel.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_screen.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_state.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
@@ -24,6 +27,7 @@ const String customerInfoPath = "/customer_info";
 const String customerAddPath = "/customer_add";
 const String customerEditPath = "/customer_edit";
 const String orderListUserPath = "/order_list_user";
+const String orderAddPath = "/order_add_path";
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -111,6 +115,21 @@ final routerProvider = Provider(
               ),
             ],
             child: const OrderListUserScreen(),
+          ),
+        ),
+
+        GoRoute(
+          path: orderAddPath,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => ProviderScope(
+            overrides: [
+              orderEditProvider.overrideWith(
+                (ref) => OrderEditViewModel(
+                  state.extra as OrderEditState,
+                ),
+              ),
+            ],
+            child: const OrderEditScreen(),
           ),
         ),
       ],

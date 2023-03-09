@@ -82,13 +82,14 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
               orderEditProvider.overrideWith(
                 (ref) => OrderEditViewModel(
                   OrderEditState(
-                      customer: state.customer,
-                      order: Order(customerId: state.customer.id),
-                      addMode: true),
+                    customer: state.customer,
+                    order: Order(customerId: state.customer.id),
+                    addMode: true,
+                  ),
                 ),
               ),
             ],
-            child: OrderEditScreen(),
+            child: const OrderEditScreen(),
           );
         },
       ),

@@ -1,7 +1,10 @@
+import 'package:customer_management/model/entity/order.dart';
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/order_edit/order_edit_state.dart';
+import 'package:customer_management/ui/route.dart';
 import 'package:customer_management/util/ext.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/db/app_database.dart';
 
@@ -24,7 +27,7 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
   final sendDateController = TextEditingController();
   final initDate = DateTime.now();
 
-  final globalKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   void setGoodsName(String value) {
     state = state.copyWith(order: state.order.copyWith(goodsName: value));
@@ -121,9 +124,19 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
   }
 
   Future<bool> save(BuildContext context) async {
-    if (globalKey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       if (state.addMode) {
         await orderRepository.insert(state.order).then((value) {
+          context
+            ..pop()
+            ..push(
+              orderAddPath,
+              extra: OrderEditState(
+                customer: state.customer,
+                order: Order(customerId: state.customer.id),
+                addMode: true,
+              ),
+            );
         });
       } else {
         await orderRepository
