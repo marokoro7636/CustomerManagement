@@ -34,12 +34,7 @@ class OrderEditScreen extends HookConsumerWidget {
                       border: OutlineInputBorder(),
                       labelText: '商品名',
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '商品名を入力してください';
-                      }
-                      return null;
-                    },
+                    validator: viewModel.validateGoodsName,
                     onChanged: (value) => viewModel.setGoodsName(value),
                   ),
                   const SizedBox(height: 20),
@@ -53,12 +48,7 @@ class OrderEditScreen extends HookConsumerWidget {
                     ),
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '単価を入力してください';
-                      }
-                      return null;
-                    },
+                    validator: viewModel.validateGoodsPrice,
                     onChanged: (value) => viewModel.setGoodsPrice(value),
                   ),
                   const SizedBox(height: 20),
@@ -72,12 +62,7 @@ class OrderEditScreen extends HookConsumerWidget {
                     ),
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '数量を入力してください';
-                      }
-                      return null;
-                    },
+                    validator: viewModel.validateGoodsAmount,
                     onChanged: (value) => viewModel.setGoodsAmount(value),
                   ),
                   const SizedBox(height: 20),
@@ -96,12 +81,7 @@ class OrderEditScreen extends HookConsumerWidget {
                         icon: const Icon(Icons.close),
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '注文日を入力してください';
-                      }
-                      return null;
-                    },
+                    validator: viewModel.validateOrderDate,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -119,6 +99,7 @@ class OrderEditScreen extends HookConsumerWidget {
                         icon: const Icon(Icons.close),
                       ),
                     ),
+                    validator: viewModel.validateSendDate,
                   ),
                   const SizedBox(height: 20),
                   FilledButton(

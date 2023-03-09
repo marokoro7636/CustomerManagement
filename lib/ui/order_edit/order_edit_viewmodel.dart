@@ -30,14 +30,35 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     state = state.copyWith(order: state.order.copyWith(goodsName: value));
   }
 
+  String? validateGoodsName(String? value) {
+    if (value == null || value.isEmpty) {
+      return '商品名を入力してください';
+    }
+    return null;
+  }
+
   void setGoodsPrice(String value) {
     state = state.copyWith(
         order: state.order.copyWith(goodsPrice: int.parse(value)));
   }
 
+  String? validateGoodsPrice(String? value) {
+    if (value == null || value.isEmpty) {
+      return '単価を入力してください';
+    }
+    return null;
+  }
+
   void setGoodsAmount(String value) {
     state = state.copyWith(
         order: state.order.copyWith(goodsAmount: int.parse(value)));
+  }
+
+  String? validateGoodsAmount(String? value) {
+    if (value == null || value.isEmpty) {
+      return '数量を入力してください';
+    }
+    return null;
   }
 
   void setOrderDate(BuildContext context) async {
@@ -60,6 +81,13 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     state = state.copyWith(order: state.order.copyWith(orderDate: null));
   }
 
+  String? validateOrderDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return '注文日を入力してください';
+    }
+    return null;
+  }
+
   void setSendDate(BuildContext context) async {
     FocusScope.of(context).requestFocus(FocusNode());
     final pickedDate = await showDatePicker(
@@ -78,6 +106,18 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
   void deleteSendDate() {
     sendDateController.clear();
     state = state.copyWith(order: state.order.copyWith(sendDate: null));
+  }
+
+  String? validateSendDate(String? value) {
+    if (state.order.orderDate == null || state.order.sendDate == null) {
+      return null;
+    }
+
+    if (state.order.orderDate!.isAfter(state.order.sendDate!)) {
+      return '発送日は注文日より後である必要があります';
+    }
+
+    return null;
   }
 
   Future<bool> save(BuildContext context) async {
