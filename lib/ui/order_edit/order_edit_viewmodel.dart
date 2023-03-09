@@ -24,6 +24,8 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
   final sendDateController = TextEditingController();
   final initDate = DateTime.now();
 
+  final globalKey = GlobalKey<FormState>();
+
   void setGoodsName(String value) {
     state = state.copyWith(order: state.order.copyWith(goodsName: value));
   }
@@ -48,7 +50,8 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     );
     if (pickedDate != null) {
       orderDateController.text = pickedDate.toFormattedString();
-      state = state.copyWith(order: state.order.copyWith(orderDate: pickedDate));
+      state =
+          state.copyWith(order: state.order.copyWith(orderDate: pickedDate));
     }
   }
 
@@ -76,13 +79,18 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     state = state.copyWith(order: state.order.copyWith(sendDate: null));
   }
 
-  void save(BuildContext context) async {
-    if (state.addMode) {
-      await orderRepository.insert(state.order);
-    } else {
-      await orderRepository
-          .update(state.order)
-          .then((_) => Navigator.pop(context, state.order));
+  Future<bool> save(BuildContext context) async {
+    if (globalKey.currentState!.validate()) {
+      if (state.addMode) {
+        await orderRepository.insert(state.order).then((value) {
+        });
+      } else {
+        await orderRepository
+            .update(state.order)
+            .then((_) => Navigator.pop(context, state.order));
+      }
+      return true;
     }
+    return false;
   }
 }
