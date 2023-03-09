@@ -82,6 +82,7 @@ class OrderEditScreen extends HookConsumerWidget {
                       ),
                     ),
                     validator: viewModel.validateOrderDate,
+                    onTap: () => viewModel.setSendDate(context),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -100,6 +101,7 @@ class OrderEditScreen extends HookConsumerWidget {
                       ),
                     ),
                     validator: viewModel.validateSendDate,
+                    onTap: () => viewModel.setSendDate(context),
                   ),
                   const SizedBox(height: 20),
                   FilledButton(
