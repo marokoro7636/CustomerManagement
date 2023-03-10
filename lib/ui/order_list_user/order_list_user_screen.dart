@@ -1,7 +1,8 @@
+
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
+import 'package:customer_management/ui/theme/color.dart';
 import 'package:customer_management/util/ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class OrderListUserScreen extends HookConsumerWidget {
@@ -11,7 +12,6 @@ class OrderListUserScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(orderListUserProvider);
     final viewModel = ref.watch(orderListUserProvider.notifier);
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -37,10 +37,6 @@ class OrderListUserScreen extends HookConsumerWidget {
               ],
             ),
           ),
-          Divider(
-            color: colorScheme.outlineVariant,
-            height: 1,
-          ),
           Expanded(child: _OrderList()),
         ],
       ),
@@ -60,50 +56,77 @@ class _OrderList extends HookConsumerWidget {
 
     final colorScheme = Theme.of(context).colorScheme;
 
-    return ListView.separated(
+    return ListView.builder(
       itemCount: state.orders.length,
-      separatorBuilder: (context, index) => Divider(
-        color: colorScheme.outlineVariant,
-        height: 1,
-      ),
       itemBuilder: (BuildContext context, int index) {
         var order = state.orders[index];
         var isSend = order.sendDate != null;
         var orderDate = order.orderDate!.toFormattedString();
         var sendDate = isSend ? order.sendDate!.toFormattedString() : '';
 
-        return Slidable(
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              SlidableAction(
-                onPressed: (context) =>
-                    viewModel.navigateOrderEditScreen(context, index),
-                backgroundColor: colorScheme.secondary,
-                foregroundColor: colorScheme.onSecondary,
-                icon: Icons.edit,
-                label: '編集',
-              ),
-              SlidableAction(
-                onPressed: (context) => viewModel.delete(index),
-                backgroundColor: colorScheme.error,
-                foregroundColor: colorScheme.onError,
-                icon: Icons.delete,
-                label: '削除',
-              ),
-            ],
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: isSend ? colorScheme.surface : colorScheme.error,
-            ),
-            child: ListTile(
-              isThreeLine: true,
-              title: Text(order.goodsName),
-              subtitle: Text('注文日:$orderDate\n発送日:$sendDate'),
-              trailing: Text('￥${order.goodsPrice} x ${order.goodsAmount}'),
-              textColor: isSend ? colorScheme.onSurface : colorScheme.onError,
-              onTap: () => viewModel.navigateOrderInfoScreen(context, index),
+        return GestureDetector(
+          onTap: () => viewModel.navigateOrderInfoScreen(context, index),
+          child: Card(
+            color: isSend ? colorScheme.surface : red80,
+            clipBehavior: Clip.hardEdge,
+            child: Column(
+              children: [
+                ListTile(
+                  visualDensity: const VisualDensity(
+                    vertical: VisualDensity.minimumDensity,
+                  ),
+                  title: Text(
+                    order.goodsName,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: isSend ? colorScheme.onSurface : red20,
+                    ),
+                  ),
+                  subtitle: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.currency_yen, size: 20),
+                          Text(
+                            '${order.goodsPrice}円',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          const SizedBox(width: 40),
+                          const Icon(Icons.shopping_cart, size: 20),
+                          Text(
+                            '${order.goodsAmount}個',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_today, size: 14),
+                          const SizedBox(width: 8),
+                          Text(
+                            '注文:$orderDate',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_today, size: 14),
+                          const SizedBox(width: 8),
+                          Text(
+                            '発送:$sendDate',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  trailing: PopupMenuButton(
+                    itemBuilder: (context) => [],
+                  ),
+                ),
+              ],
             ),
           ),
         );
