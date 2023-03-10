@@ -1,4 +1,3 @@
-
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
 import 'package:customer_management/ui/theme/color.dart';
 import 'package:customer_management/util/ext.dart';
@@ -27,6 +26,17 @@ class OrderListUserScreen extends HookConsumerWidget {
               spacing: 10,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
+                InputChip(
+                  label: Text(state.searchDate != null
+                      ? '${state.searchDate!.year}年${state.searchDate!.month}月'
+                      : '注文した年月'),
+                  onDeleted: state.searchDate != null
+                      ? () => viewModel.deleteSearchDate()
+                      : null,
+                  selected: state.searchDate != null,
+                  showCheckmark: false,
+                  onSelected: (value) => viewModel.setSearchDate(context),
+                ),
                 FilterChip(
                   label: const Text('未発送のみ'),
                   selected: state.onlyNotSend,

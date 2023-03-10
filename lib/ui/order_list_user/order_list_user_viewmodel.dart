@@ -10,6 +10,7 @@ import 'package:customer_management/ui/order_list_user/order_list_user_state.dar
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/db/app_database.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 final orderListUserProvider =
     StateNotifierProvider<OrderListUserViewModel, OrderListUserState>(
@@ -37,6 +38,20 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     search();
   }
 
+  void setSearchDate(BuildContext context) async {
+    final searchDate = await showMonthPicker(
+      context: context,
+      initialDate: state.searchDate ?? DateTime.now(),
+    );
+    state = state.copyWith(searchDate: searchDate);
+    search();
+  }
+
+  void deleteSearchDate() {
+    state = state.copyWith(searchDate: null);
+    search();
+  }
+
   void delete(int index) async {
     await orderRepository.delete(state.orders[index]);
     await loadOrder();
@@ -44,11 +59,26 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
 
   void search() {
     final List<Order> orders;
+    final List<Order> ordersTmp;
+
+    // 未発送のみを絞り込み
     if (state.onlyNotSend) {
-      orders = state.allOrders.where((e) => e.sendDate == null).toList();
+      ordersTmp = state.allOrders.where((e) => e.sendDate == null).toList();
     } else {
-      orders = state.allOrders;
+      ordersTmp = state.allOrders;
     }
+
+    // 年月で絞り込み
+    if (state.searchDate != null) {
+      orders = ordersTmp
+          .where((e) =>
+              e.orderDate!.year == state.searchDate!.year &&
+              e.orderDate!.month == state.searchDate!.month)
+          .toList();
+    } else {
+      orders = ordersTmp;
+    }
+
     state = state.copyWith(orders: orders);
   }
 
@@ -110,7 +140,7 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
           return ProviderScope(
             overrides: [
               orderEditProvider.overrideWith(
-                    (ref) => OrderEditViewModel(
+                (ref) => OrderEditViewModel(
                   OrderEditState(
                     customer: state.customer,
                     order: state.orders[index],
