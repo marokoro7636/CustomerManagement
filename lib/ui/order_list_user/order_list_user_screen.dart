@@ -93,13 +93,18 @@ class _OrderList extends HookConsumerWidget {
               ),
             ],
           ),
-          child: ListTile(
-            title: Text(order.goodsName),
-            subtitle: Text('注文日:$orderDate\n発送日:$sendDate'),
-            trailing: Text('￥${order.goodsPrice} x ${order.goodsAmount}'),
-            tileColor: isSend ? colorScheme.surface : colorScheme.error,
-            textColor: isSend ? colorScheme.onSurface : colorScheme.onError,
-            onTap: () => viewModel.navigateOrderInfoScreen(context, index),
+          child: Container(
+            decoration: BoxDecoration(
+              color: isSend ? colorScheme.surface : colorScheme.error,
+            ),
+            child: ListTile(
+              isThreeLine: true,
+              title: Text(order.goodsName),
+              subtitle: Text('注文日:$orderDate\n発送日:$sendDate'),
+              trailing: Text('￥${order.goodsPrice} x ${order.goodsAmount}'),
+              textColor: isSend ? colorScheme.onSurface : colorScheme.onError,
+              onTap: () => viewModel.navigateOrderInfoScreen(context, index),
+            ),
           ),
         );
       },
