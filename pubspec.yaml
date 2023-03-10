@@ -55,6 +55,8 @@ dependencies:
   flutter_signin_button: ^2.0.0
   path_provider: ^2.0.13
   settings_ui: ^2.0.2
+  month_picker_dialog: ">=0.4.0" # will be upgrade soon
+  flutter_slidable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

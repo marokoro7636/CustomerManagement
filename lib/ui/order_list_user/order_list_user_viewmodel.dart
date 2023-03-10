@@ -37,6 +37,11 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     search();
   }
 
+  void delete(int index) async {
+    await orderRepository.delete(state.orders[index]);
+    await loadOrder();
+  }
+
   void search() {
     final List<Order> orders;
     if (state.onlyNotSend) {
@@ -71,7 +76,7 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     await loadOrder();
   }
 
-  void navigateOrderEditScreen(BuildContext context) async {
+  void navigateOrderAddScreen(BuildContext context) async {
     // Navigate.push
     await Navigator.push(
       context,
@@ -85,6 +90,31 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
                     customer: state.customer,
                     order: Order(customerId: state.customer.id),
                     addMode: true,
+                  ),
+                ),
+              ),
+            ],
+            child: const OrderEditScreen(),
+          );
+        },
+      ),
+    );
+    await loadOrder();
+  }
+
+  void navigateOrderEditScreen(BuildContext context, int index) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ProviderScope(
+            overrides: [
+              orderEditProvider.overrideWith(
+                    (ref) => OrderEditViewModel(
+                  OrderEditState(
+                    customer: state.customer,
+                    order: state.orders[index],
+                    addMode: false,
                   ),
                 ),
               ),

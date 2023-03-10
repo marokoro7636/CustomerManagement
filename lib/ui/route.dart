@@ -27,7 +27,7 @@ const String customerInfoPath = "/customer_info";
 const String customerAddPath = "/customer_add";
 const String customerEditPath = "/customer_edit";
 const String orderListUserPath = "/order_list_user";
-const String orderAddPath = "/order_add_path";
+const String orderAddPath = "/order_add";
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -118,6 +118,7 @@ final routerProvider = Provider(
           ),
         ),
 
+        // 注文追加画面
         GoRoute(
           path: orderAddPath,
           parentNavigatorKey: _rootNavigatorKey,
