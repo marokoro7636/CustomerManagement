@@ -20,6 +20,7 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
   }
 
   final orderRepository = OrderRepository(AppDatabase());
+  final searchController = TextEditingController();
 
   Future loadOrder() async {
     final allOrders = await orderRepository.loadOrder(state.customer);
@@ -54,9 +55,14 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     await loadOrder();
   }
 
+  void setKeyword(String keyword) {
+    state = state.copyWith(keyword: keyword);
+    search();
+  }
+
   void search() {
     final List<Order> orders;
-    final List<Order> ordersTmp;
+    List<Order> ordersTmp;
 
     // 未発送のみを絞り込み
     if (state.onlyNotSend) {
@@ -67,10 +73,17 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
 
     // 年月で絞り込み
     if (state.searchDate != null) {
-      orders = ordersTmp
+      ordersTmp = ordersTmp
           .where((e) =>
               e.orderDate!.year == state.searchDate!.year &&
               e.orderDate!.month == state.searchDate!.month)
+          .toList();
+    }
+
+    // 検索キーワードで絞り込み
+    if (state.keyword.isNotEmpty) {
+      orders = ordersTmp
+          .where((e) => e.goodsName.contains(RegExp(state.keyword)))
           .toList();
     } else {
       orders = ordersTmp;

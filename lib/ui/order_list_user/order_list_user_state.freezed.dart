@@ -21,6 +21,7 @@ mixin _$OrderListUserState {
   List<Order> get orders => throw _privateConstructorUsedError;
   bool get onlyNotSend => throw _privateConstructorUsedError;
   DateTime? get searchDate => throw _privateConstructorUsedError;
+  String get keyword => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OrderListUserStateCopyWith<OrderListUserState> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $OrderListUserStateCopyWith<$Res> {
       List<Order> allOrders,
       List<Order> orders,
       bool onlyNotSend,
-      DateTime? searchDate});
+      DateTime? searchDate,
+      String keyword});
 
   $CustomerCopyWith<$Res> get customer;
 }
@@ -61,6 +63,7 @@ class _$OrderListUserStateCopyWithImpl<$Res, $Val extends OrderListUserState>
     Object? orders = null,
     Object? onlyNotSend = null,
     Object? searchDate = freezed,
+    Object? keyword = null,
   }) {
     return _then(_value.copyWith(
       customer: null == customer
@@ -83,6 +86,10 @@ class _$OrderListUserStateCopyWithImpl<$Res, $Val extends OrderListUserState>
           ? _value.searchDate
           : searchDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      keyword: null == keyword
+          ? _value.keyword
+          : keyword // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -108,7 +115,8 @@ abstract class _$$_OrderListUserStateCopyWith<$Res>
       List<Order> allOrders,
       List<Order> orders,
       bool onlyNotSend,
-      DateTime? searchDate});
+      DateTime? searchDate,
+      String keyword});
 
   @override
   $CustomerCopyWith<$Res> get customer;
@@ -130,6 +138,7 @@ class __$$_OrderListUserStateCopyWithImpl<$Res>
     Object? orders = null,
     Object? onlyNotSend = null,
     Object? searchDate = freezed,
+    Object? keyword = null,
   }) {
     return _then(_$_OrderListUserState(
       customer: null == customer
@@ -152,6 +161,10 @@ class __$$_OrderListUserStateCopyWithImpl<$Res>
           ? _value.searchDate
           : searchDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      keyword: null == keyword
+          ? _value.keyword
+          : keyword // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -164,7 +177,8 @@ class _$_OrderListUserState implements _OrderListUserState {
       final List<Order> allOrders = const [],
       final List<Order> orders = const [],
       this.onlyNotSend = false,
-      this.searchDate})
+      this.searchDate,
+      this.keyword = ''})
       : _allOrders = allOrders,
         _orders = orders;
 
@@ -193,10 +207,13 @@ class _$_OrderListUserState implements _OrderListUserState {
   final bool onlyNotSend;
   @override
   final DateTime? searchDate;
+  @override
+  @JsonKey()
+  final String keyword;
 
   @override
   String toString() {
-    return 'OrderListUserState(customer: $customer, allOrders: $allOrders, orders: $orders, onlyNotSend: $onlyNotSend, searchDate: $searchDate)';
+    return 'OrderListUserState(customer: $customer, allOrders: $allOrders, orders: $orders, onlyNotSend: $onlyNotSend, searchDate: $searchDate, keyword: $keyword)';
   }
 
   @override
@@ -212,7 +229,8 @@ class _$_OrderListUserState implements _OrderListUserState {
             (identical(other.onlyNotSend, onlyNotSend) ||
                 other.onlyNotSend == onlyNotSend) &&
             (identical(other.searchDate, searchDate) ||
-                other.searchDate == searchDate));
+                other.searchDate == searchDate) &&
+            (identical(other.keyword, keyword) || other.keyword == keyword));
   }
 
   @override
@@ -222,7 +240,8 @@ class _$_OrderListUserState implements _OrderListUserState {
       const DeepCollectionEquality().hash(_allOrders),
       const DeepCollectionEquality().hash(_orders),
       onlyNotSend,
-      searchDate);
+      searchDate,
+      keyword);
 
   @JsonKey(ignore: true)
   @override
@@ -238,7 +257,8 @@ abstract class _OrderListUserState implements OrderListUserState {
       final List<Order> allOrders,
       final List<Order> orders,
       final bool onlyNotSend,
-      final DateTime? searchDate}) = _$_OrderListUserState;
+      final DateTime? searchDate,
+      final String keyword}) = _$_OrderListUserState;
 
   @override
   Customer get customer;
@@ -250,6 +270,8 @@ abstract class _OrderListUserState implements OrderListUserState {
   bool get onlyNotSend;
   @override
   DateTime? get searchDate;
+  @override
+  String get keyword;
   @override
   @JsonKey(ignore: true)
   _$$_OrderListUserStateCopyWith<_$_OrderListUserState> get copyWith =>

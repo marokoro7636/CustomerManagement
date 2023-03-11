@@ -12,5 +12,6 @@ class OrderListUserState with _$OrderListUserState {
     @Default([]) List<Order> orders,
     @Default(false) bool onlyNotSend,
     DateTime? searchDate,
+    @Default('') String keyword,
   }) = _OrderListUserState;
 }
