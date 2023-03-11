@@ -19,7 +19,7 @@ class CustomerListScreen extends HookConsumerWidget {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.opaque,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
           child: Column(
             children: [
               SearchBar(
