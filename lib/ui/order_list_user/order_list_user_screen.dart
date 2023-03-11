@@ -1,3 +1,4 @@
+import 'package:customer_management/ui/components/searchbar.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
 import 'package:customer_management/ui/theme/color.dart';
 import 'package:customer_management/util/ext.dart';
@@ -20,6 +21,11 @@ class OrderListUserScreen extends HookConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           children: [
+            SearchBar(
+              openDrawer: () {},
+              onChanged: viewModel.setKeyword,
+              controller: viewModel.searchController,
+            ),
             Container(
               alignment: Alignment.centerLeft,
               height: 72,

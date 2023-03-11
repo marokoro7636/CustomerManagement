@@ -21,7 +21,13 @@ class BaseScreen extends HookConsumerWidget {
       drawer: AppDrawer(
         selectedIndex: _selectedDrawerIndex(router.location),
         onDestinationSelected: (index) {
-          if (index == 1) context.push(settingPath);
+          if (index == 0) {
+            context.pop();
+            context.go(customerPath);
+          }
+          else if (index == 1) {
+            context.push(settingPath);
+          }
         },
       ),
       bottomNavigationBar: NavigationBar(
