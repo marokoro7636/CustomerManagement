@@ -20,7 +20,7 @@ class CustomerInfoScreen extends HookConsumerWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             alignment: Alignment.topCenter,
             child: Column(
               children: [
@@ -127,7 +127,7 @@ class CustomerInfoScreen extends HookConsumerWidget {
 }
 
 class _AppPopupMenu extends HookConsumerWidget {
-  _AppPopupMenu({Key? key}) : super(key: key);
+  const _AppPopupMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

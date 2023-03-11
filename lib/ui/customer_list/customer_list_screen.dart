@@ -18,13 +18,13 @@ class CustomerListScreen extends HookConsumerWidget {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.opaque,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
               _SearchBar(openDrawer: Scaffold.of(context).openDrawer),
               Container(
                 alignment: Alignment.centerLeft,
-                height: 96,
+                height: 72,
                 child: Wrap(
                   spacing: 10,
                   crossAxisAlignment: WrapCrossAlignment.center,
@@ -93,16 +93,19 @@ class _CustomerList extends HookConsumerWidget {
       itemCount: state.customers.length,
       itemBuilder: (BuildContext context, int index) {
         var customer = state.customers[index];
-        return Card(
-          color: customer.isSend ? colorScheme.surface : colorScheme.error,
-          clipBehavior: Clip.hardEdge,
-          child: ListTile(
-            title: Text(customer.name),
-            subtitle: Text(customer.address),
-            trailing: Text('${customer.accountName} @${customer.accountId}'),
-            textColor:
-                customer.isSend ? colorScheme.onSurface : colorScheme.onError,
-            onTap: () => viewModel.navigateCustomerInfoScreen(context, index),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3.0),
+          child: Card(
+            color: customer.isSend ? colorScheme.surface : colorScheme.error,
+            clipBehavior: Clip.hardEdge,
+            child: ListTile(
+              title: Text(customer.name),
+              subtitle: Text(customer.address),
+              trailing: Text('${customer.accountName} @${customer.accountId}'),
+              textColor:
+                  customer.isSend ? colorScheme.onSurface : colorScheme.onError,
+              onTap: () => viewModel.navigateCustomerInfoScreen(context, index),
+            ),
           ),
         );
       },
