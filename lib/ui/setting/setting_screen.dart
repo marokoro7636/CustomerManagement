@@ -183,6 +183,17 @@ class SettingScreen extends HookConsumerWidget {
                 ),
             ],
           ),
+          SettingsSection(
+            title: Text('アプリ情報', style: textStyle),
+            tiles: [
+              SettingsTile(
+                title: Text('オープンソースライセンス', style: textStyle),
+                onPressed: (context) => showLicensePage(
+                  context: context,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
