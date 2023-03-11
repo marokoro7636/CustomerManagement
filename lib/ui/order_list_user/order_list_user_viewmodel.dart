@@ -52,7 +52,7 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     search();
   }
 
-  void delete(int index) async {
+  void deleteOrder(int index) async {
     await orderRepository.delete(state.orders[index]);
     await loadOrder();
   }

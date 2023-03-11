@@ -47,7 +47,7 @@ class OrderListUserScreen extends HookConsumerWidget {
               ],
             ),
           ),
-          Expanded(child: _OrderList()),
+          const Expanded(child: _OrderList()),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -59,6 +59,8 @@ class OrderListUserScreen extends HookConsumerWidget {
 }
 
 class _OrderList extends HookConsumerWidget {
+  const _OrderList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(orderListUserProvider);
@@ -69,13 +71,13 @@ class _OrderList extends HookConsumerWidget {
     return ListView.builder(
       itemCount: state.orders.length,
       itemBuilder: (BuildContext context, int index) {
-        var order = state.orders[index];
-        var isSend = order.sendDate != null;
-        var orderDate = order.orderDate!.toFormattedString();
-        var sendDate = isSend ? order.sendDate!.toFormattedString() : '';
+        final order = state.orders[index];
+        final isSend = order.sendDate != null;
+        final orderDate = order.orderDate!.toFormattedString();
+        final sendDate = isSend ? order.sendDate!.toFormattedString() : '';
 
         return GestureDetector(
-          onTap: () => viewModel.navigateOrderInfoScreen(context, index),
+          onTap: () => viewModel.navigateOrderEditScreen(context, index),
           child: Card(
             color: isSend ? colorScheme.surface : red80,
             clipBehavior: Clip.hardEdge,
@@ -133,7 +135,46 @@ class _OrderList extends HookConsumerWidget {
                     ],
                   ),
                   trailing: PopupMenuButton(
-                    itemBuilder: (context) => [],
+                    onSelected: (value) async {
+                      switch (value) {
+                        case 0:
+                          viewModel.navigateOrderEditScreen(context, index);
+                          break;
+                        case 1:
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('注文の削除'),
+                              content:
+                                  Text('注文を削除しますか？\n商品名:${order.goodsName}'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    viewModel.deleteOrder(index);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                          break;
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      const PopupMenuItem(
+                        value: 0,
+                        child: Text('編集'),
+                      ),
+                      const PopupMenuItem(
+                        value: 1,
+                        child: Text('削除'),
+                      ),
+                    ],
                   ),
                 ),
               ],
