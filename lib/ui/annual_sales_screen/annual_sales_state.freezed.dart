@@ -20,8 +20,10 @@ AnnualSalesState _$AnnualSalesStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AnnualSalesState {
+  List<GoodsSummary> get allSummaryList => throw _privateConstructorUsedError;
   List<GoodsSummary> get summaryList => throw _privateConstructorUsedError;
   int get year => throw _privateConstructorUsedError;
+  String get keyword => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,11 @@ abstract class $AnnualSalesStateCopyWith<$Res> {
           AnnualSalesState value, $Res Function(AnnualSalesState) then) =
       _$AnnualSalesStateCopyWithImpl<$Res, AnnualSalesState>;
   @useResult
-  $Res call({List<GoodsSummary> summaryList, int year});
+  $Res call(
+      {List<GoodsSummary> allSummaryList,
+      List<GoodsSummary> summaryList,
+      int year,
+      String keyword});
 }
 
 /// @nodoc
@@ -51,10 +57,16 @@ class _$AnnualSalesStateCopyWithImpl<$Res, $Val extends AnnualSalesState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? allSummaryList = null,
     Object? summaryList = null,
     Object? year = null,
+    Object? keyword = null,
   }) {
     return _then(_value.copyWith(
+      allSummaryList: null == allSummaryList
+          ? _value.allSummaryList
+          : allSummaryList // ignore: cast_nullable_to_non_nullable
+              as List<GoodsSummary>,
       summaryList: null == summaryList
           ? _value.summaryList
           : summaryList // ignore: cast_nullable_to_non_nullable
@@ -63,6 +75,10 @@ class _$AnnualSalesStateCopyWithImpl<$Res, $Val extends AnnualSalesState>
           ? _value.year
           : year // ignore: cast_nullable_to_non_nullable
               as int,
+      keyword: null == keyword
+          ? _value.keyword
+          : keyword // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -75,7 +91,11 @@ abstract class _$$_AnnualSalesStateCopyWith<$Res>
       __$$_AnnualSalesStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<GoodsSummary> summaryList, int year});
+  $Res call(
+      {List<GoodsSummary> allSummaryList,
+      List<GoodsSummary> summaryList,
+      int year,
+      String keyword});
 }
 
 /// @nodoc
@@ -89,10 +109,16 @@ class __$$_AnnualSalesStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? allSummaryList = null,
     Object? summaryList = null,
     Object? year = null,
+    Object? keyword = null,
   }) {
     return _then(_$_AnnualSalesState(
+      allSummaryList: null == allSummaryList
+          ? _value._allSummaryList
+          : allSummaryList // ignore: cast_nullable_to_non_nullable
+              as List<GoodsSummary>,
       summaryList: null == summaryList
           ? _value._summaryList
           : summaryList // ignore: cast_nullable_to_non_nullable
@@ -101,6 +127,10 @@ class __$$_AnnualSalesStateCopyWithImpl<$Res>
           ? _value.year
           : year // ignore: cast_nullable_to_non_nullable
               as int,
+      keyword: null == keyword
+          ? _value.keyword
+          : keyword // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -109,11 +139,24 @@ class __$$_AnnualSalesStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AnnualSalesState implements _AnnualSalesState {
   const _$_AnnualSalesState(
-      {final List<GoodsSummary> summaryList = const [], this.year = 0})
-      : _summaryList = summaryList;
+      {final List<GoodsSummary> allSummaryList = const [],
+      final List<GoodsSummary> summaryList = const [],
+      this.year = 0,
+      this.keyword = ''})
+      : _allSummaryList = allSummaryList,
+        _summaryList = summaryList;
 
   factory _$_AnnualSalesState.fromJson(Map<String, dynamic> json) =>
       _$$_AnnualSalesStateFromJson(json);
+
+  final List<GoodsSummary> _allSummaryList;
+  @override
+  @JsonKey()
+  List<GoodsSummary> get allSummaryList {
+    if (_allSummaryList is EqualUnmodifiableListView) return _allSummaryList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allSummaryList);
+  }
 
   final List<GoodsSummary> _summaryList;
   @override
@@ -127,10 +170,13 @@ class _$_AnnualSalesState implements _AnnualSalesState {
   @override
   @JsonKey()
   final int year;
+  @override
+  @JsonKey()
+  final String keyword;
 
   @override
   String toString() {
-    return 'AnnualSalesState(summaryList: $summaryList, year: $year)';
+    return 'AnnualSalesState(allSummaryList: $allSummaryList, summaryList: $summaryList, year: $year, keyword: $keyword)';
   }
 
   @override
@@ -139,14 +185,21 @@ class _$_AnnualSalesState implements _AnnualSalesState {
         (other.runtimeType == runtimeType &&
             other is _$_AnnualSalesState &&
             const DeepCollectionEquality()
+                .equals(other._allSummaryList, _allSummaryList) &&
+            const DeepCollectionEquality()
                 .equals(other._summaryList, _summaryList) &&
-            (identical(other.year, year) || other.year == year));
+            (identical(other.year, year) || other.year == year) &&
+            (identical(other.keyword, keyword) || other.keyword == keyword));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_summaryList), year);
+      runtimeType,
+      const DeepCollectionEquality().hash(_allSummaryList),
+      const DeepCollectionEquality().hash(_summaryList),
+      year,
+      keyword);
 
   @JsonKey(ignore: true)
   @override
@@ -164,16 +217,22 @@ class _$_AnnualSalesState implements _AnnualSalesState {
 
 abstract class _AnnualSalesState implements AnnualSalesState {
   const factory _AnnualSalesState(
-      {final List<GoodsSummary> summaryList,
-      final int year}) = _$_AnnualSalesState;
+      {final List<GoodsSummary> allSummaryList,
+      final List<GoodsSummary> summaryList,
+      final int year,
+      final String keyword}) = _$_AnnualSalesState;
 
   factory _AnnualSalesState.fromJson(Map<String, dynamic> json) =
       _$_AnnualSalesState.fromJson;
 
   @override
+  List<GoodsSummary> get allSummaryList;
+  @override
   List<GoodsSummary> get summaryList;
   @override
   int get year;
+  @override
+  String get keyword;
   @override
   @JsonKey(ignore: true)
   _$$_AnnualSalesStateCopyWith<_$_AnnualSalesState> get copyWith =>

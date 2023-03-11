@@ -7,8 +7,10 @@ part 'annual_sales_state.g.dart';
 @freezed
 class AnnualSalesState with _$AnnualSalesState{
   const factory AnnualSalesState({
+    @Default([]) List<GoodsSummary> allSummaryList,
     @Default([]) List<GoodsSummary> summaryList,
     @Default(0) int year,
+    @Default('') String keyword,
   }) = _AnnualSalesState;
 
   factory AnnualSalesState.fromJson(Map<String, dynamic> json)
