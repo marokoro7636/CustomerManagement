@@ -4,12 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SearchBar extends HookConsumerWidget {
   const SearchBar({
     Key? key,
-    required this.openDrawer,
+    this.openDrawer,
     required this.onChanged,
     required this.controller,
   }) : super(key: key);
 
-  final void Function() openDrawer;
+  final void Function()? openDrawer;
   final void Function(String) onChanged;
   final TextEditingController controller;
 
@@ -37,6 +37,7 @@ class SearchBar extends HookConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Row(
               children: [
+                if (openDrawer != null)
                 IconButton(
                   icon: const Icon(Icons.menu),
                   onPressed: openDrawer,

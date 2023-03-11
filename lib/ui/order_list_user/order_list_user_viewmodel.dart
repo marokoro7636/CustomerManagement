@@ -89,7 +89,6 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
       orders = ordersTmp;
     }
 
-
     state = state.copyWith(orders: orders);
   }
 

@@ -1,4 +1,3 @@
-import 'package:customer_management/ui/components/searchbar.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
 import 'package:customer_management/ui/theme/color.dart';
 import 'package:customer_management/util/ext.dart';
@@ -17,45 +16,56 @@ class OrderListUserScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text('${state.customer.name}さんの注文一覧'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          children: [
-            SearchBar(
-              openDrawer: () {},
-              onChanged: viewModel.setKeyword,
-              controller: viewModel.searchController,
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              height: 72,
-              child: Wrap(
-                spacing: 10,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  InputChip(
-                    label: Text(state.searchDate != null
-                        ? '${state.searchDate!.year}年${state.searchDate!.month}月'
-                        : '注文した年月'),
-                    onDeleted: state.searchDate != null
-                        ? () => viewModel.deleteSearchDate()
-                        : null,
-                    selected: state.searchDate != null,
-                    showCheckmark: false,
-                    onSelected: (value) => viewModel.setSearchDate(context),
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              TextField(
+                onChanged: viewModel.setKeyword,
+                controller: viewModel.searchController,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(100),
                   ),
-                  FilterChip(
-                    label: const Text('未発送のみ'),
-                    selected: state.onlyNotSend,
-                    onSelected: (value) {
-                      viewModel.changeSwitch(value);
-                    },
-                  ),
-                ],
+                  hintText: '検索',
+                  contentPadding: const EdgeInsets.all(10),
+                ),
               ),
-            ),
-            const Expanded(child: _OrderList()),
-          ],
+              Container(
+                alignment: Alignment.centerLeft,
+                height: 72,
+                child: Wrap(
+                  spacing: 10,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    InputChip(
+                      label: Text(state.searchDate != null
+                          ? '${state.searchDate!.year}年${state.searchDate!.month}月'
+                          : '注文した年月'),
+                      onDeleted: state.searchDate != null
+                          ? () => viewModel.deleteSearchDate()
+                          : null,
+                      selected: state.searchDate != null,
+                      showCheckmark: false,
+                      onSelected: (value) => viewModel.setSearchDate(context),
+                    ),
+                    FilterChip(
+                      label: const Text('未発送のみ'),
+                      selected: state.onlyNotSend,
+                      onSelected: (value) {
+                        viewModel.changeSwitch(value);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const Expanded(child: _OrderList()),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
