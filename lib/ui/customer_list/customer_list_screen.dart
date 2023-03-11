@@ -1,5 +1,6 @@
 import 'package:customer_management/ui/components/searchbar.dart';
 import 'package:customer_management/ui/customer_list/customer_list_state.dart';
+import 'package:customer_management/ui/theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
@@ -101,14 +102,32 @@ class _CustomerList extends HookConsumerWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3.0),
           child: Card(
-            color: customer.isSend ? colorScheme.surface : colorScheme.error,
+            color: customer.isSend ? colorScheme.surface : red80,
             clipBehavior: Clip.hardEdge,
             child: ListTile(
-              title: Text(customer.name),
-              subtitle: Text(customer.address),
-              trailing: Text('${customer.accountName} @${customer.accountId}'),
-              textColor:
-                  customer.isSend ? colorScheme.onSurface : colorScheme.onError,
+              textColor: customer.isSend ? null : gray10,
+              iconColor: customer.isSend ? null : gray10,
+              title: Text(
+                customer.name,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: customer.isSend ? colorScheme.onSurface : red20,
+                ),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${customer.accountName} @${customer.accountId}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(customer.address),
+                ],
+              ),
               onTap: () => viewModel.navigateCustomerInfoScreen(context, index),
             ),
           ),
