@@ -68,7 +68,8 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     FocusScope.of(context).requestFocus(FocusNode());
     final pickedDate = await showDatePicker(
       context: context,
-      initialDate: initDate,
+      initialDate: state.order.orderDate ?? initDate,
+      locale: const Locale('ja'),
       firstDate: DateTime(initDate.year - 3),
       lastDate: DateTime(initDate.year + 3),
     );
@@ -95,7 +96,7 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     FocusScope.of(context).requestFocus(FocusNode());
     final pickedDate = await showDatePicker(
       context: context,
-      initialDate: initDate,
+      initialDate: state.order.sendDate ?? initDate,
       locale: const Locale('ja'),
       firstDate: DateTime(initDate.year - 3),
       lastDate: DateTime(initDate.year + 3),

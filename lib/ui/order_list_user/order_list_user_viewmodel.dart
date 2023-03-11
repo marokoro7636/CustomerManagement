@@ -3,13 +3,11 @@ import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/order_edit/order_edit_screen.dart';
 import 'package:customer_management/ui/order_edit/order_edit_state.dart';
 import 'package:customer_management/ui/order_edit/order_edit_viewmodel.dart';
-import 'package:customer_management/ui/order_info/order_info_screen.dart';
-import 'package:customer_management/ui/order_info/order_info_state.dart';
-import 'package:customer_management/ui/order_info/order_info_viewmodel.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/db/app_database.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 final orderListUserProvider =
     StateNotifierProvider<OrderListUserViewModel, OrderListUserState>(
@@ -37,41 +35,51 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     search();
   }
 
-  void search() {
-    final List<Order> orders;
-    if (state.onlyNotSend) {
-      orders = state.allOrders.where((e) => e.sendDate == null).toList();
-    } else {
-      orders = state.allOrders;
-    }
-    state = state.copyWith(orders: orders);
+  void setSearchDate(BuildContext context) async {
+    final searchDate = await showMonthPicker(
+      context: context,
+      initialDate: state.searchDate ?? DateTime.now(),
+    );
+    state = state.copyWith(searchDate: searchDate);
+    search();
   }
 
-  void navigateOrderInfoScreen(BuildContext context, int index) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return ProviderScope(
-            overrides: [
-              orderInfoProvider.overrideWith(
-                (ref) => OrderInfoViewModel(
-                  OrderInfoState(
-                    customer: state.customer,
-                    order: state.orders[index],
-                  ),
-                ),
-              ),
-            ],
-            child: const OrderInfoScreen(),
-          );
-        },
-      ),
-    );
+  void deleteSearchDate() {
+    state = state.copyWith(searchDate: null);
+    search();
+  }
+
+  void deleteOrder(int index) async {
+    await orderRepository.delete(state.orders[index]);
     await loadOrder();
   }
 
-  void navigateOrderEditScreen(BuildContext context) async {
+  void search() {
+    final List<Order> orders;
+    final List<Order> ordersTmp;
+
+    // 未発送のみを絞り込み
+    if (state.onlyNotSend) {
+      ordersTmp = state.allOrders.where((e) => e.sendDate == null).toList();
+    } else {
+      ordersTmp = state.allOrders;
+    }
+
+    // 年月で絞り込み
+    if (state.searchDate != null) {
+      orders = ordersTmp
+          .where((e) =>
+              e.orderDate!.year == state.searchDate!.year &&
+              e.orderDate!.month == state.searchDate!.month)
+          .toList();
+    } else {
+      orders = ordersTmp;
+    }
+
+    state = state.copyWith(orders: orders);
+  }
+
+  void navigateOrderAddScreen(BuildContext context) async {
     // Navigate.push
     await Navigator.push(
       context,
@@ -85,6 +93,31 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
                     customer: state.customer,
                     order: Order(customerId: state.customer.id),
                     addMode: true,
+                  ),
+                ),
+              ),
+            ],
+            child: const OrderEditScreen(),
+          );
+        },
+      ),
+    );
+    await loadOrder();
+  }
+
+  void navigateOrderEditScreen(BuildContext context, int index) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ProviderScope(
+            overrides: [
+              orderEditProvider.overrideWith(
+                (ref) => OrderEditViewModel(
+                  OrderEditState(
+                    customer: state.customer,
+                    order: state.orders[index],
+                    addMode: false,
                   ),
                 ),
               ),

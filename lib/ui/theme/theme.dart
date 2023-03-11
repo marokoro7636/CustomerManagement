@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:customer_management/ui/theme/color.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 const ColorScheme darkColor = ColorScheme.dark(
   primary: blue80,
@@ -31,6 +30,7 @@ const ColorScheme darkColor = ColorScheme.dark(
   surfaceVariant: grayVariant30,
   onSurfaceVariant: grayVariant80,
   outline: grayVariant60,
+  outlineVariant: grayVariant30,
 );
 
 const ColorScheme lightColor = ColorScheme.light(
@@ -60,6 +60,7 @@ const ColorScheme lightColor = ColorScheme.light(
   surfaceVariant: grayVariant90,
   onSurfaceVariant: grayVariant30,
   outline: grayVariant50,
+  outlineVariant: grayVariant80,
 );
 
 ThemeData _lightTheme = ThemeData.from(
