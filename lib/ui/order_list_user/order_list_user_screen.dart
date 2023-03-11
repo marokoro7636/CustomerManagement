@@ -16,39 +16,41 @@ class OrderListUserScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text('${state.customer.name}さんの注文一覧'),
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            alignment: Alignment.centerLeft,
-            height: 96,
-            child: Wrap(
-              spacing: 10,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                InputChip(
-                  label: Text(state.searchDate != null
-                      ? '${state.searchDate!.year}年${state.searchDate!.month}月'
-                      : '注文した年月'),
-                  onDeleted: state.searchDate != null
-                      ? () => viewModel.deleteSearchDate()
-                      : null,
-                  selected: state.searchDate != null,
-                  showCheckmark: false,
-                  onSelected: (value) => viewModel.setSearchDate(context),
-                ),
-                FilterChip(
-                  label: const Text('未発送のみ'),
-                  selected: state.onlyNotSend,
-                  onSelected: (value) {
-                    viewModel.changeSwitch(value);
-                  },
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              height: 72,
+              child: Wrap(
+                spacing: 10,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  InputChip(
+                    label: Text(state.searchDate != null
+                        ? '${state.searchDate!.year}年${state.searchDate!.month}月'
+                        : '注文した年月'),
+                    onDeleted: state.searchDate != null
+                        ? () => viewModel.deleteSearchDate()
+                        : null,
+                    selected: state.searchDate != null,
+                    showCheckmark: false,
+                    onSelected: (value) => viewModel.setSearchDate(context),
+                  ),
+                  FilterChip(
+                    label: const Text('未発送のみ'),
+                    selected: state.onlyNotSend,
+                    onSelected: (value) {
+                      viewModel.changeSwitch(value);
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          const Expanded(child: _OrderList()),
-        ],
+            const Expanded(child: _OrderList()),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => viewModel.navigateOrderAddScreen(context),
@@ -76,8 +78,8 @@ class _OrderList extends HookConsumerWidget {
         final orderDate = order.orderDate!.toFormattedString();
         final sendDate = isSend ? order.sendDate!.toFormattedString() : '';
 
-        return GestureDetector(
-          onTap: () => viewModel.navigateOrderEditScreen(context, index),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3.0),
           child: Card(
             color: isSend ? colorScheme.surface : red80,
             clipBehavior: Clip.hardEdge,
