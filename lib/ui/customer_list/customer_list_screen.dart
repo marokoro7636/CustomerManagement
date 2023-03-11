@@ -1,3 +1,4 @@
+import 'package:customer_management/ui/components/searchbar.dart';
 import 'package:customer_management/ui/customer_list/customer_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,7 +22,11 @@ class CustomerListScreen extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              _SearchBar(openDrawer: Scaffold.of(context).openDrawer),
+              SearchBar(
+                openDrawer: Scaffold.of(context).openDrawer,
+                onChanged: viewModel.setKeyword,
+                controller: viewModel.searchController,
+              ),
               Container(
                 alignment: Alignment.centerLeft,
                 height: 72,
@@ -109,75 +114,6 @@ class _CustomerList extends HookConsumerWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _SearchBar extends HookConsumerWidget {
-  const _SearchBar({
-    Key? key,
-    required this.openDrawer,
-  }) : super(key: key);
-
-  final void Function() openDrawer;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(customerListProvider.notifier);
-
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Container(
-      constraints: const BoxConstraints(minWidth: 360, maxWidth: 720),
-      width: double.infinity,
-      height: 56,
-      child: Material(
-        elevation: 3,
-        color: colorScheme.surface,
-        shadowColor: colorScheme.shadow,
-        surfaceTintColor: colorScheme.surfaceTint,
-        borderRadius: BorderRadius.circular(56 / 2),
-        child: InkWell(
-          onTap: () {},
-          borderRadius: BorderRadius.circular(56 / 2),
-          highlightColor: Colors.transparent,
-          splashFactory: InkRipple.splashFactory,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: openDrawer,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: TextField(
-                      controller: viewModel.searchController,
-                      cursorColor: colorScheme.primary,
-                      style: textTheme.bodyLarge,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        border: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 8),
-                        hintText: '検索',
-                        hintStyle: textTheme.bodyLarge?.apply(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      onChanged: (value) => viewModel.setKeyword(value),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

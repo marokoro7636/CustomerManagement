@@ -1,4 +1,5 @@
 import 'package:customer_management/ui/annual_sales_screen/annual_sales_viewmodel.dart';
+import 'package:customer_management/ui/components/searchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,30 +12,41 @@ class AnnualSalesScreen extends HookConsumerWidget {
     final viewModel = ref.watch(annualSalesProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('年間売上'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () => viewModel.downYear(),
-                  child: const Text('<'),
-                ),
-                Text('${state.year}年'),
-                TextButton(
-                  onPressed: () => viewModel.upYear(),
-                  child: const Text('>'),
-                ),
-              ],
-            ),
-            Expanded(
-              child: _AnnualSalesListView(),
-            ),
-          ],
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              SearchBar(
+                openDrawer: Scaffold.of(context).openDrawer,
+                onChanged: viewModel.setKeyword,
+                controller: viewModel.searchController,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () => viewModel.downYear(),
+                    icon: const Icon(Icons.keyboard_arrow_left),
+                  ),
+                  Text(
+                    '${state.year}年',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  IconButton(
+                    onPressed: () => viewModel.upYear(),
+                    icon: const Icon(Icons.keyboard_arrow_right),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: _AnnualSalesListView(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -50,15 +62,35 @@ class _AnnualSalesListView extends HookConsumerWidget {
       itemCount: state.summaryList.length,
       itemBuilder: (BuildContext context, int index) {
         var summary = state.summaryList[index];
-        return Card(
-          child: ListTile(
-            title: Text(summary.goodsName),
-            subtitle: Text('${summary.totalGoodsAmount}個'),
-            trailing: Text('計￥${summary.totalGoodsPrice}'),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3.0),
+          child: Card(
+            child: ListTile(
+              title: Text(
+                summary.goodsName,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.currency_yen, size: 20),
+                      Text('${summary.totalGoodsPrice}円'),
+                      const SizedBox(width: 40),
+                      const Icon(Icons.shopping_cart, size: 20),
+                      Text('${summary.totalGoodsAmount}個'),
+                    ],
+                  ),
+                ],
+              ),
+              subtitleTextStyle: const TextStyle(fontSize: 20),
+            ),
           ),
         );
       },
     );
   }
 }
-
