@@ -59,9 +59,13 @@ class CustomerInfoScreen extends HookConsumerWidget {
                   clipBehavior: Clip.hardEdge,
                   child: Column(
                     children: [
-                      const ListTile(
-                        title: Text('Instagram'),
-                        leading: Icon(Icons.camera),
+                      ListTile(
+                        title: const Text('Instagram'),
+                        leading: Image.asset(
+                          'assets/Instagram.png',
+                          width: 24,
+                          height: 24,
+                        ),
                       ),
                       ListTile(
                         title: Text(state.accountName),
