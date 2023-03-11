@@ -87,6 +87,8 @@ class _OrderList extends HookConsumerWidget {
                   visualDensity: const VisualDensity(
                     vertical: VisualDensity.minimumDensity,
                   ),
+                  textColor: isSend ? null : gray10,
+                  iconColor: isSend ? null : gray10,
                   title: Text(
                     order.goodsName,
                     style: TextStyle(
