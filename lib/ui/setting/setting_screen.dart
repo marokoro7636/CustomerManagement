@@ -2,6 +2,7 @@ import 'package:customer_management/ui/setting/setting_state.dart';
 import 'package:customer_management/ui/setting/setting_viewmodel.dart';
 import 'package:customer_management/util/ext.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,12 +20,7 @@ class SettingScreen extends HookConsumerWidget {
     ref.listen(settingProvider, (previous, next) {
       // エラー時の処理
       next.googleState?.whenOrNull(
-        error: (e, s) => ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('エラーが発生しました。もう一度お試しください。'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        ),
+        error: (e, s) => Get.rawSnackbar(message: '保存しました'),
       );
 
       // アップロードが始まった時
