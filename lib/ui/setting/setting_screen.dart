@@ -3,7 +3,6 @@ import 'package:customer_management/ui/setting/setting_viewmodel.dart';
 import 'package:customer_management/util/ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,7 +19,7 @@ class SettingScreen extends HookConsumerWidget {
     ref.listen(settingProvider, (previous, next) {
       // エラー時の処理
       next.googleState?.whenOrNull(
-        error: (e, s) => Get.rawSnackbar(message: '保存しました'),
+        error: (e, s) => Get.rawSnackbar(message: 'エラーが発生しました。もう一度お試しください。'),
       );
 
       // アップロードが始まった時
@@ -48,13 +47,8 @@ class SettingScreen extends HookConsumerWidget {
       // アップロードが終わった時
       if (previous?.loadingType == LoadingType.upload &&
           next.loadingType == LoadingType.neutral) {
-        context.pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('アップロードが完了しました'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        Get.back();
+        Get.rawSnackbar(message: 'アップロードが完了しました');
       }
 
       // ダウンロードが始まった時
@@ -83,13 +77,8 @@ class SettingScreen extends HookConsumerWidget {
       // ダウンロードが終わった時
       if (previous?.loadingType == LoadingType.download &&
           next.loadingType == LoadingType.neutral) {
-        context.pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('ダウンロードが完了しました'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        Get.back();
+        Get.rawSnackbar(message: 'ダウンロードが完了しました');
       }
     });
 
@@ -162,12 +151,12 @@ class SettingScreen extends HookConsumerWidget {
                             const Text('現在のデータが上書きされます。一度復元した場合は元に戻すことはできません。'),
                         actions: [
                           TextButton(
-                            onPressed: () => context.pop(),
+                            onPressed: () => Get.back(),
                             child: const Text('Cancel'),
                           ),
                           TextButton(
                             onPressed: () {
-                              context.pop();
+                              Get.back();
                               viewModel.download();
                             },
                             child: const Text('OK'),
