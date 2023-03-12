@@ -11,7 +11,6 @@ final annualSalesProvider =
 class AnnualSalesViewModel extends StateNotifier<AnnualSalesState> {
   AnnualSalesViewModel() : super(const AnnualSalesState()) {
     state = state.copyWith(year: DateTime.now().year);
-    loadGoodsSummary();
   }
 
   final orderRepository = OrderRepository(AppDatabase());

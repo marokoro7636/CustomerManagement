@@ -16,10 +16,10 @@ import 'package:customer_management/ui/order_list_user/order_list_user_screen.da
 import 'package:customer_management/ui/order_list_user/order_list_user_state.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
 import 'package:customer_management/ui/setting/setting_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+// TODO:Transition切り替え
 const String customerPath = "/base/customer";
 const String annualSalesPath = "/base/annual_sales";
 const String settingPath = "/settings";
@@ -28,112 +28,121 @@ const String customerAddPath = "/customer_add";
 const String customerEditPath = "/customer_edit";
 const String orderListUserPath = "/order_list_user";
 const String orderAddPath = "/order_add";
+const String orderEditPath = "/order_edit";
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final getPagesProvider = Provider(
+  (ref) => [
+    // 顧客一覧画面
+    GetPage(
+      name: customerPath,
+      page: () {
+        ref.watch(customerListProvider.notifier).loadAllCustomer();
+        return BaseScreen(screens: const CustomerListScreen());
+      },
+      transition: Transition.noTransition,
+    ),
 
-final routerProvider = Provider(
-  (ref) {
-    final customerListViewModel = ref.watch(customerListProvider.notifier);
-    final annualSalesViewModel = ref.watch(annualSalesProvider.notifier);
+    // 年間売上画面
+    GetPage(
+      name: annualSalesPath,
+      page: () {
+        ref.watch(annualSalesProvider.notifier).loadGoodsSummary();
+        return BaseScreen(screens: const AnnualSalesScreen());
+      },
+      transition: Transition.noTransition,
+    ),
 
-    return GoRouter(
-      navigatorKey: _rootNavigatorKey,
-      initialLocation: customerPath,
-      routes: [
-        // メイン画面
-        ShellRoute(
-          builder: (context, state, child) => BaseScreen(screens: child),
-          routes: [
-            GoRoute(
-              path: customerPath,
-              pageBuilder: (context, state) {
-                customerListViewModel.loadAllCustomer();
-                return const NoTransitionPage<void>(
-                  child: CustomerListScreen(),
-                );
-              },
+    // 設定画面
+    GetPage(
+      name: settingPath,
+      page: () => const SettingScreen(),
+    ),
+
+    // 顧客詳細画面
+    GetPage(
+      name: customerInfoPath,
+      page: () => ProviderScope(
+        overrides: [
+          customerInfoProvider.overrideWith(
+            (ref) => CustomerInfoViewModel(Get.arguments as Customer),
+          ),
+        ],
+        child: const CustomerInfoScreen(),
+      ),
+    ),
+
+    // 顧客追加画面
+    GetPage(
+      name: customerAddPath,
+      page: () => ProviderScope(
+        overrides: [
+          customerEditProvider.overrideWith(
+            (ref) => CustomerEditViewModel(
+              const CustomerEditState(customer: Customer(), addMode: true),
             ),
-            GoRoute(
-              path: annualSalesPath,
-              pageBuilder: (context, state) {
-                annualSalesViewModel.loadGoodsSummary();
-                return const NoTransitionPage<void>(
-                  child: AnnualSalesScreen(),
-                );
-              },
+          ),
+        ],
+        child: CustomerEditScreen(),
+      ),
+    ),
+
+    // 顧客編集画面
+    GetPage(
+      name: customerEditPath,
+      page: () => ProviderScope(
+        overrides: [
+          customerEditProvider.overrideWith(
+            (ref) => CustomerEditViewModel(
+              CustomerEditState(
+                customer: Get.arguments as Customer,
+                addMode: false,
+              ),
             ),
-          ],
-        ),
-
-        // 設定画面
-        GoRoute(
-          path: settingPath,
-          parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => const SettingScreen(),
-        ),
-
-        // 顧客詳細画面
-        GoRoute(
-          path: customerInfoPath,
-          parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => ProviderScope(
-            overrides: [
-              customerInfoProvider.overrideWith(
-                (ref) => CustomerInfoViewModel(state.extra as Customer),
-              ),
-            ],
-            child: const CustomerInfoScreen(),
           ),
-        ),
+        ],
+        child: CustomerEditScreen(),
+      ),
+    ),
 
-        // 顧客追加画面
-        GoRoute(
-          path: customerAddPath,
-          parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => ProviderScope(
-            overrides: [
-              customerEditProvider.overrideWith(
-                (ref) => CustomerEditViewModel(
-                  const CustomerEditState(customer: Customer(), addMode: true),
-                ),
-              ),
-            ],
-            child: CustomerEditScreen(),
+    // 顧客注文画面
+    GetPage(
+      name: orderListUserPath,
+      page: () => ProviderScope(
+        overrides: [
+          orderListUserProvider.overrideWith(
+            (ref) => OrderListUserViewModel(
+              OrderListUserState(customer: Get.arguments as Customer),
+            ),
           ),
-        ),
+        ],
+        child: const OrderListUserScreen(),
+      ),
+    ),
 
-        // 顧客注文画面
-        GoRoute(
-          path: orderListUserPath,
-          parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => ProviderScope(
-            overrides: [
-              orderListUserProvider.overrideWith(
-                (ref) => OrderListUserViewModel(
-                  OrderListUserState(customer: state.extra as Customer),
-                ),
-              ),
-            ],
-            child: const OrderListUserScreen(),
+    // 注文追加画面
+    GetPage(
+      name: orderAddPath,
+      page: () => ProviderScope(
+        overrides: [
+          orderEditProvider.overrideWith(
+            (ref) => OrderEditViewModel(Get.arguments as OrderEditState),
           ),
-        ),
+        ],
+        child: const OrderEditScreen(),
+      ),
+    ),
 
-        // 注文追加画面
-        GoRoute(
-          path: orderAddPath,
-          parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => ProviderScope(
-            overrides: [
-              orderEditProvider.overrideWith(
-                (ref) => OrderEditViewModel(
-                  state.extra as OrderEditState,
-                ),
-              ),
-            ],
-            child: const OrderEditScreen(),
+    // 注文編集画面
+    GetPage(
+      name: orderEditPath,
+      page: () => ProviderScope(
+        overrides: [
+          orderEditProvider.overrideWith(
+            (ref) => OrderEditViewModel(Get.arguments as OrderEditState),
           ),
-        ),
-      ],
-    );
-  },
+        ],
+        child: const OrderEditScreen(),
+      ),
+    ),
+  ],
 );

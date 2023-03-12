@@ -78,7 +78,7 @@ class CustomerListScreen extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => viewModel.navigateCustomerAddScreen(context),
+        onPressed: () async => viewModel.navigateCustomerAddScreen(),
         child: const Icon(Icons.add),
       ),
     );
@@ -126,7 +126,7 @@ class _CustomerList extends HookConsumerWidget {
                   Text(customer.address),
                 ],
               ),
-              onTap: () => viewModel.navigateCustomerInfoScreen(context, index),
+              onTap: () async => viewModel.navigateCustomerInfoScreen(index),
             ),
           ),
         );

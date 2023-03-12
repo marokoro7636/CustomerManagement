@@ -69,7 +69,7 @@ class OrderListUserScreen extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => viewModel.navigateOrderAddScreen(context),
+        onPressed: () async => viewModel.navigateOrderAddScreen(),
         child: const Icon(Icons.add),
       ),
     );
@@ -158,7 +158,7 @@ class _OrderList extends HookConsumerWidget {
                     onSelected: (value) async {
                       switch (value) {
                         case 0:
-                          viewModel.navigateOrderEditScreen(context, index);
+                          viewModel.navigateOrderEditScreen(index);
                           break;
                         case 1:
                           await showDialog(

@@ -1,7 +1,7 @@
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
@@ -13,9 +13,7 @@ final customerListProvider =
         (ref) => CustomerListViewModel());
 
 class CustomerListViewModel extends StateNotifier<CustomerListState> {
-  CustomerListViewModel() : super(const CustomerListState()) {
-    loadAllCustomer();
-  }
+  CustomerListViewModel() : super(const CustomerListState());
 
   final customerRepository = CustomerRepository(AppDatabase());
   final orderRepository = OrderRepository(AppDatabase());
@@ -101,11 +99,13 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     }
   }
 
-  void navigateCustomerInfoScreen(BuildContext context, int index) {
-    context.push(customerInfoPath, extra: state.customers[index]);
+  Future<void> navigateCustomerInfoScreen(int index) async {
+    await Get.toNamed(customerInfoPath, arguments: state.customers[index]);
+    loadAllCustomer();
   }
 
-  void navigateCustomerAddScreen(BuildContext context) {
-    context.push(customerAddPath);
+  Future<void> navigateCustomerAddScreen() async {
+    await Get.toNamed(customerAddPath);
+    loadAllCustomer();
   }
 }

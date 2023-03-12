@@ -1,7 +1,6 @@
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
-import 'package:customer_management/ui/route.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
@@ -96,14 +95,12 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
     if (formKey.currentState!.validate()) {
       if (state.addMode) {
         await customerRepository.insert(state.customer).then((value) {
-          context
-            ..pop()
-            ..push(customerAddPath);
+          // Get.back();
+          // Get.toNamed(customerAddPath);
         });
       } else {
-        await customerRepository
-            .update(state.customer)
-            .then((_) => Navigator.pop(context, state.customer));
+        await customerRepository.update(state.customer);
+        Get.back(result: state.customer);
       }
       return true;
     }

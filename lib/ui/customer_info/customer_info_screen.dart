@@ -46,8 +46,8 @@ class CustomerInfoScreen extends HookConsumerWidget {
                         title: const Text('注文一覧'),
                         leading: const Icon(Icons.shopping_cart),
                         trailing: const Icon(Icons.open_in_new),
-                        onTap: () {
-                          viewModel.navigateOrderListUserScreen(context);
+                        onTap: () async {
+                          viewModel.navigateOrderListUserScreen();
                         },
                       )
                     ],
@@ -152,7 +152,7 @@ class _AppPopupMenu extends HookConsumerWidget {
       onSelected: (index) async {
         switch (index) {
           case 0:
-            viewModel.navigateCustomerEditScreen(context);
+            viewModel.navigateCustomerEditScreen();
             break;
           case 1:
             await showDialog(

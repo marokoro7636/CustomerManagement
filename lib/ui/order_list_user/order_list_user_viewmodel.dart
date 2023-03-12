@@ -1,10 +1,10 @@
 import 'package:customer_management/model/entity/order.dart';
 import 'package:customer_management/model/repository/order_repository.dart';
-import 'package:customer_management/ui/order_edit/order_edit_screen.dart';
 import 'package:customer_management/ui/order_edit/order_edit_state.dart';
-import 'package:customer_management/ui/order_edit/order_edit_viewmodel.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_state.dart';
+import 'package:customer_management/ui/route.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/db/app_database.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
@@ -92,54 +92,27 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     state = state.copyWith(orders: orders);
   }
 
-  void navigateOrderAddScreen(BuildContext context) async {
-    // Navigate.push
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return ProviderScope(
-            overrides: [
-              orderEditProvider.overrideWith(
-                (ref) => OrderEditViewModel(
-                  OrderEditState(
-                    customer: state.customer,
-                    order: Order(customerId: state.customer.id),
-                    addMode: true,
-                  ),
-                ),
-              ),
-            ],
-            child: const OrderEditScreen(),
-          );
-        },
+  Future<void> navigateOrderAddScreen() async {
+    await Get.toNamed(
+      orderAddPath,
+      arguments: OrderEditState(
+        customer: state.customer,
+        order: Order(customerId: state.customer.id),
+        addMode: true,
       ),
     );
-    await loadOrder();
+    loadOrder();
   }
 
-  void navigateOrderEditScreen(BuildContext context, int index) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return ProviderScope(
-            overrides: [
-              orderEditProvider.overrideWith(
-                (ref) => OrderEditViewModel(
-                  OrderEditState(
-                    customer: state.customer,
-                    order: state.orders[index],
-                    addMode: false,
-                  ),
-                ),
-              ),
-            ],
-            child: const OrderEditScreen(),
-          );
-        },
+  Future<void> navigateOrderEditScreen(int index) async {
+    await Get.toNamed(
+      orderAddPath,
+      arguments: OrderEditState(
+        customer: state.customer,
+        order: state.orders[index],
+        addMode: false,
       ),
     );
-    await loadOrder();
+    loadOrder();
   }
 }
