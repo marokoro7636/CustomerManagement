@@ -22,7 +22,8 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   final searchController = TextEditingController();
 
   void loadAllCustomer() async {
-    searchController.text = state.keyword; // 検索ワードをフォームに表示
+    // 検索ワードをフォームに表示
+    searchController.text = state.keyword;
 
     // 顧客ごとに未発送の商品の存在確認
     var allCustomer = await customerRepository.loadAllCustomer();
@@ -37,7 +38,9 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
       allCustomers: allCustomer,
       customers: allCustomer,
     );
-    search(); // 検索キーワードから表示用の顧客リストを更新
+
+    // 検索キーワードから表示用の顧客リストを更新
+    search();
   }
 
   void setSearchType(SearchType searchType) {
