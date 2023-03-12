@@ -44,6 +44,7 @@ class SettingScreen extends HookConsumerWidget {
           ),
         );
       }
+      
       // アップロードが終わった時
       if (previous?.loadingType == LoadingType.upload &&
           next.loadingType == LoadingType.neutral) {

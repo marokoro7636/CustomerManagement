@@ -1,5 +1,6 @@
 import 'package:customer_management/ui/customer_info/customer_info_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomerInfoScreen extends HookConsumerWidget {
@@ -167,18 +168,12 @@ class _AppPopupMenu extends HookConsumerWidget {
                   ),
                   TextButton(
                     onPressed: () async {
+                      Get.back();
                       await viewModel.delete().then((isDeleted) {
                         if (isDeleted) {
-                          // TODO:顧客一覧に戻る
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          Get.back();
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('削除できませんでした'),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
+                          Get.rawSnackbar(message: '削除できませんでした');
                         }
                       });
                     },

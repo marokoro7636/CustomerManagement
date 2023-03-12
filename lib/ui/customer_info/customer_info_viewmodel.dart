@@ -29,8 +29,11 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
   }
 
   Future<void> navigateCustomerEditScreen() async {
-    // TODO:Error
-    state = await Get.toNamed(customerEditPath) ?? state;
+    final editedCustomer = await Get.toNamed(
+      customerEditPath,
+      arguments: state,
+    );
+    state = editedCustomer ?? state;
   }
 
   Future<void> navigateOrderListUserScreen() async {
