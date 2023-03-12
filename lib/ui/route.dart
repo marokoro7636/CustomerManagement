@@ -16,11 +16,12 @@ import 'package:customer_management/ui/order_list_user/order_list_user_screen.da
 import 'package:customer_management/ui/order_list_user/order_list_user_state.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
 import 'package:customer_management/ui/setting/setting_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // TODO:Transition切り替え
-const String customerPath = "/base/customer";
+const String customerListPath = "/base/customer_list";
 const String annualSalesPath = "/base/annual_sales";
 const String settingPath = "/settings";
 const String customerInfoPath = "/customer_info";
@@ -30,25 +31,40 @@ const String orderListUserPath = "/order_list_user";
 const String orderAddPath = "/order_add";
 const String orderEditPath = "/order_edit";
 
+final currentRouteProvider = StateProvider<String>((ref) => '');
+
+final routingCallbackProvider = Provider<void Function(Routing?)>((ref) {
+  return (routing) {
+    if (routing == null) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(currentRouteProvider.notifier).state = routing.current;
+    });
+
+    switch (routing.current) {
+      case customerListPath:
+        ref.watch(customerListProvider.notifier).loadAllCustomer();
+        break;
+      case annualSalesPath:
+        ref.watch(annualSalesProvider.notifier).loadGoodsSummary();
+        break;
+    }
+  };
+});
+
 final getPagesProvider = Provider(
   (ref) => [
     // 顧客一覧画面
     GetPage(
-      name: customerPath,
-      page: () {
-        ref.watch(customerListProvider.notifier).loadAllCustomer();
-        return BaseScreen(screens: const CustomerListScreen());
-      },
+      name: customerListPath,
+      page: () => BaseScreen(screens: const CustomerListScreen()),
       transition: Transition.noTransition,
     ),
 
     // 年間売上画面
     GetPage(
       name: annualSalesPath,
-      page: () {
-        ref.watch(annualSalesProvider.notifier).loadGoodsSummary();
-        return BaseScreen(screens: const AnnualSalesScreen());
-      },
+      page: () => BaseScreen(screens: const AnnualSalesScreen()),
       transition: Transition.noTransition,
     ),
 
@@ -104,15 +120,23 @@ final getPagesProvider = Provider(
       ),
     ),
 
-    // 顧客注文画面
+    // 顧客注文一覧画面
     GetPage(
       name: orderListUserPath,
       page: () => ProviderScope(
         overrides: [
           orderListUserProvider.overrideWith(
-            (ref) => OrderListUserViewModel(
-              OrderListUserState(customer: Get.arguments as Customer),
-            ),
+            (ref) {
+              final viewModel = OrderListUserViewModel(
+                OrderListUserState(customer: Get.arguments as Customer),
+              );
+
+              ref.listen(currentRouteProvider, (previous, next) {
+                if (next == orderListUserPath) viewModel.loadOrder();
+              });
+
+              return viewModel;
+            },
           ),
         ],
         child: const OrderListUserScreen(),

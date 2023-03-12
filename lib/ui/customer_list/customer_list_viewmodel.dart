@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/route.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,8 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
   final searchController = TextEditingController();
 
   void loadAllCustomer() async {
+    log('loadAllCustomer', name: 'ExecFunc');
+
     // 検索ワードをフォームに表示
     searchController.text = state.keyword;
 
@@ -101,11 +105,9 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
 
   Future<void> navigateCustomerInfoScreen(int index) async {
     await Get.toNamed(customerInfoPath, arguments: state.customers[index]);
-    loadAllCustomer();
   }
 
   Future<void> navigateCustomerAddScreen() async {
     await Get.toNamed(customerAddPath);
-    loadAllCustomer();
   }
 }

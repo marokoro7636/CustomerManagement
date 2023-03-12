@@ -15,8 +15,9 @@ class CustomerManagementApp extends HookConsumerWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
-      initialRoute: customerPath,
+      initialRoute: customerListPath,
       getPages: ref.watch(getPagesProvider),
+      routingCallback: ref.watch(routingCallbackProvider),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: const [

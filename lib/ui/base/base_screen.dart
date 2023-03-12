@@ -24,7 +24,7 @@ class BaseScreen extends HookConsumerWidget {
           // 画面遷移
           switch (index) {
             case 0:
-              Get.toNamed(customerPath);
+              Get.toNamed(customerListPath);
               break;
             case 1:
               Get.toNamed(settingPath);
@@ -37,7 +37,7 @@ class BaseScreen extends HookConsumerWidget {
         onDestinationSelected: (index) {
           switch (index) {
             case 0:
-              Get.offNamed(customerPath);
+              Get.offNamed(customerListPath);
               break;
             case 1:
               Get.offNamed(annualSalesPath);
@@ -64,7 +64,7 @@ class BaseScreen extends HookConsumerWidget {
 
   static int _selectedBottomNavigationIndex(String location) {
     switch (location) {
-      case customerPath:
+      case customerListPath:
         return 0;
       case annualSalesPath:
         return 1;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/annual_sales_screen/annual_sales_state.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,8 @@ class AnnualSalesViewModel extends StateNotifier<AnnualSalesState> {
   final searchController = TextEditingController();
 
   void loadGoodsSummary() async {
+    log('loadGoodsSummary', name: 'ExecFunc');
+
     searchController.text = state.keyword;
     final allSummaryList = await orderRepository.groupOrderByName(state.year);
     state = state.copyWith(

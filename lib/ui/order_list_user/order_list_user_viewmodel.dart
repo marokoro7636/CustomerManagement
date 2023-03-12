@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:customer_management/model/entity/order.dart';
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/order_edit/order_edit_state.dart';
@@ -10,19 +12,19 @@ import 'package:customer_management/model/db/app_database.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 final orderListUserProvider =
-    StateNotifierProvider<OrderListUserViewModel, OrderListUserState>(
+StateNotifierProvider<OrderListUserViewModel, OrderListUserState>(
         (ref) => throw UnimplementedError());
 
 class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
   OrderListUserViewModel(OrderListUserState orderListUserState)
-      : super(orderListUserState) {
-    loadOrder();
-  }
+      : super(orderListUserState);
 
   final orderRepository = OrderRepository(AppDatabase());
   final searchController = TextEditingController();
 
-  Future loadOrder() async {
+  void loadOrder() async {
+    log('loadOrder', name: 'ExecFunc');
+
     final allOrders = await orderRepository.loadOrder(state.customer);
     state = state.copyWith(
       allOrders: allOrders,
@@ -52,7 +54,7 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
 
   void deleteOrder(int index) async {
     await orderRepository.delete(state.orders[index]);
-    await loadOrder();
+    loadOrder();
   }
 
   void setKeyword(String keyword) {
@@ -75,8 +77,8 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     if (state.searchDate != null) {
       ordersTmp = ordersTmp
           .where((e) =>
-              e.orderDate!.year == state.searchDate!.year &&
-              e.orderDate!.month == state.searchDate!.month)
+      e.orderDate!.year == state.searchDate!.year &&
+          e.orderDate!.month == state.searchDate!.month)
           .toList();
     }
 
@@ -101,18 +103,18 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
         addMode: true,
       ),
     );
-    loadOrder();
+    // loadOrder();
   }
 
   Future<void> navigateOrderEditScreen(int index) async {
     await Get.toNamed(
-      orderAddPath,
+      orderEditPath,
       arguments: OrderEditState(
         customer: state.customer,
         order: state.orders[index],
         addMode: false,
       ),
     );
-    loadOrder();
+    // loadOrder();
   }
 }

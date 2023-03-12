@@ -1,4 +1,5 @@
 import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
+import 'package:customer_management/ui/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -95,8 +96,8 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
     if (formKey.currentState!.validate()) {
       if (state.addMode) {
         await customerRepository.insert(state.customer).then((value) {
-          // Get.back();
-          // Get.toNamed(customerAddPath);
+          Get.back();
+          Get.toNamed(customerAddPath);
         });
       } else {
         await customerRepository.update(state.customer);
