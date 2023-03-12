@@ -130,7 +130,7 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
         await orderRepository.insert(state.order).then((value) {
           Get.back();
           Get.toNamed(
-            orderAddPath,
+            '$orderAddPath/nt',
             arguments: OrderEditState(
               customer: state.customer,
               order: Order(customerId: state.customer.id),

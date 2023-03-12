@@ -101,6 +101,20 @@ final getPagesProvider = Provider(
         child: CustomerEditScreen(),
       ),
     ),
+    GetPage(
+      name: '$customerAddPath/nt',
+      page: () => ProviderScope(
+        overrides: [
+          customerEditProvider.overrideWith(
+            (ref) => CustomerEditViewModel(
+              const CustomerEditState(customer: Customer(), addMode: true),
+            ),
+          ),
+        ],
+        child: CustomerEditScreen(),
+      ),
+      transition: Transition.noTransition,
+    ),
 
     // 顧客編集画面
     GetPage(
@@ -154,6 +168,18 @@ final getPagesProvider = Provider(
         ],
         child: const OrderEditScreen(),
       ),
+    ),
+    GetPage(
+      name: '$orderAddPath/nt',
+      page: () => ProviderScope(
+        overrides: [
+          orderEditProvider.overrideWith(
+            (ref) => OrderEditViewModel(Get.arguments as OrderEditState),
+          ),
+        ],
+        child: const OrderEditScreen(),
+      ),
+      transition: Transition.noTransition,
     ),
 
     // 注文編集画面

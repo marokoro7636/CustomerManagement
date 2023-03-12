@@ -97,7 +97,7 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
       if (state.addMode) {
         await customerRepository.insert(state.customer).then((value) {
           Get.back();
-          Get.toNamed(customerAddPath);
+          Get.toNamed('$customerAddPath/nt');
         });
       } else {
         await customerRepository.update(state.customer);
