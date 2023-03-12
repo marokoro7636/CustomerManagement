@@ -23,18 +23,11 @@ class SettingViewModel extends StateNotifier<SettingState> {
         );
       }
     } catch (error, stackTrace) {
-      if (state.googleState != null) {
-        state = state.copyWith(
-          googleState: AsyncError<GoogleState>(error, stackTrace)
-              .copyWithPrevious(state.googleState!),
-          loadingType: LoadingType.neutral,
-        );
-      } else {
-        state = state.copyWith(
-          googleState: AsyncError<GoogleState>(error, stackTrace),
-          loadingType: LoadingType.neutral,
-        );
-      }
+      state = state.copyWith(
+        googleState: AsyncError<GoogleState>(error, stackTrace)
+            .copyWithPrevious(state.googleState!),
+        loadingType: LoadingType.neutral,
+      );
     }
   }
 
