@@ -6,6 +6,7 @@ part of 'order.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+// ignore: non_constant_identifier_names
 _$_Order _$$_OrderFromJson(Map<String, dynamic> json) => _$_Order(
       id: json['id'] as int? ?? 0,
       customerId: json['customerId'] as int? ?? 0,
@@ -18,6 +19,7 @@ _$_Order _$$_OrderFromJson(Map<String, dynamic> json) => _$_Order(
           json['sendDate'], const DateTimeConverter().fromJson),
     );
 
+// ignore: non_constant_identifier_names
 Map<String, dynamic> _$$_OrderToJson(_$_Order instance) => <String, dynamic>{
       'id': instance.id,
       'customerId': instance.customerId,

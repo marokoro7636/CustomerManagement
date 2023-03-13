@@ -72,7 +72,6 @@ class SettingViewModel extends StateNotifier<SettingState> {
         loadingType: LoadingType.neutral,
       );
     }
-    print('upload finished');
   }
 
   void download() async {
@@ -102,6 +101,5 @@ class SettingViewModel extends StateNotifier<SettingState> {
         loadingType: LoadingType.neutral,
       );
     }
-    print('download finished');
   }
 }

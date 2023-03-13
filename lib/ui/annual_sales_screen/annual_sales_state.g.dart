@@ -6,6 +6,7 @@ part of 'annual_sales_state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+// ignore: non_constant_identifier_names
 _$_AnnualSalesState _$$_AnnualSalesStateFromJson(Map<String, dynamic> json) =>
     _$_AnnualSalesState(
       allSummaryList: (json['allSummaryList'] as List<dynamic>?)
@@ -20,6 +21,7 @@ _$_AnnualSalesState _$$_AnnualSalesStateFromJson(Map<String, dynamic> json) =>
       keyword: json['keyword'] as String? ?? '',
     );
 
+// ignore: non_constant_identifier_names
 Map<String, dynamic> _$$_AnnualSalesStateToJson(_$_AnnualSalesState instance) =>
     <String, dynamic>{
       'allSummaryList': instance.allSummaryList,

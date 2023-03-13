@@ -66,7 +66,6 @@ class CustomerListScreen extends HookConsumerWidget {
                       selected: state.onlyNotSend,
                       onSelected: (value) {
                         viewModel.changeSwitch(value);
-                        print(value);
                       },
                     ),
                   ],
