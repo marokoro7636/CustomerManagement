@@ -8,18 +8,19 @@ import 'package:customer_management/ui/route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:customer_management/model/db/app_database.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 final orderListUserProvider =
-StateNotifierProvider<OrderListUserViewModel, OrderListUserState>(
+    StateNotifierProvider<OrderListUserViewModel, OrderListUserState>(
         (ref) => throw UnimplementedError());
 
 class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
-  OrderListUserViewModel(OrderListUserState orderListUserState)
-      : super(orderListUserState);
+  OrderListUserViewModel({
+    required OrderListUserState orderListUserState,
+    required this.orderRepository,
+  }) : super(orderListUserState);
 
-  final orderRepository = OrderRepository(AppDatabase());
+  final OrderRepository orderRepository;
   final searchController = TextEditingController();
 
   void loadOrder() async {
@@ -77,8 +78,8 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
     if (state.searchDate != null) {
       ordersTmp = ordersTmp
           .where((e) =>
-      e.orderDate!.year == state.searchDate!.year &&
-          e.orderDate!.month == state.searchDate!.month)
+              e.orderDate!.year == state.searchDate!.year &&
+              e.orderDate!.month == state.searchDate!.month)
           .toList();
     }
 

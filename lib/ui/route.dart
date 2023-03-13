@@ -1,4 +1,6 @@
 import 'package:customer_management/model/entity/customer.dart';
+import 'package:customer_management/model/repository/customer_repository.dart';
+import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/annual_sales_screen/annual_sales_screen.dart';
 import 'package:customer_management/ui/annual_sales_screen/annual_sales_viewmodel.dart';
 import 'package:customer_management/ui/base/base_screen.dart';
@@ -79,7 +81,11 @@ final getPagesProvider = Provider(
       page: () => ProviderScope(
         overrides: [
           customerInfoProvider.overrideWith(
-            (ref) => CustomerInfoViewModel(Get.arguments as Customer),
+            (ref) => CustomerInfoViewModel(
+              customer: Get.arguments as Customer,
+              customerRepository: ref.watch(customerRepositoryProvider),
+              orderRepository: ref.watch(orderRepositoryProvider),
+            ),
           ),
         ],
         child: const CustomerInfoScreen(),
@@ -93,7 +99,9 @@ final getPagesProvider = Provider(
         overrides: [
           customerEditProvider.overrideWith(
             (ref) => CustomerEditViewModel(
-              const CustomerEditState(customer: Customer(), addMode: true),
+              customerEditState:
+                  const CustomerEditState(customer: Customer(), addMode: true),
+              customerRepository: ref.watch(customerRepositoryProvider),
             ),
           ),
         ],
@@ -106,7 +114,9 @@ final getPagesProvider = Provider(
         overrides: [
           customerEditProvider.overrideWith(
             (ref) => CustomerEditViewModel(
-              const CustomerEditState(customer: Customer(), addMode: true),
+              customerEditState:
+                  const CustomerEditState(customer: Customer(), addMode: true),
+              customerRepository: ref.watch(customerRepositoryProvider),
             ),
           ),
         ],
@@ -122,10 +132,11 @@ final getPagesProvider = Provider(
         overrides: [
           customerEditProvider.overrideWith(
             (ref) => CustomerEditViewModel(
-              CustomerEditState(
+              customerEditState: CustomerEditState(
                 customer: Get.arguments as Customer,
                 addMode: false,
               ),
+              customerRepository: ref.watch(customerRepositoryProvider),
             ),
           ),
         ],
@@ -141,7 +152,9 @@ final getPagesProvider = Provider(
           orderListUserProvider.overrideWith(
             (ref) {
               final viewModel = OrderListUserViewModel(
-                OrderListUserState(customer: Get.arguments as Customer),
+                orderListUserState:
+                    OrderListUserState(customer: Get.arguments as Customer),
+                orderRepository: ref.watch(orderRepositoryProvider),
               );
 
               ref.listen(currentRouteProvider, (previous, next) {
@@ -162,7 +175,10 @@ final getPagesProvider = Provider(
       page: () => ProviderScope(
         overrides: [
           orderEditProvider.overrideWith(
-            (ref) => OrderEditViewModel(Get.arguments as OrderEditState),
+            (ref) => OrderEditViewModel(
+              orderEditState: Get.arguments as OrderEditState,
+              orderRepository: ref.watch(orderRepositoryProvider),
+            ),
           ),
         ],
         child: const OrderEditScreen(),
@@ -173,7 +189,10 @@ final getPagesProvider = Provider(
       page: () => ProviderScope(
         overrides: [
           orderEditProvider.overrideWith(
-            (ref) => OrderEditViewModel(Get.arguments as OrderEditState),
+            (ref) => OrderEditViewModel(
+              orderEditState: Get.arguments as OrderEditState,
+              orderRepository: ref.watch(orderRepositoryProvider),
+            ),
           ),
         ],
         child: const OrderEditScreen(),
@@ -187,7 +206,10 @@ final getPagesProvider = Provider(
       page: () => ProviderScope(
         overrides: [
           orderEditProvider.overrideWith(
-            (ref) => OrderEditViewModel(Get.arguments as OrderEditState),
+            (ref) => OrderEditViewModel(
+              orderEditState: Get.arguments as OrderEditState,
+              orderRepository: ref.watch(orderRepositoryProvider),
+            ),
           ),
         ],
         child: const OrderEditScreen(),

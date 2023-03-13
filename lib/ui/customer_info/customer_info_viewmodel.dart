@@ -1,4 +1,3 @@
-import 'package:customer_management/model/db/app_database.dart';
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/route.dart';
 import 'package:get/get.dart';
@@ -11,10 +10,14 @@ final customerInfoProvider =
         (ref) => throw UnimplementedError());
 
 class CustomerInfoViewModel extends StateNotifier<Customer> {
-  CustomerInfoViewModel(Customer customer) : super(customer);
+  CustomerInfoViewModel({
+    required Customer customer,
+    required this.customerRepository,
+    required this.orderRepository,
+  }) : super(customer);
 
-  final customerRepository = CustomerRepository(AppDatabase());
-  final orderRepository = OrderRepository(AppDatabase());
+  final CustomerRepository customerRepository;
+  final OrderRepository orderRepository;
 
   Future<bool> delete() async {
     // 顧客の注文履歴がある場合削除しない

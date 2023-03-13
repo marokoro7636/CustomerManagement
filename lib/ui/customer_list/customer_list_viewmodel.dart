@@ -6,19 +6,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
-import 'package:customer_management/model/db/app_database.dart';
 import 'package:customer_management/ui/customer_list/customer_list_state.dart';
 import 'package:customer_management/model/entity/customer.dart';
 
 final customerListProvider =
     StateNotifierProvider<CustomerListViewModel, CustomerListState>(
-        (ref) => CustomerListViewModel());
+        (ref) => CustomerListViewModel(
+              customerRepository: ref.watch(customerRepositoryProvider),
+              orderRepository: ref.watch(orderRepositoryProvider),
+            ));
 
 class CustomerListViewModel extends StateNotifier<CustomerListState> {
-  CustomerListViewModel() : super(const CustomerListState());
+  CustomerListViewModel({
+    required this.customerRepository,
+    required this.orderRepository,
+  }) : super(const CustomerListState());
 
-  final customerRepository = CustomerRepository(AppDatabase());
-  final orderRepository = OrderRepository(AppDatabase());
+  final CustomerRepository customerRepository;
+  final OrderRepository orderRepository;
   final searchController = TextEditingController();
 
   void loadAllCustomer() async {
