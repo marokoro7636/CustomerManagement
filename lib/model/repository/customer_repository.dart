@@ -1,5 +1,9 @@
 import 'package:customer_management/model/db/app_database.dart';
 import 'package:customer_management/model/entity/customer.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+final customerRepositoryProvider =
+    Provider((ref) => CustomerRepository(ref.watch(appDataBaseProvider)));
 
 class CustomerRepository {
   CustomerRepository(this._appDatabase);
@@ -8,8 +12,8 @@ class CustomerRepository {
 
   Future<List<Customer>> loadAllCustomer() => _appDatabase.loadAllCustomer();
 
-  Future<Customer> loadCustomerById(int customerId)
-    => _appDatabase.loadCustomerById(customerId);
+  Future<Customer> loadCustomerById(int customerId) =>
+      _appDatabase.loadCustomerById(customerId);
 
   Future insert(Customer customer) => _appDatabase.insertCustomer(customer);
 

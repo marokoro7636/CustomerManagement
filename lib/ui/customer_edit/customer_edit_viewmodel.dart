@@ -4,16 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
-import 'package:customer_management/model/db/app_database.dart';
 
 final customerEditProvider =
     StateNotifierProvider<CustomerEditViewModel, CustomerEditState>(
         (ref) => throw UnimplementedError());
 
 class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
-  CustomerEditViewModel(CustomerEditState customer) : super(customer);
+  CustomerEditViewModel({
+    required CustomerEditState customerEditState,
+    required this.customerRepository,
+  }) : super(customerEditState);
 
-  final customerRepository = CustomerRepository(AppDatabase());
+  final CustomerRepository customerRepository;
 
   var containerKey = UniqueKey();
   final formKey = GlobalKey<FormState>();

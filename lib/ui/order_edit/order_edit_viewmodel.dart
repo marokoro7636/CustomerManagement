@@ -6,14 +6,16 @@ import 'package:customer_management/util/ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:customer_management/model/db/app_database.dart';
 
 final orderEditProvider =
     StateNotifierProvider<OrderEditViewModel, OrderEditState>(
         (ref) => throw UnimplementedError());
 
 class OrderEditViewModel extends StateNotifier<OrderEditState> {
-  OrderEditViewModel(OrderEditState orderEditState) : super(orderEditState) {
+  OrderEditViewModel({
+    required OrderEditState orderEditState,
+    required this.orderRepository,
+  }) : super(orderEditState) {
     if (state.order.orderDate != null) {
       orderDateController.text = state.order.orderDate!.toFormattedString();
     }
@@ -22,7 +24,7 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     }
   }
 
-  final orderRepository = OrderRepository(AppDatabase());
+  final OrderRepository orderRepository;
   final orderDateController = TextEditingController();
   final sendDateController = TextEditingController();
   final initDate = DateTime.now();
