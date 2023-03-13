@@ -44,7 +44,7 @@ class SettingScreen extends HookConsumerWidget {
           ),
         );
       }
-      
+
       // アップロードが終わった時
       if (previous?.loadingType == LoadingType.upload &&
           next.loadingType == LoadingType.neutral) {
@@ -87,11 +87,17 @@ class SettingScreen extends HookConsumerWidget {
       fontFamily: GoogleFonts.mPlusRounded1c().fontFamily,
     );
 
+    final settingsThemeData = SettingsThemeData(
+      settingsListBackground: Theme.of(context).colorScheme.background,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
       ),
       body: SettingsList(
+        lightTheme: settingsThemeData,
+        darkTheme: settingsThemeData,
         sections: [
           SettingsSection(
             title: Text('バックアップ', style: textStyle),
