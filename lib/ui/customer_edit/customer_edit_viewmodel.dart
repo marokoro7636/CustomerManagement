@@ -39,6 +39,9 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
     if (value == null || value.isEmpty) {
       return '氏名(ひらがな)を入力してください';
     }
+    if (!RegExp(r'^[ぁ-ん]+$').hasMatch(value)) {
+      return 'ひらがなで入力してください';
+    }
     return null;
   }
 
