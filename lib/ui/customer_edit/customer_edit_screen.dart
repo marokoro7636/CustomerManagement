@@ -44,12 +44,6 @@ class CustomerEditScreen extends HookConsumerWidget {
                         border: OutlineInputBorder(),
                         labelText: '氏名(ひらがな)',
                       ),
-                      inputFormatters: [
-                        TextInputFormatter.withFunction((oldValue, newValue) =>
-                            RegExp(r'^[ぁ-ん]*$').hasMatch(newValue.text)
-                                ? newValue
-                                : oldValue),
-                      ],
                       validator: viewModel.validateNameKana,
                       onChanged: viewModel.setNameKana,
                     ),
