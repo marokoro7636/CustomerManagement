@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// TODO:Transition切り替え
 const String customerListPath = "/base/customer_list";
 const String annualSalesPath = "/base/annual_sales";
 const String settingPath = "/settings";

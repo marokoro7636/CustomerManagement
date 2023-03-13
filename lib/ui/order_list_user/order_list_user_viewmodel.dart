@@ -103,7 +103,6 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
         addMode: true,
       ),
     );
-    // loadOrder();
   }
 
   Future<void> navigateOrderEditScreen(int index) async {
@@ -115,6 +114,5 @@ class OrderListUserViewModel extends StateNotifier<OrderListUserState> {
         addMode: false,
       ),
     );
-    // loadOrder();
   }
 }
