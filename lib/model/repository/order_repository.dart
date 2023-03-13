@@ -12,8 +12,6 @@ class OrderRepository {
 
   final AppDatabase _appDatabase;
 
-  Future<List<Order>> loadAllOrder() => _appDatabase.loadAllOrder();
-
   Future<List<Order>> loadOrder(Customer customer) =>
       _appDatabase.loadOrder(customer);
 

@@ -12,9 +12,6 @@ class CustomerRepository {
 
   Future<List<Customer>> loadAllCustomer() => _appDatabase.loadAllCustomer();
 
-  Future<Customer> loadCustomerById(int customerId) =>
-      _appDatabase.loadCustomerById(customerId);
-
   Future insert(Customer customer) => _appDatabase.insertCustomer(customer);
 
   Future update(Customer customer) => _appDatabase.updateCustomer(customer);
