@@ -36,7 +36,6 @@ dependencies:
   hooks_riverpod: ^2.1.1
   sqflite: ^2.2.4+1
   path: ^1.8.3
-  uuid: ^3.0.6
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,16 +45,13 @@ dependencies:
   google_fonts: ^4.0.3
   json_annotation: ^4.8.0
   intl: ^0.17.0
-  tuple: ^2.0.1
   firebase_core: ^2.7.0
   google_sign_in: ^6.0.1
   googleapis: ^10.1.0
   extension_google_sign_in_as_googleapis_auth: ^2.0.9
-  flutter_signin_button: ^2.0.0
   path_provider: ^2.0.13
   settings_ui: ^2.0.2
   month_picker_dialog: ^1.0.0
-  flutter_slidable: ^2.0.0
   get: ^4.6.5
 
 dependency_overrides:
