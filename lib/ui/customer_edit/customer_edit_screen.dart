@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
 
 class CustomerEditScreen extends HookConsumerWidget {
-  CustomerEditScreen({Key? key}) : super(key: key);
+  const CustomerEditScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

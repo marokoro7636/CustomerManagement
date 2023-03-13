@@ -6,6 +6,7 @@ part of 'customer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+// ignore: non_constant_identifier_names
 _$_Customer _$$_CustomerFromJson(Map<String, dynamic> json) => _$_Customer(
       id: json['id'] as int? ?? 0,
       name: json['name'] as String? ?? '',
@@ -18,6 +19,7 @@ _$_Customer _$$_CustomerFromJson(Map<String, dynamic> json) => _$_Customer(
       isSend: json['isSend'] as bool? ?? true,
     );
 
+// ignore: non_constant_identifier_names
 Map<String, dynamic> _$$_CustomerToJson(_$_Customer instance) =>
     <String, dynamic>{
       'id': instance.id,

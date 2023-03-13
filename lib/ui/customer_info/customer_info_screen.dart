@@ -15,7 +15,7 @@ class CustomerInfoScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        actions: [_AppPopupMenu()],
+        actions: const [_AppPopupMenu()],
       ),
       resizeToAvoidBottomInset: false,
       body: SafeArea(

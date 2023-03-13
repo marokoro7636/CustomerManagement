@@ -105,7 +105,7 @@ final getPagesProvider = Provider(
             ),
           ),
         ],
-        child: CustomerEditScreen(),
+        child: const CustomerEditScreen(),
       ),
     ),
     GetPage(
@@ -120,7 +120,7 @@ final getPagesProvider = Provider(
             ),
           ),
         ],
-        child: CustomerEditScreen(),
+        child: const CustomerEditScreen(),
       ),
       transition: Transition.noTransition,
     ),
@@ -140,7 +140,7 @@ final getPagesProvider = Provider(
             ),
           ),
         ],
-        child: CustomerEditScreen(),
+        child: const CustomerEditScreen(),
       ),
     ),
 
