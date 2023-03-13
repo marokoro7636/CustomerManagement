@@ -15,6 +15,7 @@ class AppDrawer extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return NavigationDrawer(
       selectedIndex: selectedIndex,
+      onDestinationSelected: onDestinationSelected,
       children: const [
         Padding(
           padding: EdgeInsets.fromLTRB(28, 16, 16, 10),
@@ -31,9 +32,6 @@ class AppDrawer extends HookConsumerWidget {
           selectedIcon: Icon(Icons.settings),
         ),
       ],
-      onDestinationSelected: (index) {
-        onDestinationSelected(index);
-      },
     );
   }
 }

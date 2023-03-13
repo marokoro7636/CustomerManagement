@@ -4,7 +4,7 @@ import 'package:customer_management/ui/order_edit/order_edit_state.dart';
 import 'package:customer_management/ui/route.dart';
 import 'package:customer_management/util/ext.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/db/app_database.dart';
 
@@ -128,21 +128,19 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
     if (formKey.currentState!.validate()) {
       if (state.addMode) {
         await orderRepository.insert(state.order).then((value) {
-          context
-            ..pop()
-            ..push(
-              orderAddPath,
-              extra: OrderEditState(
-                customer: state.customer,
-                order: Order(customerId: state.customer.id),
-                addMode: true,
-              ),
-            );
+          Get.back();
+          Get.toNamed(
+            '$orderAddPath/nt',
+            arguments: OrderEditState(
+              customer: state.customer,
+              order: Order(customerId: state.customer.id),
+              addMode: true,
+            ),
+          );
         });
       } else {
-        await orderRepository
-            .update(state.order)
-            .then((_) => Navigator.pop(context, state.order));
+        await orderRepository.update(state.order);
+        Get.back(result: state.order);
       }
       return true;
     }

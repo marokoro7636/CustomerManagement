@@ -1,6 +1,7 @@
 import 'package:customer_management/ui/order_edit/order_edit_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class OrderEditScreen extends HookConsumerWidget {
@@ -108,12 +109,7 @@ class OrderEditScreen extends HookConsumerWidget {
                     onPressed: () async {
                       await viewModel.save(context).then((result) {
                         if (result) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('保存しました'),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
+                          Get.rawSnackbar(message: '保存しました');
                         }
                       });
                     },

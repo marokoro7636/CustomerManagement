@@ -6,9 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
 
 class CustomerListScreen extends HookConsumerWidget {
-  const CustomerListScreen({
-    Key? key,
-  }) : super(key: key);
+  const CustomerListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -80,7 +78,7 @@ class CustomerListScreen extends HookConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => viewModel.navigateCustomerAddScreen(context),
+        onPressed: () async => viewModel.navigateCustomerAddScreen(),
         child: const Icon(Icons.add),
       ),
     );
@@ -128,7 +126,7 @@ class _CustomerList extends HookConsumerWidget {
                   Text(customer.address),
                 ],
               ),
-              onTap: () => viewModel.navigateCustomerInfoScreen(context, index),
+              onTap: () async => viewModel.navigateCustomerInfoScreen(index),
             ),
           ),
         );

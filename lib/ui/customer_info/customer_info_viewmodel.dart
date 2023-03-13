@@ -1,11 +1,7 @@
 import 'package:customer_management/model/db/app_database.dart';
 import 'package:customer_management/model/repository/order_repository.dart';
-import 'package:customer_management/ui/customer_edit/customer_edit_screen.dart';
-import 'package:customer_management/ui/customer_edit/customer_edit_state.dart';
-import 'package:customer_management/ui/customer_edit/customer_edit_viewmodel.dart';
 import 'package:customer_management/ui/route.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/entity/customer.dart';
@@ -32,31 +28,15 @@ class CustomerInfoViewModel extends StateNotifier<Customer> {
     }
   }
 
-  void navigateCustomerEditScreen(BuildContext context) async {
-    final editedCustomer = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return ProviderScope(
-            overrides: [
-              customerEditProvider.overrideWith(
-                (ref) => CustomerEditViewModel(
-                  CustomerEditState(
-                    customer: state,
-                    addMode: false,
-                  ),
-                ),
-              ),
-            ],
-            child: CustomerEditScreen(),
-          );
-        },
-      ),
+  Future<void> navigateCustomerEditScreen() async {
+    final editedCustomer = await Get.toNamed(
+      customerEditPath,
+      arguments: state,
     );
     state = editedCustomer ?? state;
   }
 
-  void navigateOrderListUserScreen(BuildContext context) {
-    context.push(orderListUserPath, extra: state);
+  Future<void> navigateOrderListUserScreen() async {
+    Get.toNamed(orderListUserPath, arguments: state);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:customer_management/ui/components/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:customer_management/ui/route.dart';
@@ -13,30 +13,35 @@ class BaseScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(routerProvider);
-
     return Scaffold(
       key: scaffoldKey,
       body: SafeArea(child: screens),
       drawer: AppDrawer(
-        selectedIndex: _selectedDrawerIndex(router.location),
+        selectedIndex: _selectedDrawerIndex(Get.currentRoute),
         onDestinationSelected: (index) {
-          if (index == 0) {
-            context.pop();
-            context.go(customerPath);
-          }
-          else if (index == 1) {
-            context.push(settingPath);
+          // Drawerを閉じる
+          Get.back();
+          // 画面遷移
+          switch (index) {
+            case 0:
+              Get.toNamed(customerListPath);
+              break;
+            case 1:
+              Get.toNamed(settingPath);
+              break;
           }
         },
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedBottomNavigationIndex(router.location),
+        selectedIndex: _selectedBottomNavigationIndex(Get.currentRoute),
         onDestinationSelected: (index) {
-          if (index == 0) {
-            context.go(customerPath);
-          } else if (index == 1) {
-            context.go(annualSalesPath);
+          switch (index) {
+            case 0:
+              Get.offNamed(customerListPath);
+              break;
+            case 1:
+              Get.offNamed(annualSalesPath);
+              break;
           }
         },
         destinations: const [
@@ -59,7 +64,7 @@ class BaseScreen extends HookConsumerWidget {
 
   static int _selectedBottomNavigationIndex(String location) {
     switch (location) {
-      case customerPath:
+      case customerListPath:
         return 0;
       case annualSalesPath:
         return 1;

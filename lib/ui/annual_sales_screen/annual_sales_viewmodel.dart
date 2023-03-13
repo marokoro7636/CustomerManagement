@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/annual_sales_screen/annual_sales_state.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +13,14 @@ final annualSalesProvider =
 class AnnualSalesViewModel extends StateNotifier<AnnualSalesState> {
   AnnualSalesViewModel() : super(const AnnualSalesState()) {
     state = state.copyWith(year: DateTime.now().year);
-    loadGoodsSummary();
   }
 
   final orderRepository = OrderRepository(AppDatabase());
   final searchController = TextEditingController();
 
   void loadGoodsSummary() async {
+    log('loadGoodsSummary', name: 'ExecFunc');
+
     searchController.text = state.keyword;
     final allSummaryList = await orderRepository.groupOrderByName(state.year);
     state = state.copyWith(

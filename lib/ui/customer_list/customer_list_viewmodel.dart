@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:customer_management/model/repository/order_repository.dart';
 import 'package:customer_management/ui/route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:customer_management/model/repository/customer_repository.dart';
 import 'package:customer_management/model/db/app_database.dart';
@@ -13,16 +15,17 @@ final customerListProvider =
         (ref) => CustomerListViewModel());
 
 class CustomerListViewModel extends StateNotifier<CustomerListState> {
-  CustomerListViewModel() : super(const CustomerListState()) {
-    loadAllCustomer();
-  }
+  CustomerListViewModel() : super(const CustomerListState());
 
   final customerRepository = CustomerRepository(AppDatabase());
   final orderRepository = OrderRepository(AppDatabase());
   final searchController = TextEditingController();
 
   void loadAllCustomer() async {
-    searchController.text = state.keyword; // 検索ワードをフォームに表示
+    log('loadAllCustomer', name: 'ExecFunc');
+
+    // 検索ワードをフォームに表示
+    searchController.text = state.keyword;
 
     // 顧客ごとに未発送の商品の存在確認
     var allCustomer = await customerRepository.loadAllCustomer();
@@ -37,7 +40,9 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
       allCustomers: allCustomer,
       customers: allCustomer,
     );
-    search(); // 検索キーワードから表示用の顧客リストを更新
+
+    // 検索キーワードから表示用の顧客リストを更新
+    search();
   }
 
   void setSearchType(SearchType searchType) {
@@ -98,11 +103,11 @@ class CustomerListViewModel extends StateNotifier<CustomerListState> {
     }
   }
 
-  void navigateCustomerInfoScreen(BuildContext context, int index) {
-    context.push(customerInfoPath, extra: state.customers[index]);
+  Future<void> navigateCustomerInfoScreen(int index) async {
+    await Get.toNamed(customerInfoPath, arguments: state.customers[index]);
   }
 
-  void navigateCustomerAddScreen(BuildContext context) {
-    context.push(customerAddPath);
+  Future<void> navigateCustomerAddScreen() async {
+    await Get.toNamed(customerAddPath);
   }
 }
