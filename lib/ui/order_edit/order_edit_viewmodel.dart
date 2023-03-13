@@ -41,6 +41,8 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
   }
 
   void setGoodsPrice(String value) {
+    if (value.isEmpty) return;
+
     state = state.copyWith(
         order: state.order.copyWith(goodsPrice: int.parse(value)));
   }
@@ -53,6 +55,8 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
   }
 
   void setGoodsAmount(String value) {
+    if (value.isEmpty) return;
+
     state = state.copyWith(
         order: state.order.copyWith(goodsAmount: int.parse(value)));
   }
