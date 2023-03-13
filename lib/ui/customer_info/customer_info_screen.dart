@@ -173,7 +173,7 @@ class _AppPopupMenu extends HookConsumerWidget {
                         if (isDeleted) {
                           Get.back();
                         } else {
-                          Get.rawSnackbar(message: '削除できませんでした');
+                          Get.rawSnackbar(message: '注文が存在するため、削除できません');
                         }
                       });
                     },
