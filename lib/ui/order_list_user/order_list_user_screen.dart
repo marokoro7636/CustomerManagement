@@ -64,7 +64,6 @@ class OrderListUserScreen extends HookConsumerWidget {
                 ),
               ),
               const Expanded(child: _OrderList()),
-              const SizedBox(height: 40),
             ],
           ),
         ),
@@ -88,8 +87,12 @@ class _OrderList extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ListView.builder(
-      itemCount: state.orders.length,
+      itemCount: state.orders.length + 1,
       itemBuilder: (BuildContext context, int index) {
+        if (index == state.orders.length) {
+          return const SizedBox(height: 100);
+        }
+
         final order = state.orders[index];
         final isSend = order.sendDate != null;
         final orderDate = order.orderDate!.toFormattedString();
