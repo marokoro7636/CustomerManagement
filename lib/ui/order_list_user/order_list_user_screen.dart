@@ -64,6 +64,7 @@ class OrderListUserScreen extends HookConsumerWidget {
                 ),
               ),
               const Expanded(child: _OrderList()),
+              const SizedBox(height: 40),
             ],
           ),
         ),
@@ -102,7 +103,6 @@ class _OrderList extends HookConsumerWidget {
             child: Column(
               children: [
                 ListTile(
-                  isThreeLine: true,
                   visualDensity: const VisualDensity(
                     vertical: VisualDensity.minimumDensity,
                   ),
