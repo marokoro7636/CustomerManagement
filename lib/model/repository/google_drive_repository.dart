@@ -29,6 +29,20 @@ class GoogleDriveRepository {
     }
   }
 
+  Future<GoogleState?> signInWithGoogleSilently() async {
+    final currentUser = await _googleSignIn.signInSilently();
+    final list = await listGoogleDriveFiles();
+
+    if (currentUser == null || list == null) {
+      return null;
+    } else {
+      return GoogleState(
+        currentUser: currentUser,
+        list: list,
+      );
+    }
+  }
+
   Future<void> signOutWithGoogle() async {
     await _googleSignIn.signOut();
   }

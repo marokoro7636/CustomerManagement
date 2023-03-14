@@ -18,6 +18,7 @@ import 'package:customer_management/ui/order_list_user/order_list_user_screen.da
 import 'package:customer_management/ui/order_list_user/order_list_user_state.dart';
 import 'package:customer_management/ui/order_list_user/order_list_user_viewmodel.dart';
 import 'package:customer_management/ui/setting/setting_screen.dart';
+import 'package:customer_management/ui/setting/setting_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,6 +34,7 @@ const String orderAddPath = "/order_add";
 const String orderEditPath = "/order_edit";
 
 final currentRouteProvider = StateProvider<String>((ref) => '');
+final loginProvider = StateProvider<bool>((ref) => false);
 
 final routingCallbackProvider = Provider<void Function(Routing?)>((ref) {
   return (routing) {
@@ -45,6 +47,7 @@ final routingCallbackProvider = Provider<void Function(Routing?)>((ref) {
     switch (routing.current) {
       case customerListPath:
         ref.watch(customerListProvider.notifier).loadAllCustomer();
+        ref.watch(settingProvider.notifier).signInSilently();
         break;
       case annualSalesPath:
         ref.watch(annualSalesProvider.notifier).loadGoodsSummary();
