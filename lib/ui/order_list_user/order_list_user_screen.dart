@@ -102,6 +102,7 @@ class _OrderList extends HookConsumerWidget {
             child: Column(
               children: [
                 ListTile(
+                  isThreeLine: true,
                   visualDensity: const VisualDensity(
                     vertical: VisualDensity.minimumDensity,
                   ),
