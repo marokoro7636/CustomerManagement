@@ -171,6 +171,10 @@ class SettingScreen extends HookConsumerWidget {
                   ),
                   leading: const Icon(Icons.upload),
                   onPressed: (context) {
+                    if (Get.isSnackbarOpen) {
+                      Get.closeCurrentSnackbar();
+                      return;
+                    }
                     viewModel.upload();
                   },
                 ),
@@ -189,6 +193,10 @@ class SettingScreen extends HookConsumerWidget {
                   ),
                   leading: const Icon(Icons.download),
                   onPressed: (context) {
+                    if (Get.isSnackbarOpen) {
+                      Get.closeCurrentSnackbar();
+                      return;
+                    }
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
