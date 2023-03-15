@@ -34,7 +34,6 @@ const String orderAddPath = "/order_add";
 const String orderEditPath = "/order_edit";
 
 final currentRouteProvider = StateProvider<String>((ref) => '');
-final loginProvider = StateProvider<bool>((ref) => false);
 
 final routingCallbackProvider = Provider<void Function(Routing?)>((ref) {
   return (routing) {
