@@ -104,13 +104,18 @@ class SettingScreen extends HookConsumerWidget {
             tiles: [
               if (state.googleState != null)
                 SettingsTile(
-                  title: Text(
-                    state.googleState!.value!.currentUser.displayName ?? '',
-                    style: textStyle,
-                  ),
-                  description: Text(
-                    state.googleState!.value!.currentUser.email,
-                    style: textStyle,
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        state.googleState!.value!.currentUser.displayName ?? '',
+                        style: textStyle,
+                      ),
+                      Text(
+                        state.googleState!.value!.currentUser.email,
+                        style: textStyle,
+                      ),
+                    ],
                   ),
                   leading: GoogleUserCircleAvatar(
                     identity: state.googleState!.value!.currentUser,
