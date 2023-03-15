@@ -31,6 +31,26 @@ class SettingViewModel extends StateNotifier<SettingState> {
     }
   }
 
+  void signInSilently() async {
+    if (state.googleState != null) return;
+
+    try {
+      final googleState = await googleRepository.signInWithGoogleSilently();
+      if (googleState != null) {
+        // ログイン成功
+        state = state.copyWith(
+          googleState: AsyncData(googleState),
+        );
+      }
+    } catch (error, stackTrace) {
+      state = state.copyWith(
+        googleState: AsyncError<GoogleState>(error, stackTrace)
+            .copyWithPrevious(state.googleState!),
+        loadingType: LoadingType.neutral,
+      );
+    }
+  }
+
   void signOut() async {
     if (state.googleState == null) return;
     try {
