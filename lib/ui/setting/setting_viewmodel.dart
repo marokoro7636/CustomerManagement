@@ -1,15 +1,20 @@
 import 'package:customer_management/model/repository/google_drive_repository.dart';
+import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
 import 'package:customer_management/ui/setting/setting_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final settingProvider = StateNotifierProvider<SettingViewModel, SettingState>(
-    (ref) => SettingViewModel(ref.watch(googleRepositoryProvider)));
+    (ref) => SettingViewModel(
+          ref.watch(googleRepositoryProvider),
+          ref.watch(customerListProvider.notifier),
+        ));
 
 class SettingViewModel extends StateNotifier<SettingState> {
-  SettingViewModel(this.googleRepository)
+  SettingViewModel(this.googleRepository, this.customerListViewModel)
       : super(const SettingState(loadingType: LoadingType.neutral));
 
   final GoogleDriveRepository googleRepository;
+  final CustomerListViewModel customerListViewModel;
 
   void signIn() async {
     if (state.googleState != null) return;
@@ -114,6 +119,8 @@ class SettingViewModel extends StateNotifier<SettingState> {
         )),
         loadingType: LoadingType.neutral,
       );
+
+      customerListViewModel.loadAllCustomer();
     } catch (error, stackTrace) {
       state = state.copyWith(
         googleState: AsyncError<GoogleState>(error, stackTrace)
