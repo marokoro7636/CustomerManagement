@@ -18,70 +18,87 @@ class SettingScreen extends HookConsumerWidget {
     final viewModel = ref.watch(settingProvider.notifier);
 
     ref.listen(settingProvider, (previous, next) {
-      // エラー時の処理
-      next.googleState?.whenOrNull(
-        error: (e, s) => Get.rawSnackbar(message: 'エラーが発生しました。もう一度お試しください。'),
+      next.googleState?.when(
+        skipLoadingOnRefresh: false,
+        data: (_) {
+          // アップロードが終わった時
+          if (previous?.loadingType == LoadingType.upload &&
+              next.loadingType == LoadingType.neutral) {
+            Get.back(); // ローディング画面を閉じる
+            Get.rawSnackbar(message: 'アップロードが完了しました');
+          }
+          // ダウンロードが終わった時
+          else if (previous?.loadingType == LoadingType.download &&
+              next.loadingType == LoadingType.neutral) {
+            Get.back(); // ローディング画面を閉じる
+            Get.rawSnackbar(message: 'ダウンロードが完了しました');
+          }
+        },
+        loading: () {
+          // アップロードが始まった時
+          if (previous?.loadingType == LoadingType.neutral &&
+              next.loadingType == LoadingType.upload) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => WillPopScope(
+                onWillPop: () async => false,
+                child: const SimpleDialog(
+                  title: Text('データをバックアップ中'),
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(36),
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+          // ダウンロードが始まった時
+          else if (previous?.loadingType == LoadingType.neutral &&
+              next.loadingType == LoadingType.download) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => WillPopScope(
+                onWillPop: () async => false,
+                child: const SimpleDialog(
+                  title: Text('データを復元中'),
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(36),
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        },
+        error: (e, s) {
+          // アップロードに失敗
+          if (previous?.loadingType == LoadingType.upload &&
+              next.loadingType == LoadingType.neutral) {
+            Get.back(); // ローディング画面を閉じる
+            Get.rawSnackbar(message: 'アップロード中にエラーが発生しました');
+          }
+          // ダウンロードに失敗
+          else if (previous?.loadingType == LoadingType.download &&
+              next.loadingType == LoadingType.neutral) {
+            Get.back(); // ローディング画面を閉じる
+            Get.rawSnackbar(message: 'ダウンロード中にエラーが発生しました');
+          }
+          // その他のエラー
+          else {
+            Get.rawSnackbar(message: 'エラーが発生しました');
+          }
+        },
       );
-
-      // アップロードが始まった時
-      if (previous?.loadingType == LoadingType.neutral &&
-          next.loadingType == LoadingType.upload) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => WillPopScope(
-            onWillPop: () async => false,
-            child: const SimpleDialog(
-              title: Text('データをバックアップ中'),
-              children: [
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(36),
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-
-      // アップロードが終わった時
-      if (previous?.loadingType == LoadingType.upload &&
-          next.loadingType == LoadingType.neutral) {
-        Get.back();
-        Get.rawSnackbar(message: 'アップロードが完了しました');
-      }
-
-      // ダウンロードが始まった時
-      if (previous?.loadingType == LoadingType.neutral &&
-          next.loadingType == LoadingType.download) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => WillPopScope(
-            onWillPop: () async => false,
-            child: const SimpleDialog(
-              title: Text('データを復元中'),
-              children: [
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(36),
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-
-      // ダウンロードが終わった時
-      if (previous?.loadingType == LoadingType.download &&
-          next.loadingType == LoadingType.neutral) {
-        Get.back();
-        Get.rawSnackbar(message: 'ダウンロードが完了しました');
-      }
     });
 
     final textStyle = TextStyle(
