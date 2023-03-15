@@ -1,5 +1,6 @@
 import 'package:customer_management/ui/setting/setting_state.dart';
 import 'package:customer_management/ui/setting/setting_viewmodel.dart';
+import 'package:customer_management/ui/theme/color.dart';
 import 'package:customer_management/util/ext.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -87,6 +88,12 @@ class SettingScreen extends HookConsumerWidget {
       fontFamily: GoogleFonts.mPlusRounded1c().fontFamily,
     );
 
+    final descriptionTextStyle = TextStyle(
+      fontFamily: GoogleFonts.mPlusRounded1c().fontFamily,
+      fontSize: 13,
+      color: grayVariant50,
+    );
+
     final settingsThemeData = SettingsThemeData(
       settingsListBackground: Theme.of(context).colorScheme.background,
     );
@@ -134,11 +141,16 @@ class SettingScreen extends HookConsumerWidget {
               ),
               if (state.googleState != null)
                 SettingsTile(
-                  title: Text('今すぐバックアップ', style: textStyle),
-                  description: Text(
-                    '最終バックアップ日時 : '
-                    '${state.googleState!.value!.list.files!.isNotEmpty ? state.googleState!.value!.list.files![0].modifiedTime!.toLocal().toBackupString() : 'データなし'}',
-                    style: textStyle,
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('今すぐバックアップ', style: textStyle),
+                      Text(
+                        '最終バックアップ日時 : '
+                        '${state.googleState!.value!.list.files!.isNotEmpty ? state.googleState!.value!.list.files![0].modifiedTime!.toLocal().toBackupString() : 'データなし'}',
+                        style: descriptionTextStyle,
+                      ),
+                    ],
                   ),
                   leading: const Icon(Icons.upload),
                   onPressed: (context) {
@@ -148,10 +160,15 @@ class SettingScreen extends HookConsumerWidget {
               if (state.googleState != null &&
                   state.googleState!.value!.list.files!.isNotEmpty)
                 SettingsTile(
-                  title: Text('データを復元', style: textStyle),
-                  description: Text(
-                    'Google Driveからデータを復元します',
-                    style: textStyle,
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('データを復元', style: textStyle),
+                      Text(
+                        'Google Driveからデータを復元します',
+                        style: descriptionTextStyle,
+                      ),
+                    ],
                   ),
                   leading: const Icon(Icons.download),
                   onPressed: (context) {
