@@ -48,10 +48,8 @@ class SettingViewModel extends StateNotifier<SettingState> {
           googleState: AsyncData(googleState),
         );
       }
-    } catch (error, stackTrace) {
+    } catch (error) {
       state = state.copyWith(
-        googleState: AsyncError<GoogleState>(error, stackTrace)
-            .copyWithPrevious(state.googleState!),
         loadingType: LoadingType.neutral,
       );
     }
