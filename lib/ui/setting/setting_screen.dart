@@ -1,4 +1,3 @@
-import 'package:customer_management/ui/customer_list/customer_list_viewmodel.dart';
 import 'package:customer_management/ui/setting/setting_state.dart';
 import 'package:customer_management/ui/setting/setting_viewmodel.dart';
 import 'package:customer_management/ui/theme/color.dart';
@@ -17,7 +16,6 @@ class SettingScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(settingProvider);
     final viewModel = ref.watch(settingProvider.notifier);
-    final customerListState = ref.watch(customerListProvider);
 
     ref.listen(settingProvider, (previous, next) {
       // エラー時の処理
@@ -156,11 +154,7 @@ class SettingScreen extends HookConsumerWidget {
                   ),
                   leading: const Icon(Icons.upload),
                   onPressed: (context) {
-                    if (customerListState.allCustomers.isNotEmpty) {
-                      viewModel.upload();
-                    } else {
-                      Get.rawSnackbar(message: '1人以上の顧客を登録してください');
-                    }
+                    viewModel.upload();
                   },
                 ),
               if (state.googleState != null &&
