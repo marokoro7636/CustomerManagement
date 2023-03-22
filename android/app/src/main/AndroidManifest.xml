@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.gr.java_conf.cyclotron.customer_management">
    <application
-        android:label="customer_management"
+        android:label="お得意様ノート"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

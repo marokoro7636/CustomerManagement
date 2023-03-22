@@ -229,6 +229,7 @@ class SettingScreen extends HookConsumerWidget {
                 title: Text('オープンソースライセンス', style: textStyle),
                 onPressed: (context) => showLicensePage(
                   context: context,
+                  applicationName: 'お得意様ノート',
                 ),
               ),
             ],
