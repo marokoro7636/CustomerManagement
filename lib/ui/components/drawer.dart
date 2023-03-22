@@ -19,7 +19,7 @@ class AppDrawer extends HookConsumerWidget {
       children: const [
         Padding(
           padding: EdgeInsets.fromLTRB(28, 16, 16, 10),
-          child: Text('CustomerManager'),
+          child: Text('お得意様ノート'),
         ),
         NavigationDrawerDestination(
           icon: Icon(Icons.home_outlined),
