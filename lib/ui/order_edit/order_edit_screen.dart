@@ -46,11 +46,13 @@ class OrderEditScreen extends HookConsumerWidget {
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '単価',
+                      counterText: '',
                     ),
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: viewModel.validateGoodsPrice,
                     onChanged: (value) => viewModel.setGoodsPrice(value),
+                    maxLength: 6,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -60,11 +62,13 @@ class OrderEditScreen extends HookConsumerWidget {
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: '数量',
+                      counterText: '',
                     ),
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: viewModel.validateGoodsAmount,
                     onChanged: (value) => viewModel.setGoodsAmount(value),
+                    maxLength: 4,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
