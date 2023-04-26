@@ -1,5 +1,5 @@
 import 'package:customer_management/ui/annual_sales_screen/annual_sales_viewmodel.dart';
-import 'package:customer_management/ui/components/searchbar.dart';
+import 'package:customer_management/ui/components/searchbar.dart' as searchbar;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,7 +19,7 @@ class AnnualSalesScreen extends HookConsumerWidget {
           padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
           child: Column(
             children: [
-              SearchBar(
+              searchbar.SearchBar(
                 openDrawer: Scaffold.of(context).openDrawer,
                 onChanged: viewModel.setKeyword,
                 controller: viewModel.searchController,

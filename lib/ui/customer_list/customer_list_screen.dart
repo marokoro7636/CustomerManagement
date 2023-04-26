@@ -1,4 +1,4 @@
-import 'package:customer_management/ui/components/searchbar.dart';
+import 'package:customer_management/ui/components/searchbar.dart' as searchbar;
 import 'package:customer_management/ui/customer_list/customer_list_state.dart';
 import 'package:customer_management/ui/theme/color.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class CustomerListScreen extends HookConsumerWidget {
           padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
           child: Column(
             children: [
-              SearchBar(
+              searchbar.SearchBar(
                 openDrawer: Scaffold.of(context).openDrawer,
                 onChanged: viewModel.setKeyword,
                 controller: viewModel.searchController,
