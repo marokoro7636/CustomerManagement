@@ -108,7 +108,7 @@ class AppDatabase {
     final db = await database;
     var maps = await db.query(
       _orderTableName,
-      orderBy: '$_columnOrderDate DESC',
+      orderBy: '$_columnOrderDate IS NULL DESC',
       where: '$_columnCustomerId = ?',
       whereArgs: [customer.id]
     );

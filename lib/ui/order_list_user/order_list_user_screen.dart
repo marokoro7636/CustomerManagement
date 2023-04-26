@@ -95,7 +95,7 @@ class _OrderList extends HookConsumerWidget {
 
         final order = state.orders[index];
         final isSend = order.sendDate != null;
-        final orderDate = order.orderDate!.toFormattedString();
+        final orderDate = order.orderDate?.toFormattedString();
         final sendDate = isSend ? order.sendDate!.toFormattedString() : '';
 
         return Padding(

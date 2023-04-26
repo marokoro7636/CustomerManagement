@@ -116,7 +116,9 @@ class _CustomerList extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${customer.accountName} @${customer.accountId}',
+                    customer.accountId.isNotEmpty
+                        ? '${customer.accountName} @${customer.accountId}'
+                        : customer.accountName,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

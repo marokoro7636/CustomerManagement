@@ -49,25 +49,11 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
         order: state.order.copyWith(goodsPrice: int.parse(value)));
   }
 
-  String? validateGoodsPrice(String? value) {
-    if (value == null || value.isEmpty) {
-      return '単価を入力してください';
-    }
-    return null;
-  }
-
   void setGoodsAmount(String value) {
     if (value.isEmpty) return;
 
     state = state.copyWith(
         order: state.order.copyWith(goodsAmount: int.parse(value)));
-  }
-
-  String? validateGoodsAmount(String? value) {
-    if (value == null || value.isEmpty) {
-      return '数量を入力してください';
-    }
-    return null;
   }
 
   void setOrderDate(BuildContext context) async {
@@ -89,13 +75,6 @@ class OrderEditViewModel extends StateNotifier<OrderEditState> {
   void deleteOrderDate() {
     orderDateController.clear();
     state = state.copyWith(order: state.order.copyWith(orderDate: null));
-  }
-
-  String? validateOrderDate(String? value) {
-    if (value == null || value.isEmpty) {
-      return '注文日を入力してください';
-    }
-    return null;
   }
 
   void setSendDate(BuildContext context) async {

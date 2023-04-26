@@ -39,9 +39,6 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
     if (value == null || value.isEmpty) {
       return '氏名(ひらがな)を入力してください';
     }
-    if (!RegExp(r'^[ぁ-ん]+$').hasMatch(value)) {
-      return 'ひらがなで入力してください';
-    }
     return null;
   }
 
@@ -50,10 +47,7 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
   }
 
   String? validatePostCode(String? value) {
-    if (value == null || value.isEmpty) {
-      return '郵便番号を入力してください';
-    }
-    if (value.length != 7) {
+    if (value != null && value.isNotEmpty && value.length != 7) {
       return '郵便番号は7桁です';
     }
     return null;
@@ -63,34 +57,13 @@ class CustomerEditViewModel extends StateNotifier<CustomerEditState> {
     state = state.copyWith(customer: state.customer.copyWith(address: value));
   }
 
-  String? validateAddress(String? value) {
-    if (value == null || value.isEmpty) {
-      return '住所を入力してください';
-    }
-    return null;
-  }
-
   void setAccountName(String value) {
     state =
         state.copyWith(customer: state.customer.copyWith(accountName: value));
   }
 
-  String? validateAccountName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'アカウント名を入力してください';
-    }
-    return null;
-  }
-
   void setAccountId(String value) {
     state = state.copyWith(customer: state.customer.copyWith(accountId: value));
-  }
-
-  String? validateAccountId(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'アカウントIDを入力してください';
-    }
-    return null;
   }
 
   void setNotes(String value) {

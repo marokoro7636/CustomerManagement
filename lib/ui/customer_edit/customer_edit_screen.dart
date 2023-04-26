@@ -68,7 +68,6 @@ class CustomerEditScreen extends HookConsumerWidget {
                         border: OutlineInputBorder(),
                         labelText: '住所',
                       ),
-                      validator: viewModel.validateAddress,
                       onChanged: viewModel.setAddress,
                     ),
                     const SizedBox(height: 20),
@@ -78,7 +77,6 @@ class CustomerEditScreen extends HookConsumerWidget {
                         border: OutlineInputBorder(),
                         labelText: 'アカウント名',
                       ),
-                      validator: viewModel.validateAccountName,
                       onChanged: viewModel.setAccountName,
                     ),
                     const SizedBox(height: 20),
@@ -95,7 +93,6 @@ class CustomerEditScreen extends HookConsumerWidget {
                                 ? newValue
                                 : oldValue),
                       ],
-                      validator: viewModel.validateAccountId,
                       onChanged: viewModel.setAccountId,
                     ),
                     const SizedBox(height: 20),
